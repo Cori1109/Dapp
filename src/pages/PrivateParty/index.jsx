@@ -44,19 +44,19 @@ const mockup_data = [
     avatar: null,
     isPublic: false,
     balance: '450,90',
-    leftHours: '12 Hours 30 Min left'
+    leftHours: '12 Hours 30 Min'
   }, {
     name: 'Trip to Ibiza',
     avatar: null,
     isPublic: false,
     balance: '650,90',
-    leftHours: '12 Hours 30 Min left'
+    leftHours: '12 Hours 30 Min'
   }, {
     name: 'Family Party',
     avatar: null,
     isPublic: false,
     balance: '780,90',
-    leftHours: '12 Hours 30 Min left'
+    leftHours: '12 Hours 30 Min'
   }
 ]
 const PrivateParty = (props) => {
@@ -78,7 +78,7 @@ const PrivateParty = (props) => {
         <ContentPaper>
           <ContentHeader>
             <Typography variant="subtitle3">
-              Your Private Parites
+              Your private parites
             </Typography>
             <PrimaryButton variant="text">Create</PrimaryButton>
           </ContentHeader>

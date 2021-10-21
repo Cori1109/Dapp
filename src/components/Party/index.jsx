@@ -40,7 +40,7 @@ const Party = ({ data, index }) => {
                 </Box>
                 <Box>
                     <Typography variant="subtitle5">
-                        {data.leftHours}
+                        {data.leftHours} Left
                     </Typography>
                 </Box>
             </Grid>

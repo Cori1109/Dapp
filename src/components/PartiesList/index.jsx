@@ -5,7 +5,6 @@ import Party from "../Party";
 const PartiesList = ({list}) => {
 
     return(
-        console.log(list),
         <Box>
             {
                 list.map((item, index) => (
