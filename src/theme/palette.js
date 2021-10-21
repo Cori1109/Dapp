@@ -2,6 +2,10 @@ const blue = '#4263EB'
 const white = '#ffffff'
 const pink = '#c90076'
 const pupple = '#6c56f9'
+const grey = '#8b8a90'
+const black = '#000000'
+const gold_light = '#F6A6091A'
+const gold_dark = '#F6A609'
 
 export default {
   main: {
@@ -9,6 +13,10 @@ export default {
   },
   sub: {
     background: blue,
+  },
+  text: {
+    primary: black,
+    secondary: grey,
   },
   button: {
     primary: {
@@ -22,5 +30,9 @@ export default {
       background: pupple,
       foreground: white,
     }
+  },
+  badge: {
+    background: gold_light,
+    color: gold_dark
   }
 };
