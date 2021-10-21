@@ -11,17 +11,12 @@ const AddIcon = styled(ControlPointIcon)(({ theme }) => ({
 }));
 
 const Text = styled(Typography)(({ theme }) => ({
-    fontSize: '12px'
+    fontSize: '12px',
+    color: 'white',
 }));
 
 
-interface ButtonProps {
-    text?: string,
-    children?: any,
-    disabled?: boolean;
-}
-
-const FundsButton = (props: ButtonProps) => {
+const FundsButton = (props) => {
     return(
         <ButtonContainer variant="contained" startIcon={<AddIcon />}>
             <Text>{props.text}</Text>

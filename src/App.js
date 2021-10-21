@@ -18,7 +18,7 @@ const App = () => {
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
       <ThemeProvider theme={theme(isBlack)}>
-        <RenderRoutes />
+        <RenderRoutes setTheme={setIsBlack} />
       </ThemeProvider>
     </Web3ReactProvider>
   );
