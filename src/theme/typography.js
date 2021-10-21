@@ -1,6 +1,10 @@
 import palette from './palette';
 
 export default {
+  fontFamily: [
+    'Manrope',
+    'sans-serif',
+  ].join(','),
   h1: {
     color: palette.text.primary,
     fontWeight: 500,
