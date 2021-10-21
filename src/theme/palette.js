@@ -1,6 +1,6 @@
 const blue = '#4263EB'
 const white = '#ffffff'
-const pink = '#c90076'
+const orange = '#f6c16a'
 const pupple = '#6c56f9'
 const grey = '#8b8a90'
 const black = '#000000'
@@ -23,7 +23,7 @@ export default {
       background: blue,
       foreground: white,
       hover: {
-        foreground: pink
+        foreground: orange
       }
     },
     secondary: {

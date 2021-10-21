@@ -40,7 +40,7 @@ const BalanceNumber = styled(Typography)(({ theme }) => ({
 }));
 
 
-const BalanceCard = (props: any) => {
+const BalanceCard = (props) => {
 
 return(
     <CardBox>
