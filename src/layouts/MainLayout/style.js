@@ -4,7 +4,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     background: theme.palette.main.background,
     padding: theme.spacing(2),
-    height: '100vh'
+    height: 'calc(100vh - 32px)'
   },
   navbar: {
     width: 'calc(100% - 32px)',

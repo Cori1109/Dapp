@@ -29,6 +29,9 @@ export default {
     secondary: {
       background: pupple,
       foreground: white,
+    },
+    text: {
+      foreground: blue
     }
   },
   badge: {
