@@ -12,10 +12,16 @@ function getLibrary(provider) {
 
 const theme = createTheme({
   palette: {
-    primary: {
+    secondary: {
       main: '#c90076',
     }
   },
+  typography: {
+    fontFamily: [
+      'Manrope',
+      'sans-serif',
+    ].join(','),
+  } 
 });
 
 const App = () => {

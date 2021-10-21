@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { styled } from '@mui/system';
 import { useSwipeable } from 'react-swipeable';
-import Arrow from "./arrow.png";
-
+import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import "./swipezor.css";
 
 function findLeft(element) {
@@ -9,7 +9,11 @@ function findLeft(element) {
   return rec.left + window.scrollX;
 }
 
-function SwipeButton({
+const ArrowIcon = styled(DoubleArrowIcon)(({ theme }) => ({
+  color: theme.palette.primary.main
+}));
+
+const SwipeButton = ({
   mainText,
   overlayText,
   onSwipeDone,
@@ -21,7 +25,7 @@ function SwipeButton({
   minSwipeWidth = 0.6,
   minSwipeVelocity = 0.6,
   caret = null
-}) {
+}) => {
   const [overlayWidth, setOverlayWidth] = useState(40);
   const [swipeComplete, setSwipeComplete] = useState(false);
   const buttonRef = useRef();
@@ -37,7 +41,7 @@ function SwipeButton({
     onSwipedRight: (data) => {
       if (swipeComplete)
         return;
-      const butWidth = buttonRef.current.offsetWidth;
+      const butWidth = buttonRef.current.offsetWidth-8;
       if (data.velocity > minSwipeVelocity) {
         setOverlayWidth(butWidth);
         setSwipeComplete(true);
@@ -83,7 +87,7 @@ function SwipeButton({
       <div className={`swipezor-overlay ${overlayClassList}`} style={{ width: overlayWidth }}>
         <div className="swipezor-overlay-wrapper">
           <div className={`swipezor-caret-wrapper ${caretClassList}`}>
-            {caret ? caret : <img src={Arrow} alt="caret" style={{ maxWidth: '100%' }} />}
+            {caret ? caret : <ArrowIcon />}
           </div>
           <div className="swipezor-overlay-txt">
             {overlayText}

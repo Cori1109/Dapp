@@ -2,17 +2,19 @@
   box-sizing: border-box;
 }
 .swipezor-but {
-  border: 2px solid #444;
+  border: 2px solid #4263EB;
   min-width: 200px;
   padding: 11px;
+  background: #4263EB;
+  color: #fff;
   position: relative;
   overflow: hidden;
-  color: #000;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: default;
   user-select: none;
+  border-radius: 10px;
   /* box-sizing: border-box; */
 }
 .swipezor-but * {
@@ -24,9 +26,8 @@
   left: 0;
   top: 0;
   z-index: 1;
-  height: 100%;
   width: 2rem;
-  background: #444;
+  background: white;
   transition: width 0.2s ease-out;
   will-change: width;
   overflow: hidden;
@@ -34,6 +35,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 10px;
+  margin: 2px;
+  height: 90%;
 }
 .swipezor-but .swipezor-overlay .swipezor-overlay-wrapper {
   position: relative;
@@ -49,7 +53,7 @@
   top: 50%;
   height: 100%;
   transform: translateY(-50%);
-  background: #444;
+  background: white;
   z-index: 2;
   display: flex;
   align-items: center;
