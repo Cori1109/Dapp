@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Web3Provider } from '@ethersproject/providers';
 import Web3ReactProvider from 'web3-react';
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import RenderRoutes from './routes';
+import theme from './theme';
 
 function getLibrary(provider) {
   const library = new Web3Provider(provider);
@@ -10,22 +11,17 @@ function getLibrary(provider) {
   return library;
 }
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#c90076',
-    }
-  },
-});
-
 const App = () => {
-    return (
-      <Web3ReactProvider getLibrary={getLibrary}>
-          <ThemeProvider theme={theme}>
-            <RenderRoutes />
-          </ThemeProvider>
-      </Web3ReactProvider>
-    );
+  
+  const [isBlack, setIsBlack] = useState(false)
+
+  return (
+    <Web3ReactProvider getLibrary={getLibrary}>
+        <ThemeProvider theme={theme(isBlack)}>
+          <RenderRoutes />
+        </ThemeProvider>
+    </Web3ReactProvider>
+  );
 };
 
 export default App;

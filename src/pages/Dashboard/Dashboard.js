@@ -1,8 +1,8 @@
 import React from "react";
-import Button from '../../components/Button/JoinPartyButton';
+import { JoinPartyButton } from 'components'
 
 const Dashboard = () => {
- return <Button />;
+ return <JoinPartyButton />;
 }
 
 export default Dashboard;
