@@ -5,7 +5,8 @@ import MainLayout from './layouts/MainLayout';
 import DetailLayout from './layouts/DetailLayout';
 import Dashboard from './pages/Dashboard';
 import PrivatePartyList from './pages/PrivateParty/List';
-import PrivateParty from './pages/PrivateParty/Details';
+import PrivatePartyDetail from './pages/PrivateParty/Details';
+import PublicParty from './pages/PublicParty';
 import { AnimatePresence } from "framer-motion";
 
 const renderRoutes = (props) => (
@@ -18,11 +19,12 @@ const renderRoutes = (props) => (
       </Route>
       <Route path="/private-party/:partyId">
         <DetailLayout>
-          <PrivateParty />
+          <PrivatePartyDetail />
         </DetailLayout>
       </Route>
       <Route exact path="/public-party">
         <MainLayout>
+          <PublicParty />
         </MainLayout>
       </Route>
       <Route exact path="/dashboard">
