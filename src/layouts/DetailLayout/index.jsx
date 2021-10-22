@@ -6,13 +6,13 @@ import { styled } from '@mui/system';
 
 const RootBox = styled(Box)(({ theme }) => ({
   background: theme.palette.main.background,
-  height: 'calc(100vh - 32px)'
+  height: '100vh'
 }));
 
 const DetailLayout = ({ children }) => {
   return (
     <RootBox>
-      <div >{children}</div>
+      <div>{children}</div>
     </RootBox>
   );
 };
