@@ -7,10 +7,10 @@ export default {
   ].join(','),
   h1: {
     color: palette.text.primary,
-    fontWeight: 500,
+    fontWeight: 800,
     fontSize: '35px',
     letterSpacing: '-0.24px',
-    lineHeight: '40px'
+    lineHeight: '41.6px'
   },
   h2: {
     color: palette.text.primary,
@@ -81,6 +81,13 @@ export default {
     fontWeight: 700,
     fontSize: '0.875em',
     lineHeight: '19.6px'
+  },
+  subtitle1_dark: {
+    color: palette.text.dark,
+    fontFamily: 'Manrope',
+    fontWeight: 700,
+    fontSize: '1.5em',
+    lineHeight: '36px'
   },
   body1: {
     color: palette.text.primary,

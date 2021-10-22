@@ -9,28 +9,17 @@ const RootBox = styled(Box)(({ theme }) => ({
   height: 'calc(100vh - 32px)'
 }));
 
-const NavbarBox = styled(Box)(({ theme }) => ({
-  width: '100%',
-  position: 'fixed',
-  bottom: theme.spacing(4),
-  display: 'flex',
-  justifyContent: 'center',
-}));
-
-const MainLayout = ({ children }) => {
+const DetailLayout = ({ children }) => {
   return (
     <RootBox>
       <div >{children}</div>
-      <NavbarBox>
-        <NavBar />
-      </NavbarBox>
     </RootBox>
   );
 };
 
-MainLayout.propTypes = {
+DetailLayout.propTypes = {
   children: PropTypes.node
 };
 
-export default MainLayout;
+export default DetailLayout;
  

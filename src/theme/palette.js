@@ -6,6 +6,7 @@ const grey = '#8b8a90'
 const black = '#000000'
 const gold_light = '#F6A6091A'
 const gold_dark = '#F6A609'
+const pink = '#c90076'
 
 export default {
   main: {
@@ -14,9 +15,13 @@ export default {
   sub: {
     background: blue,
   },
+  dark: {
+    background: white,
+  },
   text: {
     primary: black,
     secondary: grey,
+    dark: white,
   },
   button: {
     primary: {
@@ -24,14 +29,15 @@ export default {
       foreground: white,
       hover: {
         foreground: orange
-      }
+      },
     },
     secondary: {
       background: pupple,
       foreground: white,
     },
     text: {
-      foreground: blue
+      foreground: blue,
+      secondary: pink
     }
   },
   badge: {
