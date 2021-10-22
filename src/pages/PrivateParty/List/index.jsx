@@ -2,9 +2,9 @@ import React from "react";
 import { Box, Container, Stack, Paper, Typography, Button } from "@mui/material";
 import { styled } from '@mui/system';
 import { motion } from "framer-motion";
-import { pageVariants, pageTransition } from "../../utils/pageTransitions"
-import parivatePartyImage from '../../assets/landing/private-party.png'
-import PartiesList from '../../components/PartiesList'
+import { pageVariants, pageTransition } from "../../../utils/pageTransitions"
+import parivatePartyImage from '../../../assets/landing/private-party.png'
+import PartiesList from '../../../components/PartiesList'
 
 const HeaderBox = styled(Box)(({ theme }) => ({
   display: 'flex',

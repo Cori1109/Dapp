@@ -4,8 +4,8 @@ import { Switch, Redirect, Route } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
 import DetailLayout from './layouts/DetailLayout';
 import Dashboard from './pages/Dashboard';
-import PrivatePartyList from './pages/PrivatePartyList';
-import PrivateParty from './pages/PrivateParty';
+import PrivatePartyList from './pages/PrivateParty/List';
+import PrivateParty from './pages/PrivateParty/Details';
 import { AnimatePresence } from "framer-motion";
 
 const renderRoutes = (props) => (
