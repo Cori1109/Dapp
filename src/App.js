@@ -13,12 +13,12 @@ function getLibrary(provider) {
 }
 
 const App = () => {
-  const appInfo = useAppContext();
+  const {isBlack, setIsBlack} = useAppContext();
 
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
-      <ThemeProvider theme={theme(appInfo.isBlack)}>
-        <RenderRoutes setTheme={appInfo.setIsBlack} />
+      <ThemeProvider theme={theme(isBlack)}>
+        <RenderRoutes setTheme={setIsBlack} />
       </ThemeProvider>
     </Web3ReactProvider>
   );
