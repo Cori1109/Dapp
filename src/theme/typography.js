@@ -7,10 +7,10 @@ export default {
   ].join(','),
   h1: {
     color: palette.text.primary,
-    fontWeight: 500,
+    fontWeight: 800,
     fontSize: '35px',
     letterSpacing: '-0.24px',
-    lineHeight: '40px'
+    lineHeight: '41.6px'
   },
   h2: {
     color: palette.text.primary,
@@ -49,15 +49,45 @@ export default {
   },
   subtitle1: {
     color: palette.text.primary,
+    fontFamily: 'Manrope',
     fontWeight: 700,
     fontSize: '1.5em',
     lineHeight: '36px'
   },
   subtitle2: {
     color: palette.text.secondary,
+    fontFamily: 'Manrope',
     fontWeight: 400,
     fontSize: '1em',
     lineHeight: '24px'
+  },
+  subtitle3: {
+    color: palette.text.primary,
+    fontFamily: 'Manrope',
+    fontWeight: 800,
+    fontSize: '1.25em',
+    lineHeight: '27px'
+  },
+  subtitle4: {
+    color: palette.text.primary,
+    fontFamily: 'Manrope',
+    fontWeight: 700,
+    fontSize: '0.875em',
+    lineHeight: '19.6px'
+  },
+  subtitle5: {
+    color: palette.text.secondary,
+    fontFamily: 'Manrope',
+    fontWeight: 700,
+    fontSize: '0.875em',
+    lineHeight: '19.6px'
+  },
+  subtitle1_dark: {
+    color: palette.text.dark,
+    fontFamily: 'Manrope',
+    fontWeight: 700,
+    fontSize: '1.5em',
+    lineHeight: '36px'
   },
   body1: {
     color: palette.text.primary,
@@ -72,8 +102,8 @@ export default {
     lineHeight: '18px'
   },
   button: {
-    color: palette.text.primary,
-    fontSize: '0.8750em'
+    color: palette.button.primary.background,
+    fontSize: '1em'
   },
   caption: {
     color: palette.text.secondary,

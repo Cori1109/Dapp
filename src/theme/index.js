@@ -6,7 +6,7 @@ import typography from './typography';
 
 const theme = (isBlack) => createTheme({
   palette : isBlack ? palette_dark : palette,
-  typography: typography
+  typography: typography,
 });
 
 export default theme;
