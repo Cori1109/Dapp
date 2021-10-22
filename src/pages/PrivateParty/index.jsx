@@ -111,7 +111,7 @@ const PrivateParty = (props) => {
 
   const { partyId } = useParams()
   const history = useHistory()
-  
+
   const [data, setData] = useState(mockup_data)
   const [participants, setParticipants] = useState(mockup_participants)
 
@@ -126,7 +126,7 @@ const PrivateParty = (props) => {
       <RootBox>
         <Container maxWidth="sm">
           <HeaderBox>
-            <WrapBackIcon/>
+            <WrapBackIcon onClick={() => {history.push('/private-party')}}/>
             <HeaderTitle variant="subtitle1_dark">
               {data.name}
             </HeaderTitle>
