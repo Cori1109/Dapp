@@ -130,6 +130,10 @@ const PrivateParty = (props) => {
     }
   }
 
+  const handleJoinParty = () => {
+    setJoinModalOpen(false)
+  }
+
   return (
     <motion.div
       initial="initial"
@@ -190,6 +194,7 @@ const PrivateParty = (props) => {
         open={joinModalOpen}
         balance={balance}
         handleClose={() => setJoinModalOpen(false)}
+        handleSuccess={() => handleJoinParty()}
       />
     </motion.div>
   );

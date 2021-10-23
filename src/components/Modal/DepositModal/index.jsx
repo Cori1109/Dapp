@@ -2,6 +2,8 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Typography, Box, Div
 import { Close as CloseIcon } from '@mui/icons-material';
 import { styled } from '@mui/system';
 import SwipeButton from 'components/Button/SwipeButton';
+import { useState } from 'react';
+import BalanceSelector from 'components/BalanceSelector';
 
 const DepositDialog = styled(Dialog)(({theme}) => ({
   '& .MuiPaper-root': {
@@ -20,25 +22,28 @@ const DialogHeader = styled(DialogTitle)(({ theme }) => ({
 const DepositModal = ({
   open,
   handleClose,
+  handleSuccess,
   balance
 }) => {
+
+  const [selectedAmount, setSelectedAmount] = useState(0)
+
   return (
     <DepositDialog
       open={open}
     >
       <DialogHeader>
-        <CloseIcon onClick={handleClose}/>
+        <CloseIcon onClick={handleClose} style={{ color:"#4263EB"}}/>
         <Typography variant="subtitle1">
           Amount to deposit
         </Typography>
         <Box></Box>
       </DialogHeader>
       <DialogContent>
-        <Box display="flex" justifyContent="space-around">
-          <Typography variant="subtitle2">
-            Amount (USD)
-          </Typography>
-        </Box>
+        <BalanceSelector 
+          max={balance} 
+          balance={selectedAmount} 
+          setBalance={setSelectedAmount}/>
       </DialogContent>
       <DialogActions>
         <Box padding="24px" width="100%">
@@ -46,7 +51,7 @@ const DepositModal = ({
             mainText="Swipe to join" 
             overlayText="" 
             onSwipeDone={() => {
-                console.log("Done!");
+              handleSuccess()
             }} 
             reset={0}
           />
