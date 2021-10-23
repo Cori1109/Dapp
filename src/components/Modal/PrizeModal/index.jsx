@@ -4,7 +4,8 @@ import { styled } from '@mui/system';
 
 const PrizeDialog = styled(Dialog)(({theme}) => ({
   '& .MuiPaper-root': {
-    width: '600px'
+    width: '600px',
+    borderRadius: theme.spacing(4)
   }
 }))
 

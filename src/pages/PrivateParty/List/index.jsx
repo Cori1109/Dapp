@@ -42,25 +42,26 @@ const mockup_data = [
     partyId: '1234-5678',
     name: 'Monthly Beers',
     avatar: null,
-    isPublic: false,
     balance: '450,90',
-    leftHours: '12 Hours 30 Min'
+    leftHours: '12 Hours 30 Min',
+    status: 'opened',
   }, {
     partyId: '1324-1142',
     name: 'Trip to Ibiza',
     avatar: null,
-    isPublic: false,
     balance: '650,90',
-    leftHours: '12 Hours 30 Min'
+    leftHours: '12 Hours 30 Min',
+    status: 'joined',
   }, {
     partyId: '5619-3131',
     name: 'Family Party',
     avatar: null,
-    isPublic: false,
     balance: '780,90',
-    leftHours: '12 Hours 30 Min'
+    leftHours: '12 Hours 30 Min',
+    status: 'finished',
   }
 ]
+
 const PrivatePartyList = (props) => {
   
   return (

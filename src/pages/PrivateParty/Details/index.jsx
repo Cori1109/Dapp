@@ -8,8 +8,9 @@ import { useAppContext } from "providers/use-app-context";
 import { 
   Add as AddIcon, 
   InfoOutlined as InfoOutlinedIcon, 
-  CheckCircleOutlined as CheckCircleOutlinedIcon 
 } from '@mui/icons-material';
+import StatusButton from "../../../components/Button/StatusButton";
+import DepositModal from "../../../components/Modal/DepositModal";
 
 const Content = styled(Box)(({ theme }) => ({
   padding: `${theme.spacing(3)} ${theme.spacing(3)}`
@@ -23,21 +24,6 @@ const BalanceInfo = styled(Box)(({ theme}) => ({
 const PartyAvatar = styled(Avatar)(({ theme }) => ({
   backgroundColor: theme.palette.button.primary.background,
   margin: 'auto'
-}))
-
-const StatusButton = styled(Button)(({ theme }) => ({
-  color: theme.palette.button.primary.foreground,
-  backgroundColor: theme.palette.button.secondary.background,
-  fontWeight: 500,
-  fontSize: '16px',
-  fontFamily: 'Manrope',
-  width: '100%',
-  textTransform: 'none',
-  borderRadius: '12px',
-  marginTop: '24px',
-  padding: '16px 24px',
-  display: 'flex',
-  justifyContent: 'space-between'
 }))
 
 const AddButton = styled(Button)(({ theme }) => ({
@@ -78,23 +64,23 @@ const mockup_data = [
     partyId: '1234-5678',
     name: 'Monthly Beers',
     avatar: null,
-    isPublic: false,
     balance: '450,90',
-    leftHours: '12 Hours 30 Min'
+    leftHours: '12 Hours 30 Min',
+    status: 'opened',
   }, {
     partyId: '1324-1142',
     name: 'Trip to Ibiza',
     avatar: null,
-    isPublic: false,
     balance: '650,90',
-    leftHours: '12 Hours 30 Min'
+    leftHours: '12 Hours 30 Min',
+    status: 'joined',
   }, {
     partyId: '5619-3131',
     name: 'Family Party',
     avatar: null,
-    isPublic: false,
     balance: '780,90',
-    leftHours: '12 Hours 30 Min'
+    leftHours: '12 Hours 30 Min',
+    status: 'finished',
   }
 ]
 
@@ -121,6 +107,8 @@ const PrivateParty = (props) => {
 
   const [data, setData] = useState(null)
   const [participants, setParticipants] = useState(mockup_participants)
+  const [joinModalOpen, setJoinModalOpen] = useState(false)
+  const [balance, setBalance] = useState(1000)
 
   const getParty = (_party) => {
     return _party.partyId == partyId;
@@ -135,6 +123,12 @@ const PrivateParty = (props) => {
       setHeaderTitle(data.name)
     }
   }, [data])
+
+  const handleClickPartyStatus = (item) => {
+    if (item && item.status == "opened") {
+      setJoinModalOpen(true)
+    }
+  }
 
   return (
     <motion.div
@@ -187,11 +181,16 @@ const PrivateParty = (props) => {
               ))
             }
           </Stack>
-          <StatusButton variant="contained" endIcon={<CheckCircleOutlinedIcon />}>Joined</StatusButton>
+          <StatusButton status={data ? data.status : 'opened'} handleClick={() => handleClickPartyStatus(data)}/>
           <AddButton variant="contained" endIcon={<AddIcon />}>Add participants</AddButton>
           <TextButton variant="text" onClick={() => {history.goBack()}}>Leave Party</TextButton>
         </Content>
       </Container>
+      <DepositModal 
+        open={joinModalOpen}
+        balance={balance}
+        handleClose={() => setJoinModalOpen(false)}
+      />
     </motion.div>
   );
 }
