@@ -5,12 +5,15 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
+import { AppProvider } from 'providers/app-provider';
 
 const history = createBrowserHistory();
 
 ReactDOM.render(
   <BrowserRouter history={history}>
+    <AppProvider>
       <App />
+    </AppProvider>
   </BrowserRouter>,
   document.getElementById('root')
 );

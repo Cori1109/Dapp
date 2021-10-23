@@ -4,8 +4,9 @@ import { Switch, Redirect, Route } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
 import DetailLayout from './layouts/DetailLayout';
 import Dashboard from './pages/Dashboard';
-import PrivatePartyList from './pages/PrivatePartyList';
-import PrivateParty from './pages/PrivateParty';
+import PrivatePartyList from './pages/PrivateParty/List';
+import PrivatePartyDetail from './pages/PrivateParty/Details';
+import PublicParty from './pages/PublicParty';
 import { AnimatePresence } from "framer-motion";
 import AddFunds from 'pages/AddFunds';
 
@@ -19,12 +20,12 @@ const renderRoutes = (props) => (
       </Route>
       <Route path="/private-party/:partyId">
         <DetailLayout>
-          <PrivateParty />
+          <PrivatePartyDetail />
         </DetailLayout>
       </Route>
       <Route exact path="/public-party">
         <MainLayout>
-          <AddFunds />
+          <PublicParty />
         </MainLayout>
       </Route>
       <Route exact path="/dashboard">
