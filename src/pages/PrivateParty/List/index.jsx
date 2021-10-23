@@ -15,7 +15,7 @@ const HeaderBox = styled(Box)(({ theme }) => ({
 const ContentPaper = styled(Paper)(({ theme }) => ({
   boxShadow: '0px 20px 46px rgba(0, 0, 0, 0.1)',
   borderRadius: '16px',
-  padding: theme.spacing(2)
+  padding: theme.spacing(3)
 }));
 
 const ContentHeader = styled(Box)(({ theme }) => ({

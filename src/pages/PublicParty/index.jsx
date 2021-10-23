@@ -3,7 +3,8 @@ import { Box, Container, Stack, Typography, Button, Grid, Avatar, Paper } from "
 import { styled } from '@mui/system';
 import { motion } from "framer-motion";
 import { pageVariants, pageTransition } from "../../utils/pageTransitions"
-import { Add as AddIcon } from '@mui/icons-material';
+import { Add as AddIcon, InfoOutlined as InfoOutlinedIcon } from '@mui/icons-material';
+import PrizeModal from "components/Modal/PrizeModal";
 
 const HeaderBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -11,10 +12,15 @@ const HeaderBox = styled(Box)(({ theme }) => ({
   padding: theme.spacing(5)
 }));
 
+const WrapInfoOutlinedIcon = styled(InfoOutlinedIcon)(({ theme }) => ({
+  color: theme.palette.text.secondary,
+  cursor: 'pointer'
+}));
+
 const ContentPaper = styled(Paper)(({ theme }) => ({
   boxShadow: '0px 20px 46px rgba(0, 0, 0, 0.1)',
   borderRadius: '16px',
-  padding: theme.spacing(2)
+  padding: `${theme.spacing(3)} ${theme.spacing(3)} ${theme.spacing(8)} ${theme.spacing(3)}`
 }));
 
 const BalanceInfo = styled(Box)(({ theme}) => ({
@@ -25,19 +31,6 @@ const BalanceInfo = styled(Box)(({ theme}) => ({
 const PartyAvatar = styled(Avatar)(({ theme }) => ({
   backgroundColor: theme.palette.button.primary.background,
   margin: 'auto'
-}))
-
-const StatusButton = styled(Button)(({ theme }) => ({
-  color: theme.palette.button.primary.foreground,
-  backgroundColor: theme.palette.button.secondary.background,
-  fontWeight: 500,
-  fontSize: '16px',
-  fontFamily: 'Manrope',
-  width: '100%',
-  textTransform: 'none',
-  borderRadius: '12px',
-  marginTop: '24px',
-  padding: '16px'
 }))
 
 const AddButton = styled(Button)(({ theme }) => ({
@@ -103,11 +96,24 @@ const mockup_participants = [{
   avatar: null
 }]
 
+const mockup_prize_result = [{
+  amount: 2273,
+  count: 2
+}, {
+  amount: 537,
+  count: 26
+}, {
+  amount: 250,
+  count: 2356
+}]
+
 const PublicParty = (props) => {
   
   const [data, setData] = useState(mockup_data);
   const [participants, setParticipants] = useState(mockup_participants)
-  
+  const [prizeResult, setPrizeResult] = useState(mockup_prize_result)
+  const [prizeModalOpen, setPrizeModalOpen] = useState(false)
+
   return (
     <motion.div
       initial="initial"
@@ -123,9 +129,12 @@ const PublicParty = (props) => {
           </Typography>
         </HeaderBox>
         <ContentPaper>
-          <Typography variant="subtitle2" paddingBottom="8px">
-            Expected prize
-          </Typography>
+          <Box display="flex" alignItems="center" paddingBottom="8px" >
+            <Typography variant="subtitle2" marginRight="8px">
+              Expected prize
+            </Typography>
+            <WrapInfoOutlinedIcon onClick={() => {setPrizeModalOpen(true)}}/>
+          </Box>
           <BalanceInfo>
             <Typography variant="h1" paddingRight="8px">
               ${data ? data.balance : 0}
@@ -161,6 +170,11 @@ const PublicParty = (props) => {
           <AddButton variant="contained" endIcon={<AddIcon />}>Share</AddButton>
         </ContentPaper>
       </Container>
+      <PrizeModal 
+        open={prizeModalOpen}
+        handleClose={() => setPrizeModalOpen(false)}
+        list={prizeResult}
+      />
     </motion.div>
   );
 }

@@ -5,9 +5,14 @@ import { motion } from "framer-motion";
 import { pageVariants, pageTransition } from "../../../utils/pageTransitions"
 import { useParams, useHistory } from "react-router";
 import { useAppContext } from "providers/use-app-context";
+import { 
+  Add as AddIcon, 
+  InfoOutlined as InfoOutlinedIcon, 
+  CheckCircleOutlined as CheckCircleOutlinedIcon 
+} from '@mui/icons-material';
 
 const Content = styled(Box)(({ theme }) => ({
-  padding: `${theme.spacing(3)} ${theme.spacing(2)}`
+  padding: `${theme.spacing(3)} ${theme.spacing(3)}`
 }));
 
 const BalanceInfo = styled(Box)(({ theme}) => ({
@@ -30,7 +35,9 @@ const StatusButton = styled(Button)(({ theme }) => ({
   textTransform: 'none',
   borderRadius: '12px',
   marginTop: '24px',
-  padding: '16px'
+  padding: '16px 24px',
+  display: 'flex',
+  justifyContent: 'space-between'
 }))
 
 const AddButton = styled(Button)(({ theme }) => ({
@@ -43,7 +50,9 @@ const AddButton = styled(Button)(({ theme }) => ({
   textTransform: 'none',
   borderRadius: '12px',
   marginTop: '24px',
-  padding: '16px'
+  padding: '16px 24px',
+  display: 'flex',
+  justifyContent: 'space-between'
 }))
 
 const TextButton = styled(Button)(({ theme }) => ({
@@ -57,6 +66,12 @@ const TextButton = styled(Button)(({ theme }) => ({
   marginTop: '24px',
   fontWeight: 'bold'
 }))
+
+const WrapInfoOutlinedIcon = styled(InfoOutlinedIcon)(({ theme }) => ({
+  color: theme.palette.text.secondary,
+  cursor: 'pointer'
+}));
+
 
 const mockup_data = [
   {
@@ -131,9 +146,12 @@ const PrivateParty = (props) => {
     >
       <Container maxWidth="sm">
         <Content>
-          <Typography variant="subtitle2" paddingBottom="8px">
-            Total amount
-          </Typography>
+          <Box display="flex" alignItems="center" paddingBottom="8px" >
+            <Typography variant="subtitle2" marginRight="8px" >
+              Total amount
+            </Typography>
+            <WrapInfoOutlinedIcon/>
+          </Box>
           <BalanceInfo>
             <Typography variant="h1" paddingRight="8px">
               ${data ? data.balance : 0}
@@ -169,8 +187,8 @@ const PrivateParty = (props) => {
               ))
             }
           </Stack>
-          <StatusButton variant="contained" color="success" >Joined</StatusButton>
-          <AddButton variant="contained">Add participants</AddButton>
+          <StatusButton variant="contained" endIcon={<CheckCircleOutlinedIcon />}>Joined</StatusButton>
+          <AddButton variant="contained" endIcon={<AddIcon />}>Add participants</AddButton>
           <TextButton variant="text" onClick={() => {history.goBack()}}>Leave Party</TextButton>
         </Content>
       </Container>
