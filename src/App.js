@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { Web3Provider } from '@ethersproject/providers';
-import Web3ReactProvider from 'web3-react';
+import { Web3ReactProvider } from '@web3-react/core'
+import { Web3Provider } from '@ethersproject/providers'
 import { ThemeProvider } from '@mui/material/styles';
 import RenderRoutes from './routes';
 import theme from './theme';
 
 function getLibrary(provider) {
-  const library = new Web3Provider(provider);
-  library.pollingInterval = 15000;
-  return library;
+  const library = new Web3Provider(provider)
+  library.pollingInterval = 12000
+  return library
 }
 
 const App = () => {

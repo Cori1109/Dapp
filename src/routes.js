@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard';
 import PrivatePartyList from './pages/PrivatePartyList';
 import PrivateParty from './pages/PrivateParty';
 import { AnimatePresence } from "framer-motion";
+import AddFunds from 'pages/AddFunds';
 
 const renderRoutes = (props) => (
   <AnimatePresence>
@@ -23,6 +24,7 @@ const renderRoutes = (props) => (
       </Route>
       <Route exact path="/public-party">
         <MainLayout>
+          <AddFunds />
         </MainLayout>
       </Route>
       <Route exact path="/dashboard">

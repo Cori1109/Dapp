@@ -16,8 +16,9 @@ export default {
     background: blue,
   },
   text: {
-    primary: black,
+    primary: white,
     secondary: grey,
+    
   },
   button: {
     primary: {

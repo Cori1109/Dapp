@@ -5,7 +5,6 @@ import { styled } from '@mui/system';
 
 const mockup_profile = {
     name: 'James Lee',
-    balance: '2,736.15',
     avatar: 'https://a.com',
 }
 
@@ -73,11 +72,14 @@ const BoxBadge = styled(Box)(({ theme }) => ({
     padding: '6px 10px 6px 10px'
 }));
 
+const UserName = styled(Typography)(({ theme }) => ({
+  color: theme.palette.text.primary
+}));
 
 const HeaderBar = (props) => {
   
 
-const handleToggle = ( event) => {
+const handleToggle = (event) => {
   props.setTheme(event.target.checked)
 }
 
@@ -87,9 +89,9 @@ return(
           <Typography variant='subtitle2'>
             Good morning,
           </Typography>
-          <Typography variant='subtitle1'>
+          <UserName variant='subtitle1'>
             {mockup_profile.name}
-          </Typography>
+          </UserName>
         </Box>
         <BoxAvatar>
           <Box>

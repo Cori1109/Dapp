@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box, Container, Stack, Paper, Typography, Button, Grid, Avatar } from "@mui/material";
 import { fontSize, styled } from '@mui/system';
 import { motion } from "framer-motion";
-import { pageVariants, pageTransition } from "../../utils/pageTransitions"
+import { pageVariantsLeft, pageTransition } from "../../utils/pageTransitions"
 import parivatePartyImage from '../../assets/landing/private-party.png'
 import { ArrowBack as BackIcon } from '@mui/icons-material';
 import { useParams, useHistory } from "react-router";
@@ -120,7 +120,7 @@ const PrivateParty = (props) => {
       initial="initial"
       animate="in"
       exit="out"
-      variants={pageVariants}
+      variants={pageVariantsLeft}
       transition={pageTransition}
     >
       <RootBox>
