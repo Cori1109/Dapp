@@ -1,4 +1,4 @@
-import { Dialog, DialogTitle, DialogContent, DialogActions, Typography, Box, Divider, Button } from '@mui/material'
+import { Dialog, DialogTitle, DialogContent, DialogActions, Typography, Box } from '@mui/material'
 import { Close as CloseIcon } from '@mui/icons-material';
 import { styled } from '@mui/system';
 import SwipeButton from 'components/Button/SwipeButton';
@@ -51,6 +51,7 @@ const DepositModal = ({
             mainText="Swipe to join" 
             overlayText="" 
             onSwipeDone={() => {
+              setSelectedAmount(0)
               handleSuccess()
             }} 
             reset={0}

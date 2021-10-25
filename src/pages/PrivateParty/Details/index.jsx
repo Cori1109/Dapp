@@ -11,6 +11,7 @@ import {
 } from '@mui/icons-material';
 import StatusButton from "../../../components/Button/StatusButton";
 import DepositModal from "../../../components/Modal/DepositModal";
+import EmptyAccountModal from "components/Modal/EmptyAccountModal";
 
 const Content = styled(Box)(({ theme }) => ({
   padding: `${theme.spacing(3)} ${theme.spacing(3)}`
@@ -108,7 +109,8 @@ const PrivateParty = (props) => {
   const [data, setData] = useState(null)
   const [participants, setParticipants] = useState(mockup_participants)
   const [joinModalOpen, setJoinModalOpen] = useState(false)
-  const [balance, setBalance] = useState(1000)
+  const [emptyAccountModalOpen, setEmptyAccountModalOpen] = useState(false)
+  const [balance, setBalance] = useState(0)
 
   const getParty = (_party) => {
     return _party.partyId == partyId;
@@ -126,7 +128,10 @@ const PrivateParty = (props) => {
 
   const handleClickPartyStatus = (item) => {
     if (item && item.status == "opened") {
-      setJoinModalOpen(true)
+      if (balance != 0)
+        setJoinModalOpen(true)
+      else
+        setEmptyAccountModalOpen(true)
     }
   }
 
@@ -195,6 +200,10 @@ const PrivateParty = (props) => {
         balance={balance}
         handleClose={() => setJoinModalOpen(false)}
         handleSuccess={() => handleJoinParty()}
+      />
+      <EmptyAccountModal
+        open={emptyAccountModalOpen}
+        handleClose={() => setEmptyAccountModalOpen(false)}
       />
     </motion.div>
   );
