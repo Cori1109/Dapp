@@ -3,10 +3,11 @@ import { Box, Container, Typography, Button } from "@mui/material"
 import { styled } from '@mui/system';
 import { motion } from "framer-motion";
 import { pageVariants, pageTransition } from "../../utils/pageTransitions"
-import { useAppContext } from "providers/use-app-context"
+import { useDispatch } from "react-redux"
 import { useHistory } from "react-router"
 import BalanceSelector from "components/BalanceSelector";
 import PaymentMethodSelector from "components/PaymentMethodSelector";
+import { setHeaderTitle } from "store/actions/App";
 
 const HeaderBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -30,12 +31,13 @@ const AddButton = styled(Button)(({ theme }) => ({
 }))
 
 const AddFunds = (props) => {
-  const { setHeaderTitle } = useAppContext();
+  const dispatch = useDispatch()
+  
   const [selectedAmount, setSelectedAmount] = useState(0);
   const [step, setStep] = useState(0);
 
   useEffect(() => {
-    setHeaderTitle('Add funds')
+    dispatch(setHeaderTitle('Add funds'))
   }, [])
 
   return (

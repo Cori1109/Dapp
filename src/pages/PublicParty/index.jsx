@@ -160,7 +160,7 @@ const PublicParty = (props) => {
           <Stack direction="row" spacing={-2} marginTop="24px">
             {
               participants.map((item, index) => (
-                <Box>
+                <Box key={`participant-${index}`}>
                   <PartyAvatar alt="A" />
                 </Box>
               ))

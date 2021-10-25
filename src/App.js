@@ -1,24 +1,18 @@
-import React, { useState } from 'react';
-import { Web3ReactProvider } from '@web3-react/core'
-import { Web3Provider } from '@ethersproject/providers'
+import React from 'react';
+import Web3ReactProvider from 'web3-react';
 import { ThemeProvider } from '@mui/material/styles';
 import RenderRoutes from './routes';
 import theme from './theme';
-import { useAppContext } from './providers/use-app-context';
-
-function getLibrary(provider) {
-  const library = new Web3Provider(provider)
-  library.pollingInterval = 12000
-  return library
-}
+import {useSelector} from 'react-redux'
+import getLibrary from "utils/getLibrary";
 
 const App = () => {
-  const {isBlack, setIsBlack} = useAppContext();
+  const isBlack = useSelector(state => state.app.isBlack)
 
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
       <ThemeProvider theme={theme(isBlack)}>
-        <RenderRoutes setTheme={setIsBlack} />
+        <RenderRoutes />
       </ThemeProvider>
     </Web3ReactProvider>
   );

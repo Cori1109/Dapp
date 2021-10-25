@@ -4,7 +4,8 @@ import { styled } from '@mui/system';
 import { motion } from "framer-motion";
 import { pageVariants, pageTransition } from "../../../utils/pageTransitions"
 import { useParams, useHistory, useLocation } from "react-router";
-import { useAppContext } from "providers/use-app-context";
+import { useDispatch, useSelector } from 'react-redux';
+
 import { 
   Add as AddIcon, 
   InfoOutlined as InfoOutlinedIcon, 
@@ -12,6 +13,7 @@ import {
 import StatusButton from "../../../components/Button/StatusButton";
 import DepositModal from "../../../components/Modal/DepositModal";
 import EmptyAccountModal from "components/Modal/EmptyAccountModal";
+import { setHeaderTitle, setPartyList, setBalance, setJoinedParam } from "store/actions/App";
 
 const Content = styled(Box)(({ theme }) => ({
   padding: `${theme.spacing(3)} ${theme.spacing(3)}`
@@ -78,8 +80,10 @@ const PrivateParty = (props) => {
   const { partyId } = useParams()
   const history = useHistory()
   const location = useLocation()
+  const dispatch = useDispatch()
 
-  const { setHeaderTitle, partyList, setPartyList,  balance, setBalance, setJoinedParam } = useAppContext();
+  const partyList = useSelector(state => state.app.partyList)
+  const balance = useSelector(state => state.app.balance)
 
   const [index, setIndex] = useState(-1)
   const [participants, setParticipants] = useState(mockup_participants)
@@ -95,14 +99,14 @@ const PrivateParty = (props) => {
   }, [partyId])
 
   useEffect(() => {
-    if (index != -1) {
-      setHeaderTitle(partyList[index].name)
+    if (index !== -1) {
+      dispatch(setHeaderTitle(partyList[index].name))
     }
   }, [index])
 
   const handleClickPartyStatus = (item) => {
     if (item && item.status == "opened") {
-      if (balance != 0)
+      if (balance !== 0)
         setJoinModalOpen(true)
       else
         setEmptyAccountModalOpen(true)
@@ -114,14 +118,13 @@ const PrivateParty = (props) => {
     
     let _partyList = JSON.parse(JSON.stringify(partyList))
     _partyList[index].status = 'joined'
-    setPartyList(_partyList)
-
-    setBalance(balance - price)
-    setJoinedParam({
+    dispatch(setPartyList(_partyList))
+    dispatch(setBalance(balance - price))
+    dispatch(setJoinedParam({
       price: price,
       party_name: partyList[index].name,
       back_url: location.pathname
-    })
+    }))
     history.push('/joined-success')
   }
 
@@ -148,7 +151,7 @@ const PrivateParty = (props) => {
           </Box>
           <BalanceInfo>
             <Typography variant="h1" paddingRight="8px">
-              ${index != -1 ? partyList[index].balance : 0}
+              ${index !== -1 ? partyList[index].balance : 0}
             </Typography>
             <Typography variant="subtitle5">
               +3.1% from last month
@@ -158,7 +161,7 @@ const PrivateParty = (props) => {
             <Grid container spacing={2} >
               <Grid item xs={8}>
               <Typography variant="subtitle2">Party closes in</Typography>
-                <Typography variant="subtitle1">{index != -1 ? partyList[index].leftHours : ''}</Typography>
+                <Typography variant="subtitle1">{index !== -1 ? partyList[index].leftHours : ''}</Typography>
               </Grid>
               <Grid item xs={4}>
               </Grid>
@@ -174,14 +177,14 @@ const PrivateParty = (props) => {
             </Box>
             {
               participants.map((item, index) => (
-                <Box>
+                <Box key={`participants-${index}`}>
                   <PartyAvatar alt="A" />
                   <Typography textAlign="center">{item.name}</Typography>
                 </Box>
               ))
             }
           </Stack>
-          <StatusButton status={index != -1 ? partyList[index].status : 'opened'} handleClick={() => handleClickPartyStatus(partyList[index])}/>
+          <StatusButton status={index !== -1 ? partyList[index].status : 'opened'} handleClick={() => handleClickPartyStatus(partyList[index])}/>
           <AddButton variant="contained" endIcon={<AddIcon />}>Add participants</AddButton>
           <TextButton variant="text" onClick={() => {history.goBack()}}>Leave Party</TextButton>
         </Content>

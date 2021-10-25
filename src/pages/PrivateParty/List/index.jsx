@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { pageVariants, pageTransition } from "../../../utils/pageTransitions"
 import parivatePartyImage from '../../../assets/landing/private-party.png'
 import PartiesList from '../../../components/PartiesList'
-import { useAppContext } from "providers/use-app-context";
+import { useSelector} from 'react-redux'
 
 const HeaderBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -38,7 +38,8 @@ const ContentImage = styled(`img`)(({ theme }) => ({
 }))
 
 const PrivatePartyList = (props) => {
-  const {partyList, setPartyList} = useAppContext();
+
+  const partyList = useSelector(state => state.app.partyList)
 
   return (
     <motion.div

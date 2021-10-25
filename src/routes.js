@@ -43,7 +43,7 @@ const renderRoutes = (props) => (
       </Route>
       <Route exact path="/dashboard">
         <MainLayout>
-          <Dashboard setTheme={props.setTheme} />
+          <Dashboard />
         </MainLayout>
       </Route>
       <Redirect from="/" to="/dashboard"/>

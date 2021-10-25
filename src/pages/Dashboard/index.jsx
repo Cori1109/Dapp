@@ -68,7 +68,7 @@ return(
   >
     <Box>
         <Stack spacing={2}>
-            <HeaderBar setTheme={props.setTheme}/>
+            <HeaderBar/>
             <BalanceCard />
             <Item>Banner</Item>
             <ContentPaper>

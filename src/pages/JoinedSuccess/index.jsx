@@ -4,8 +4,9 @@ import { styled } from '@mui/system';
 import { motion } from "framer-motion";
 import { pageVariants, pageTransition } from "../../utils/pageTransitions"
 import SuccessImage from '../../assets/logo/success.png'
-import { useAppContext } from "providers/use-app-context"
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from "react-router"
+import { setJoinedParam } from "store/actions/App";
 
 const ImageBox = styled('Box')(({theme}) => ({
   paddingTop: theme.spacing(10),
@@ -45,7 +46,10 @@ const AddButton = styled(Button)(({ theme }) => ({
 }))
 
 const JoinedSuccess = (props) => {
-  const { joinedParam, setJoinedParam } = useAppContext();
+  const dispatch = useDispatch();
+
+  const joinedParam = useSelector(state => state.app.joinedParam)
+
   const history = useHistory();
 
   useEffect(() => {
@@ -78,7 +82,7 @@ const JoinedSuccess = (props) => {
         <Typography variant="subtitle2" textAlign="center">
           You have joined the {joinedParam?.party_name}.
         </Typography>
-        <AddButton variant="contained" onClick={() => {history.push(joinedParam?.back_url); setJoinedParam(null);}}>Done</AddButton>
+        <AddButton variant="contained" onClick={() => {history.push(joinedParam?.back_url); dispatch(setJoinedParam(null));}}>Done</AddButton>
       </Container>
     </motion.div>
   );
