@@ -14,7 +14,7 @@ const mockup_data = [{
   avatar: null,
   balance: '650,90',
   leftHours: '12 Hours 30 Min',
-  status: 'joined',
+  status: 'opened',
 }, {
   partyId: '5619-3131',
   name: 'Family Party',

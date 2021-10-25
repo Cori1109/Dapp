@@ -79,9 +79,9 @@ const PrivateParty = (props) => {
   const history = useHistory()
   const location = useLocation()
 
-  const { setHeaderTitle, partyList, balance, setJoinedParam } = useAppContext();
+  const { setHeaderTitle, partyList, setPartyList,  balance, setBalance, setJoinedParam } = useAppContext();
 
-  const [data, setData] = useState(null)
+  const [index, setIndex] = useState(-1)
   const [participants, setParticipants] = useState(mockup_participants)
   const [joinModalOpen, setJoinModalOpen] = useState(false)
   const [emptyAccountModalOpen, setEmptyAccountModalOpen] = useState(false)
@@ -91,14 +91,14 @@ const PrivateParty = (props) => {
   }
 
   useEffect(() => {
-    setData(partyList.find(getParty))
+    setIndex(partyList.findIndex(getParty))
   }, [partyId])
 
   useEffect(() => {
-    if (data) {
-      setHeaderTitle(data.name)
+    if (index != -1) {
+      setHeaderTitle(partyList[index].name)
     }
-  }, [data])
+  }, [index])
 
   const handleClickPartyStatus = (item) => {
     if (item && item.status == "opened") {
@@ -109,11 +109,17 @@ const PrivateParty = (props) => {
     }
   }
 
-  const handleJoinParty = (balance) => {
+  const handleJoinParty = (price) => {
     setJoinModalOpen(false)
+    
+    let _partyList = JSON.parse(JSON.stringify(partyList))
+    _partyList[index].status = 'joined'
+    setPartyList(_partyList)
+
+    setBalance(balance - price)
     setJoinedParam({
-      price: balance,
-      party_name: data.name,
+      price: price,
+      party_name: partyList[index].name,
       back_url: location.pathname
     })
     history.push('/joined-success')
@@ -137,7 +143,7 @@ const PrivateParty = (props) => {
           </Box>
           <BalanceInfo>
             <Typography variant="h1" paddingRight="8px">
-              ${data ? data.balance : 0}
+              ${index != -1 ? partyList[index].balance : 0}
             </Typography>
             <Typography variant="subtitle5">
               +3.1% from last month
@@ -147,7 +153,7 @@ const PrivateParty = (props) => {
             <Grid container spacing={2} >
               <Grid item xs={8}>
               <Typography variant="subtitle2">Party closes in</Typography>
-                <Typography variant="subtitle1">{data ? data.leftHours : ''}</Typography>
+                <Typography variant="subtitle1">{index != -1 ? partyList[index].leftHours : ''}</Typography>
               </Grid>
               <Grid item xs={4}>
               </Grid>
@@ -170,7 +176,7 @@ const PrivateParty = (props) => {
               ))
             }
           </Stack>
-          <StatusButton status={data ? data.status : 'opened'} handleClick={() => handleClickPartyStatus(data)}/>
+          <StatusButton status={index != -1 ? partyList[index].status : 'opened'} handleClick={() => handleClickPartyStatus(partyList[index])}/>
           <AddButton variant="contained" endIcon={<AddIcon />}>Add participants</AddButton>
           <TextButton variant="text" onClick={() => {history.goBack()}}>Leave Party</TextButton>
         </Content>
