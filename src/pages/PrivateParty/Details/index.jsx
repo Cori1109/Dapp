@@ -125,6 +125,11 @@ const PrivateParty = (props) => {
     history.push('/joined-success')
   }
 
+  const handleAddMoney = () => {
+    setEmptyAccountModalOpen(false)
+    history.push('/add-funds')
+  }
+
   return (
     <motion.div
       initial="initial"
@@ -190,6 +195,7 @@ const PrivateParty = (props) => {
       <EmptyAccountModal
         open={emptyAccountModalOpen}
         handleClose={() => setEmptyAccountModalOpen(false)}
+        handleSuccess={() => handleAddMoney()}
       />
     </motion.div>
   );
