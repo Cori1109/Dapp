@@ -2,9 +2,9 @@ import React from "react";
 import { Box, Container, Stack, Paper, Typography, Button } from "@mui/material";
 import { styled } from '@mui/system';
 import { motion } from "framer-motion";
-import { pageVariants, pageTransition } from "../../utils/pageTransitions"
-import parivatePartyImage from '../../assets/landing/private-party.png'
-import PartiesList from '../../components/PartiesList'
+import { pageVariants, pageTransition } from "../../../utils/pageTransitions"
+import parivatePartyImage from '../../../assets/landing/private-party.png'
+import PartiesList from '../../../components/PartiesList'
 
 const HeaderBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -15,7 +15,7 @@ const HeaderBox = styled(Box)(({ theme }) => ({
 const ContentPaper = styled(Paper)(({ theme }) => ({
   boxShadow: '0px 20px 46px rgba(0, 0, 0, 0.1)',
   borderRadius: '16px',
-  padding: theme.spacing(2)
+  padding: theme.spacing(3)
 }));
 
 const ContentHeader = styled(Box)(({ theme }) => ({
@@ -42,25 +42,26 @@ const mockup_data = [
     partyId: '1234-5678',
     name: 'Monthly Beers',
     avatar: null,
-    isPublic: false,
     balance: '450,90',
-    leftHours: '12 Hours 30 Min'
+    leftHours: '12 Hours 30 Min',
+    status: 'opened',
   }, {
     partyId: '1324-1142',
     name: 'Trip to Ibiza',
     avatar: null,
-    isPublic: false,
     balance: '650,90',
-    leftHours: '12 Hours 30 Min'
+    leftHours: '12 Hours 30 Min',
+    status: 'joined',
   }, {
     partyId: '5619-3131',
     name: 'Family Party',
     avatar: null,
-    isPublic: false,
     balance: '780,90',
-    leftHours: '12 Hours 30 Min'
+    leftHours: '12 Hours 30 Min',
+    status: 'finished',
   }
 ]
+
 const PrivatePartyList = (props) => {
   
   return (

@@ -4,6 +4,7 @@ import Web3ReactProvider from 'web3-react';
 import { ThemeProvider } from '@mui/material/styles';
 import RenderRoutes from './routes';
 import theme from './theme';
+import { useAppContext } from './providers/use-app-context';
 
 function getLibrary(provider) {
   const library = new Web3Provider(provider);
@@ -12,8 +13,7 @@ function getLibrary(provider) {
 }
 
 const App = () => {
-  
-  const [isBlack, setIsBlack] = useState(false)
+  const {isBlack, setIsBlack} = useAppContext();
 
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
