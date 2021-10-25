@@ -12,6 +12,7 @@ const CardBox = styled(Box)(({ theme }) => ({
 const CardBody = styled('div')(({ theme }) => ({
     display: 'flex',
     justifyContent: 'space-around',
+    alignItems: 'center',
     marginTop: '24px'
 }));
 

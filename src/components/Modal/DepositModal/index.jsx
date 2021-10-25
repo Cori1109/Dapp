@@ -33,7 +33,7 @@ const DepositModal = ({
       open={open}
     >
       <DialogHeader>
-        <CloseIcon onClick={handleClose} style={{ color:"#4263EB"}}/>
+        <CloseIcon onClick={() => {setSelectedAmount(0); handleClose();}} style={{ color:"#4263EB"}}/>
         <Typography variant="subtitle1">
           Amount to deposit
         </Typography>
@@ -51,8 +51,8 @@ const DepositModal = ({
             mainText="Swipe to join" 
             overlayText="" 
             onSwipeDone={() => {
+              handleSuccess(selectedAmount)
               setSelectedAmount(0)
-              handleSuccess()
             }} 
             reset={0}
           />

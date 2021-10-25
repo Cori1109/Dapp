@@ -3,7 +3,7 @@ import { Box, Container, Stack, Typography, Button, Grid, Avatar } from "@mui/ma
 import { styled } from '@mui/system';
 import { motion } from "framer-motion";
 import { pageVariants, pageTransition } from "../../../utils/pageTransitions"
-import { useParams, useHistory } from "react-router";
+import { useParams, useHistory, useLocation } from "react-router";
 import { useAppContext } from "providers/use-app-context";
 import { 
   Add as AddIcon, 
@@ -59,32 +59,6 @@ const WrapInfoOutlinedIcon = styled(InfoOutlinedIcon)(({ theme }) => ({
   cursor: 'pointer'
 }));
 
-
-const mockup_data = [
-  {
-    partyId: '1234-5678',
-    name: 'Monthly Beers',
-    avatar: null,
-    balance: '450,90',
-    leftHours: '12 Hours 30 Min',
-    status: 'opened',
-  }, {
-    partyId: '1324-1142',
-    name: 'Trip to Ibiza',
-    avatar: null,
-    balance: '650,90',
-    leftHours: '12 Hours 30 Min',
-    status: 'joined',
-  }, {
-    partyId: '5619-3131',
-    name: 'Family Party',
-    avatar: null,
-    balance: '780,90',
-    leftHours: '12 Hours 30 Min',
-    status: 'finished',
-  }
-]
-
 const mockup_participants = [{
   name: 'Phillip',
   avatar: null
@@ -101,23 +75,23 @@ const mockup_participants = [{
 
 
 const PrivateParty = (props) => {
-
   const { partyId } = useParams()
   const history = useHistory()
-  const { setHeaderTitle } = useAppContext();
+  const location = useLocation()
+
+  const { setHeaderTitle, partyList, balance, setJoinedParam } = useAppContext();
 
   const [data, setData] = useState(null)
   const [participants, setParticipants] = useState(mockup_participants)
   const [joinModalOpen, setJoinModalOpen] = useState(false)
   const [emptyAccountModalOpen, setEmptyAccountModalOpen] = useState(false)
-  const [balance, setBalance] = useState(0)
 
   const getParty = (_party) => {
     return _party.partyId == partyId;
   }
 
   useEffect(() => {
-    setData(mockup_data.find(getParty))
+    setData(partyList.find(getParty))
   }, [partyId])
 
   useEffect(() => {
@@ -135,8 +109,14 @@ const PrivateParty = (props) => {
     }
   }
 
-  const handleJoinParty = () => {
+  const handleJoinParty = (balance) => {
     setJoinModalOpen(false)
+    setJoinedParam({
+      price: balance,
+      party_name: data.name,
+      back_url: location.pathname
+    })
+    history.push('/joined-success')
   }
 
   return (
@@ -199,7 +179,7 @@ const PrivateParty = (props) => {
         open={joinModalOpen}
         balance={balance}
         handleClose={() => setJoinModalOpen(false)}
-        handleSuccess={() => handleJoinParty()}
+        handleSuccess={(balance) => handleJoinParty(balance)}
       />
       <EmptyAccountModal
         open={emptyAccountModalOpen}

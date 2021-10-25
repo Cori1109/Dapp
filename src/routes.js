@@ -3,10 +3,12 @@ import React, { Suspense, Fragment, lazy } from 'react';
 import { Switch, Redirect, Route } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
 import DetailLayout from './layouts/DetailLayout';
+import DefaultLayout from './layouts/DefaultLayout';
 import Dashboard from './pages/Dashboard';
 import PrivatePartyList from './pages/PrivateParty/List';
 import PrivatePartyDetail from './pages/PrivateParty/Details';
 import PublicParty from './pages/PublicParty';
+import JoinedSuccess from './pages/JoinedSuccess';
 import { AnimatePresence } from "framer-motion";
 import AddFunds from 'pages/AddFunds';
 
@@ -27,6 +29,11 @@ const renderRoutes = (props) => (
         <MainLayout>
           <PublicParty />
         </MainLayout>
+      </Route>
+      <Route exact path="/joined-success">
+        <DefaultLayout>
+          <JoinedSuccess />
+        </DefaultLayout>
       </Route>
       <Route exact path="/dashboard">
         <MainLayout>
