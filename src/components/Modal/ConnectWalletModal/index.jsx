@@ -39,10 +39,12 @@ const WalletContainer = styled('li')(({theme}) => ({
   cursor: 'pointer',
   listStyleType: 'none',
   '&:active': {
-    backgroundColor: 'lightblue'
+    backgroundColor: 'lightblue',
+    borderRadius: '20px'
   },
   '&:hover': {
-    backgroundColor: 'lightblue'
+    backgroundColor: 'lightblue',
+    borderRadius: '20px'
   }
 }))
 
@@ -50,6 +52,7 @@ const SelectedWalletContainer = styled('li')(({theme}) => ({
   cursor: 'pointer',
   listStyleType: 'none',
   backgroundColor: 'lightblue',
+  borderRadius: '20px'
 }))
 
 const AddButton = styled(Button)(({ theme }) => ({

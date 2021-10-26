@@ -50,13 +50,10 @@ const AddFunds = (props) => {
     const { connector } = walletInfo;
     setSelectedWalletInfo(walletInfo)
     if (connector) {
-      console.log('ccc')
       activate(connector, undefined, true)
         .then(res => {
-          console.log('bbb')
         })
         .catch(error => {
-          console.log('aaa')
           if (error instanceof UnsupportedChainIdError) {
             activate(connector);
           } else {
