@@ -10,15 +10,15 @@ const CardBox = styled(Box)(({ theme }) => ({
     padding: '16px 24px'
 }));
 
-const PaymentMethodSelector = ({ }) => {
+const PaymentMethodSelector = ({ setOpenWallet }) => {
 
     return (
         <CardBox padding="32px 0px">
             <Box marginBottom="32px">
-                <OptionButton text="With debit card" startIcon={PaymentCardImg} endIcon={DownImg} />
+                <OptionButton text="With debit card" startIcon={PaymentCardImg} endIcon={DownImg} disabled={true}/>
             </Box>
             <Box>
-                <OptionButton text="With crypto" startIcon={PaymentCardImg} endIcon={DownImg} />
+                <OptionButton text="With crypto" startIcon={PaymentCardImg} endIcon={DownImg} handleClick={() => setOpenWallet(true)}/>
             </Box>
         </CardBox>
     );

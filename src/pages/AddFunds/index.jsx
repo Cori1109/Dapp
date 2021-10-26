@@ -8,6 +8,9 @@ import { useHistory } from "react-router"
 import BalanceSelector from "components/BalanceSelector";
 import PaymentMethodSelector from "components/PaymentMethodSelector";
 import { setHeaderTitle } from "store/actions/App";
+import ConnectWalletModal from "components/Modal/ConnectWalletModal";
+import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
+import NoMetamaskModal from "components/Modal/NoMetamaskModal";
 
 const HeaderBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -32,14 +35,40 @@ const AddButton = styled(Button)(({ theme }) => ({
 
 const AddFunds = (props) => {
   const dispatch = useDispatch()
-  
+  const { activate, deactivate, account, library, chainId } = useWeb3React();
   const [selectedAmount, setSelectedAmount] = useState(0);
   const [step, setStep] = useState(0);
+  const [openWallet, setOpenWallet] = useState(false);
+  const [noMetamask, setNoMetamask] = useState(false);
+  const [selectedWalletInfo, setSelectedWalletInfo] = useState(null);
 
   useEffect(() => {
     dispatch(setHeaderTitle('Add funds'))
   }, [])
 
+  const handleConnectWallet = (walletInfo) => {
+    const { connector } = walletInfo;
+    setSelectedWalletInfo(walletInfo)
+    if (connector) {
+      console.log('ccc')
+      activate(connector, undefined, true)
+        .then(res => {
+          console.log('bbb')
+        })
+        .catch(error => {
+          console.log('aaa')
+          if (error instanceof UnsupportedChainIdError) {
+            activate(connector);
+          } else {
+            setNoMetamask(true);
+            console.info("Connection Error - ", error);
+          }
+        })
+        .finally(() => {
+          setOpenWallet(false);
+        });
+    }
+  }
   return (
     <motion.div
       initial="initial"
@@ -57,7 +86,7 @@ const AddFunds = (props) => {
         <Box marginBottom="56px">
         {
           step == 0 ?
-            <PaymentMethodSelector />
+            <PaymentMethodSelector setOpenWallet={setOpenWallet}/>
           :
             <></>
         }
@@ -69,6 +98,12 @@ const AddFunds = (props) => {
         />
         {/* <AddButton variant="contained" onClick={() => {}}>Continue</AddButton> */}
       </Container>
+      <ConnectWalletModal 
+        open={openWallet}
+        onClose={() => setOpenWallet(false)}
+        onSuccess={(selectedWallet) => handleConnectWallet(selectedWallet)}
+      />
+      <NoMetamaskModal open={noMetamask} onClose={() => setNoMetamask(false)} walletInfo={selectedWalletInfo}/>
     </motion.div>
   );
 }

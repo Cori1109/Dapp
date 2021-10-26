@@ -1,5 +1,5 @@
 import React from 'react';
-import Web3ReactProvider from 'web3-react';
+import { Web3ReactProvider } from "@web3-react/core";
 import { ThemeProvider } from '@mui/material/styles';
 import RenderRoutes from './routes';
 import theme from './theme';
