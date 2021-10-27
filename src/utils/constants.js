@@ -28,6 +28,6 @@ export const CRYPTOS = [
   }, {
     title: 'USDC',
     logo: UsdcLogo,
-    address: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48'
+    address: '0x85f1dAd6f812F2D7757eD54d749dc0c1C5De3B59'
   }
 ]

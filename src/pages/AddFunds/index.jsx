@@ -41,6 +41,7 @@ const AddFunds = (props) => {
   const [txnLoading, setTxnLoading] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
   const [alertInfo, setAlertInfo] = useState(null);
+  const [swipeReset, setSwipeReset] = useState(0);
   const balance = useSelector(state => state.app.balance)
   const history = useHistory()
 
@@ -120,6 +121,7 @@ const AddFunds = (props) => {
       setOpenAlert(true)
     } finally {
       setTxnLoading(false)
+      setSwipeReset(swipeReset + 1)
     }
   }
 
@@ -167,9 +169,8 @@ const AddFunds = (props) => {
                 overlayText="" 
                 onSwipeDone={() => {
                   handleSuccess(selectedAmount)
-                  setSelectedAmount(0)
                 }} 
-                reset={0}
+                reset={swipeReset}
               />
             </Box>
           :
@@ -190,11 +191,11 @@ const AddFunds = (props) => {
       <TxnLoadingModal
         loading={txnLoading}
         title={`TRANSACTION IN \nPROGRESS`}
-        handleClose={() => setTxnLoading(false)}
+        handleClose={() => {setTxnLoading(false); setSwipeReset(swipeReset + 1)}}
         txnHash={txnHash}
       /> 
       {
-          alertInfo && <AlertMessage message={alertInfo.message} variant={alertInfo.severity} open={openAlert} onClose={() => setOpenAlert(false)}/>
+        alertInfo && <AlertMessage message={alertInfo.message} variant={alertInfo.variant} open={openAlert} onClose={() => setOpenAlert(false)}/>
       }
 
     </motion.div>
