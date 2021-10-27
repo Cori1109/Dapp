@@ -1,5 +1,5 @@
 export const getAbbreviationAddress = (address) => {
-  if (address.length < 42)
+  if (!address || address.length < 42)
     return ''
   return `${address.substring(0, 6)}...${address.substring(38, 42)}`
 }

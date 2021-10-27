@@ -3,7 +3,7 @@ import { useSnackbar, OptionsObject } from "notistack";
 export const useAlertMessage = () => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-  const showAlertMessage = (message, options = null) => {
+  const showAlertMessage = (message, options) => {
     const snackId = enqueueSnackbar(message, options);
     return snackId;
   };

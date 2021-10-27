@@ -3,7 +3,7 @@ import { Box, Container, Typography, Button } from "@mui/material"
 import { styled } from '@mui/system';
 import { motion } from "framer-motion";
 import { pageVariants, pageTransition } from "../../utils/pageTransitions"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router"
 import BalanceSelector from "components/BalanceSelector";
 import PaymentMethodSelector from "components/PaymentMethodSelector";
@@ -19,7 +19,7 @@ import TxnLoadingModal from "components/Modal/TxnLoadingModal";
 import { transferDaiToken } from "services/API/contracts";
 import { transferUsdcToken } from "services/API/contracts";
 import Web3 from "web3";
-import { setTransferParam } from "store/actions/App";
+import { setTransferParam, setBalance } from "store/actions/App";
 import { useAlertMessage } from "components/UseAlertMessage/useAlertMessage";
 
 const HeaderBox = styled(Box)(({ theme }) => ({
@@ -41,6 +41,7 @@ const AddFunds = (props) => {
   const [txnHash, setTxnHash] = useState('');
   const [txnLoading, setTxnLoading] = useState(false);
   const { showAlertMessage } = useAlertMessage();
+  const balance = useSelector(state => state.app.balance)
   const history = useHistory()
 
   useEffect(() => {
@@ -76,11 +77,11 @@ const AddFunds = (props) => {
     setOpenCrypto(false)
   }
 
-  const handleSuccess = async (balance) => {
-    await handleTransfer(balance)
+  const handleSuccess = async (price) => {
+    await handleTransfer(price)
   }
 
-  const handleTransfer = async (balance) => {
+  const handleTransfer = async (price) => {
     setTxnLoading(true)
     try {
       if (library) {
@@ -88,15 +89,21 @@ const AddFunds = (props) => {
         if (account && web3) {
           let result = null;
           if (selectedCryptoInfo.title === 'DAI')
-            result = await transferDaiToken(web3, selectedCryptoInfo.address, account, balance, setTxnHash)
+            result = await transferDaiToken(web3, selectedCryptoInfo.address, account, price, setTxnHash)
           else {
-            result = await transferUsdcToken(web3, selectedCryptoInfo.address, account, balance, setTxnHash)
+            result = await transferUsdcToken(web3, selectedCryptoInfo.address, account, price, setTxnHash)
           }
           if (result.status) {
-            showAlertMessage(`Successfully funded $${balance}!`, {
+            showAlertMessage(`Successfully funded $${price}!`, {
               variant: "success",
             });
-            dispatch(setTransferParam({price: balance, walletInfo: selectedWalletInfo, from: account, txnHash: txnHash, back_url: '/add-funds'}))
+            dispatch(setTransferParam({price: price, walletInfo: selectedWalletInfo, from: account, txnHash: txnHash, back_url: '/add-funds'}))
+            dispatch(setBalance(Number(balance) + Number(price)))
+            history.push('/transfer-success')
+          } else {
+            showAlertMessage("Something went wrong. Please try again!", {
+              variant: "error",
+            });
             history.push('/transfer-success')
           }
         }
