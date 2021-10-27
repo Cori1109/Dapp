@@ -12,7 +12,6 @@ import JoinedSuccess from './pages/JoinedSuccess';
 import TransferSuccess from './pages/TransferSuccess';
 import AddFunds from './pages/AddFunds';
 import { AnimatePresence } from "framer-motion";
-import AddFunds from 'pages/AddFunds';
 
 const renderRoutes = (props) => (
   <AnimatePresence>

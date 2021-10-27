@@ -104,7 +104,6 @@ const AddFunds = (props) => {
             showAlertMessage("Something went wrong. Please try again!", {
               variant: "error",
             });
-            history.push('/transfer-success')
           }
         }
       }
