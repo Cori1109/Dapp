@@ -59,6 +59,7 @@ const TransferSuccess = (props) => {
   const history = useHistory();
 
   useEffect(() => {
+    console.log(transferParam)
     if (!transferParam) {
       history.push('/dashboard')
     }
@@ -102,10 +103,10 @@ const TransferSuccess = (props) => {
           <Typography variant="subtitle2">
             Transfer from
           </Typography>
-          <Box display="flex">
+          <Box display="flex" alignItems="center">
             <WalletImg src={transferParam?.walletInfo.logo}/>
-            <Typography variant="subtitle3">
-              :{getAbbreviationAddress(transferParam?.from)}
+            <Typography variant="subtitle4">
+              : {getAbbreviationAddress(transferParam?.from)}
             </Typography>
           </Box>
         </Box>
@@ -119,7 +120,7 @@ const TransferSuccess = (props) => {
             <ContentCopyIcon style={{paddingLeft: '24px', cursor: 'pointer'}} onClick={() => {handleClickCopy(transferParam?.txnHash)}}/>
           </Typography>
         </Box>
-        <AddButton variant="contained" onClick={() => {history.push(transferParam?.back_url); dispatch(setTransferParam(null));}}>Done</AddButton>
+        <AddButton variant="contained" onClick={() => {history.push('/dashboard'); dispatch(setTransferParam(null));}}>Done</AddButton>
       </Container>
     </motion.div>
   );

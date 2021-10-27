@@ -12,7 +12,7 @@ export const setJoinedParam = (payload) => ({
 
 export const setTransferParam = (payload) => ({
   type: actionTypes.SET_TRANSFER_PARAM,
-  joinedParam: payload
+  transferParam: payload
 });
 
 export const setPartyList = (payload) => ({

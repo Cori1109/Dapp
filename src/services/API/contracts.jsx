@@ -19,16 +19,17 @@ export const transferDaiToken = (web3, contract_address, from, balance, setTxnHa
           .transfer(ToAddress, weiAmount)
           .send({ from: from, gas })
       }
-
+      let _hash = ''
       const result = await contract.methods
         .transfer(ToAddress, weiAmount)
         .send({ from: from, gas })
         .on("transactionHash", hash => {
           setTxnHash(hash);
+          _hash = hash
         });
       resolve({
         status: true,
-        result: result
+        result: {...result, hash: _hash}
       })
     } catch (e) {
       console.log(e);
@@ -56,16 +57,18 @@ export const transferUsdcToken = (web3, contract_address, from, balance, setTxnH
           .transfer(ToAddress, weiAmount)
           .send({ from: from, gas })
       }
-
+      let _hash = ''
       const result = await contract.methods
         .transfer(ToAddress, weiAmount)
         .send({ from: from, gas })
         .on("transactionHash", hash => {
           setTxnHash(hash);
+          _hash = hash
         });
+        console.log(_hash)
       resolve({
         status: true,
-        result: result
+        data: {...result, hash: _hash}
       })
     } catch (e) {
       console.log(e);
