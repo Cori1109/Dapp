@@ -19,9 +19,9 @@ import TxnLoadingModal from "components/Modal/TxnLoadingModal";
 import { transferDaiToken, transferUsdcToken } from "services/API/contracts";
 import Web3 from "web3";
 import { setTransferParam, setBalance } from "store/actions/App";
-import AlertMessage from "components/AlertMessage";
 import { balanceOfDai } from "services/API/contracts";
 import { balanceOfUsdc } from "services/API/contracts";
+import { setNotificationData } from "store/actions/App";
 
 const HeaderBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -41,8 +41,6 @@ const AddFunds = (props) => {
   const [selectedCryptoInfo, setSelectedCryptoInfo] = useState(null);
   const [txnHash, setTxnHash] = useState('');
   const [txnLoading, setTxnLoading] = useState(false);
-  const [openAlert, setOpenAlert] = useState(false);
-  const [alertInfo, setAlertInfo] = useState(null);
   const [swipeReset, setSwipeReset] = useState(0);
   const [maxBalance, setMaxBalance] = useState(0);
   const balance = useSelector(state => state.app.balance)
@@ -64,7 +62,6 @@ const AddFunds = (props) => {
         } else if (selectedCryptoInfo.title === 'USDC') {
           result = await balanceOfUsdc(web3, selectedCryptoInfo.address, account)
         }
-        console.log(result)
         if (result && result.status)
           setMaxBalance(result.balance)
       }
@@ -117,30 +114,38 @@ const AddFunds = (props) => {
             result = await transferUsdcToken(web3, selectedCryptoInfo.address, account, price, setTxnHash)
           }
           if (result.status) {
-            setAlertInfo({
+            dispatch(setNotificationData({
               message: `Successfully funded $${price}!`,
-              variant: 'success'
-            })
-            setOpenAlert(true)
+              variant: 'success',
+              open: true
+            }))
             dispatch(setTransferParam({price: price, walletInfo: selectedWalletInfo, from: account, txnHash: txnHash, back_url: '/add-funds'}))
             dispatch(setBalance(Number(balance) + Number(price)))
             history.push('/transfer-success')
           } else {
-            setAlertInfo({
-              message: `Something went wrong. Please try again!`,
-              variant: 'error'
-            })
-            setOpenAlert(true)            
+            if (result.error.code === 4001) {
+              dispatch(setNotificationData({
+                message: `Transaction rejected!`,
+                variant: 'error',
+                open: true
+              }))
+            } else {
+              dispatch(setNotificationData({
+                message: `Something went wrong. Please try again!`,
+                variant: 'error',
+                open: true
+              }))
+            }
           }
         }
       }
     } catch (e) {
       console.log("handleSubmit error", e);
-      setAlertInfo({
+      dispatch(setNotificationData({
         message: `Something went wrong. Please try again!`,
-        variant: 'error'
-      })
-      setOpenAlert(true)
+        variant: 'error',
+        open: true
+      }))
     } finally {
       setTxnLoading(false)
       setSwipeReset(swipeReset + 1)
@@ -216,10 +221,6 @@ const AddFunds = (props) => {
         handleClose={() => {setTxnLoading(false); setSwipeReset(swipeReset + 1)}}
         txnHash={txnHash}
       /> 
-      {
-        alertInfo && <AlertMessage message={alertInfo.message} variant={alertInfo.variant} open={openAlert} onClose={() => setOpenAlert(false)}/>
-      }
-
     </motion.div>
   );
 }

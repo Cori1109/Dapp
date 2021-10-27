@@ -9,7 +9,7 @@ import { useHistory } from "react-router"
 import { setTransferParam } from "store/actions/App";
 import {ContentCopy as ContentCopyIcon} from '@mui/icons-material';
 import { getAbbreviationAddress, shorttenString } from "utils/functions";
-import AlertMessage from "components/AlertMessage";
+import { setNotificationData } from "store/actions/App";
 
 const ImageBox = styled('Box')(({theme}) => ({
   paddingTop: theme.spacing(10),
@@ -58,9 +58,6 @@ const TransferSuccess = (props) => {
 
   const history = useHistory();
 
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
-
   useEffect(() => {
     if (!transferParam) {
       history.push('/dashboard')
@@ -70,11 +67,11 @@ const TransferSuccess = (props) => {
   const handleClickCopy = (txnHash) => {
     if (txnHash) {
       navigator.clipboard.writeText(txnHash);
-      setShowAlert(true);
-      setAlertMessage(`${txnHash} has been copied!`);
-      setTimeout(() => {
-        setShowAlert(false);
-      }, 3000);
+      dispatch(setNotificationData({
+        message: `${txnHash} has been copied!`,
+        variant: 'success',
+        open: true
+      }))
     }
   };
 
@@ -124,14 +121,6 @@ const TransferSuccess = (props) => {
         </Box>
         <AddButton variant="contained" onClick={() => {history.push(transferParam?.back_url); dispatch(setTransferParam(null));}}>Done</AddButton>
       </Container>
-      {showAlert && (
-        <AlertMessage
-          key={Math.random()}
-          message={alertMessage}
-          variant="info"
-          onClose={() => setShowAlert(false)}
-        />
-      )}
     </motion.div>
   );
 }

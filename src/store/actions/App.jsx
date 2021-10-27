@@ -29,3 +29,8 @@ export const setBalance = (payload) => ({
   type: actionTypes.SET_BALANCE,
   balance: payload
 });
+
+export const setNotificationData = (payload) => ({
+  type: actionTypes.SET_NOTIFICATION_DATA,
+  notificationData: payload
+})

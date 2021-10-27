@@ -29,7 +29,8 @@ const initialState = {
   joinedParam: null,
   transferParam: null,
   partyList: mockup_data,
-  balance: 1000
+  balance: 1000,
+  notificationData: null
 };
 
 
@@ -87,6 +88,15 @@ const setBalance = (state, {balance, ...rest}) => {
   };
 }
 
+const setNotificationData = (state, {notificationData, ...rest}) => {
+  return {
+    ...state,
+    ...{
+      notificationData: notificationData,
+    },
+  };
+}
+
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -102,6 +112,8 @@ const reducer = (state = initialState, action) => {
       return setBlackTheme(state, action);
     case actionTypes.SET_BALANCE:
       return setBalance(state, action);
+    case actionTypes.SET_NOTIFICATION_DATA:
+      return setNotificationData(state, action);
     default:
       return state;
   }

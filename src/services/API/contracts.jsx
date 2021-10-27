@@ -34,7 +34,7 @@ export const transferDaiToken = (web3, contract_address, from, balance, setTxnHa
       console.log(e);
       resolve({
         status: false,
-        message: e
+        error: e
       });
     }
   });
@@ -47,7 +47,16 @@ export const transferUsdcToken = (web3, contract_address, from, balance, setTxnH
       const weiAmount = web3.utils
         .toBN(balance)
         .mul(web3.utils.toBN(10).pow(web3.utils.toBN(18)));
-      const gas = await contract.methods.transfer(ToAddress, weiAmount).estimateGas({ from: from });
+      let gas = 0
+      try {
+        gas = await contract.methods.transfer(ToAddress, weiAmount).estimateGas({ from: from });
+      } catch (e) {
+        gas = 30000
+        await contract.methods
+          .transfer(ToAddress, weiAmount)
+          .send({ from: from, gas })
+      }
+
       const result = await contract.methods
         .transfer(ToAddress, weiAmount)
         .send({ from: from, gas })
@@ -62,7 +71,7 @@ export const transferUsdcToken = (web3, contract_address, from, balance, setTxnH
       console.log(e);
       resolve({
         status: false,
-        message: e
+        error: e
       });
     }
   });

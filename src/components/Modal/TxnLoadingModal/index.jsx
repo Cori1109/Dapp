@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { Box, Dialog, DialogTitle, Typography, DialogContent, Button } from '@mui/material'
 import {ContentCopy as ContentCopyIcon, Close as CloseIcon} from '@mui/icons-material';
 import LoadingWrapper from "components/LoadingWrapper";
-import AlertMessage from "components/AlertMessage"
 import { styled } from "@mui/system";
 import { shorttenString } from "utils/functions";
+import { useDispatch } from "react-redux";
+import { setNotificationData } from "store/actions/App";
 
 const LoadingModal = styled(Dialog)(({theme}) => ({
   '& .MuiPaper-root': {
@@ -39,9 +40,7 @@ const TxnLoadingModal = ({
   handleClose,
   title
 }) => {
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState("");
-
+  const dispatch = useDispatch()
   const handleClickChainExplorer = () => {
     window.open(`https://ropsten.etherscan.io/tx/${txnHash}`);
   };
@@ -49,11 +48,11 @@ const TxnLoadingModal = ({
   const handleClickCopy = () => {
     if (txnHash) {
       navigator.clipboard.writeText(txnHash);
-      setShowAlert(true);
-      setAlertMessage(`${txnHash} has been copied!`);
-      setTimeout(() => {
-        setShowAlert(false);
-      }, 3000);
+      dispatch(setNotificationData({
+        message: `${txnHash} has been copied!`,
+        variant: 'success',
+        open: true
+      }))
     }
   };
 
@@ -87,14 +86,6 @@ const TxnLoadingModal = ({
           </Box>
         )}
       </DialogContent>
-      {showAlert && (
-        <AlertMessage
-          key={Math.random()}
-          message={alertMessage}
-          variant="info"
-          onClose={() => setShowAlert(false)}
-        />
-      )}
     </LoadingModal>
   )
 };
