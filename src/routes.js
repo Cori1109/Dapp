@@ -8,6 +8,7 @@ import PrivatePartyList from './pages/PrivateParty/List';
 import PrivatePartyDetail from './pages/PrivateParty/Details';
 import PublicParty from './pages/PublicParty';
 import { AnimatePresence } from "framer-motion";
+import AddFunds from 'pages/AddFunds';
 
 const renderRoutes = (props) => (
   <AnimatePresence>
