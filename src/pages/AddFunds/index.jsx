@@ -20,6 +20,8 @@ import { transferDaiToken, transferUsdcToken } from "services/API/contracts";
 import Web3 from "web3";
 import { setTransferParam, setBalance } from "store/actions/App";
 import AlertMessage from "components/AlertMessage";
+import { balanceOfDai } from "services/API/contracts";
+import { balanceOfUsdc } from "services/API/contracts";
 
 const HeaderBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -42,12 +44,32 @@ const AddFunds = (props) => {
   const [openAlert, setOpenAlert] = useState(false);
   const [alertInfo, setAlertInfo] = useState(null);
   const [swipeReset, setSwipeReset] = useState(0);
+  const [maxBalance, setMaxBalance] = useState(0);
   const balance = useSelector(state => state.app.balance)
   const history = useHistory()
 
   useEffect(() => {
     dispatch(setHeaderTitle('Add funds'))
   }, [])
+
+  useEffect( async () => {
+    if (selectedCryptoInfo && library) {
+      const web3 = new Web3(library.provider);
+      
+      let result = null;
+
+      if (account && web3) {
+        if (selectedCryptoInfo.title === 'DAI') {
+          result = await balanceOfDai(web3, selectedCryptoInfo.address, account)
+        } else if (selectedCryptoInfo.title === 'USDC') {
+          result = await balanceOfUsdc(web3, selectedCryptoInfo.address, account)
+        }
+        console.log(result)
+        if (result && result.status)
+          setMaxBalance(result.balance)
+      }
+    }
+  }, [selectedCryptoInfo, account])
 
   const handleConnectWallet = (walletInfo) => {
     const { connector, type } = walletInfo;
@@ -157,7 +179,7 @@ const AddFunds = (props) => {
         }
         </Box>
         <BalanceSelector
-          max={-1}
+          max={maxBalance}
           balance={selectedAmount}
           setBalance={setSelectedAmount}
         />

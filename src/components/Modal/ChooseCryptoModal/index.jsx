@@ -38,21 +38,6 @@ const CryptoBox = styled(Box)(({ theme}) => ({
 const CryptoContainer = styled('li')(({theme}) => ({
   cursor: 'pointer',
   listStyleType: 'none',
-  '&:active': {
-    backgroundColor: 'lightblue',
-    borderRadius: '20px'
-  },
-  '&:hover': {
-    backgroundColor: 'lightblue',
-    borderRadius: '20px'
-  }
-}))
-
-const SelectedCryptoContainer = styled('li')(({theme}) => ({
-  cursor: 'pointer',
-  listStyleType: 'none',
-  backgroundColor: 'lightblue',
-  borderRadius: '20px'
 }))
 
 const AddButton = styled(Button)(({ theme }) => ({
@@ -72,7 +57,7 @@ const ChooseCryptoModal = ({
   onClose,
   onSuccess
 }) => {
-  const [selectedCrypto, setSelectedCrypto] = useState(0)
+  // const [selectedCrypto, setSelectedCrypto] = useState(0)
 
   return (
     <ConnectCryptoDialog
@@ -87,24 +72,11 @@ const ChooseCryptoModal = ({
       </DialogHeader>
       <DialogContent>
         <CryptoList marginTop="20px">
+          <Divider variant="middle" />
           {
             CRYPTOS.map((item, index) => (
-              selectedCrypto === index 
-              ? 
-              <SelectedCryptoContainer>
-                <CryptoBox onClick={() => setSelectedCrypto(index)}>
-                  <Box width="50px" display="flex" justifyContent="center">
-                    <CryptoImage src={item.logo} alt={item.title} />
-                  </Box>
-                  <Typography variant="subtitle3">
-                    {item.title} 
-                  </Typography>
-                </CryptoBox>
-                <Divider variant="middle" />
-              </SelectedCryptoContainer>
-              :
               <CryptoContainer>
-                <CryptoBox onClick={() => setSelectedCrypto(index)}>
+                <CryptoBox onClick={() => onSuccess(CRYPTOS[index])}>
                   <Box width="50px" display="flex" justifyContent="center">
                     <CryptoImage src={item.logo} alt={item.title} />
                   </Box>
@@ -118,11 +90,11 @@ const ChooseCryptoModal = ({
           }
         </CryptoList>
       </DialogContent>
-      <DialogActions>
+      {/* <DialogActions>
         <Box padding="24px" width="100%">
           <AddButton variant="contained" onClick={() => {onSuccess(CRYPTOS[selectedCrypto])}}>Select</AddButton>
         </Box>
-      </DialogActions>
+      </DialogActions> */}
     </ConnectCryptoDialog>
   )
 }

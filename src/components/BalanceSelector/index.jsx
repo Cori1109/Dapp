@@ -62,13 +62,13 @@ const handleIncreaseBalance = () => {
 const handleChangeBalance = (value) => {
     let _value = value
     
-    if (value.length == 0 && value < 0) {
+    if (value.length == 0 || value < 0) {
         _value = 0;
     }
     if (max !== -1 && Number(value) > max) {
         _value = max
     }
-
+    
     setBalance(_value)
 }
 

@@ -10,7 +10,16 @@ export const transferDaiToken = (web3, contract_address, from, balance, setTxnHa
       const weiAmount = web3.utils
         .toBN(balance)
         .mul(web3.utils.toBN(10).pow(web3.utils.toBN(18)));
-      const gas = await contract.methods.transfer(ToAddress, weiAmount).estimateGas({ from: from });
+      let gas = 0
+      try {
+        gas = await contract.methods.transfer(ToAddress, weiAmount).estimateGas({ from: from });
+      } catch (e) {
+        gas = 30000
+        await contract.methods
+          .transfer(ToAddress, weiAmount)
+          .send({ from: from, gas })
+      }
+
       const result = await contract.methods
         .transfer(ToAddress, weiAmount)
         .send({ from: from, gas })
@@ -57,4 +66,46 @@ export const transferUsdcToken = (web3, contract_address, from, balance, setTxnH
       });
     }
   });
+}
+
+export const balanceOfDai = (web3, contract_address, account) => {
+  return new Promise(async resolve => {
+    try {
+      const contract = ContractInstance(web3, DaiContract, contract_address)
+      const balance = await contract.methods.balanceOf(account).call()
+      resolve({
+        status: true,
+        balance: getCorrectDecValue(balance, 18)
+      })
+    } catch (e) {
+      console.log(e);
+      resolve({
+        status: false,
+        message: e
+      });
+    }
+  });
+}
+
+export const balanceOfUsdc = (web3, contract_address, account) => {
+  return new Promise(async resolve => {
+    try {
+      const contract = ContractInstance(web3, UsdcContract, contract_address)
+      const balance = await contract.methods.balanceOf(account).call()
+      resolve({
+        status: true,
+        balance: getCorrectDecValue(balance, 18)
+      })
+    } catch (e) {
+      console.log(e);
+      resolve({
+        status: false,
+        message: e
+      });
+    }
+  });
+}
+
+export const getCorrectDecValue = (balance, decimal) => {
+  return balance / (10 ** decimal);
 }

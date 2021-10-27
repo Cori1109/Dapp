@@ -38,21 +38,6 @@ const WalletBox = styled(Box)(({ theme}) => ({
 const WalletContainer = styled('li')(({theme}) => ({
   cursor: 'pointer',
   listStyleType: 'none',
-  '&:active': {
-    backgroundColor: 'lightblue',
-    borderRadius: '20px'
-  },
-  '&:hover': {
-    backgroundColor: 'lightblue',
-    borderRadius: '20px'
-  }
-}))
-
-const SelectedWalletContainer = styled('li')(({theme}) => ({
-  cursor: 'pointer',
-  listStyleType: 'none',
-  backgroundColor: 'lightblue',
-  borderRadius: '20px'
 }))
 
 const AddButton = styled(Button)(({ theme }) => ({
@@ -72,7 +57,7 @@ const ConnectWalletModal = ({
   onClose,
   onSuccess
 }) => {
-  const [selectedWallet, setSelectedWallet] = useState(0)
+  // const [selectedWallet, setSelectedWallet] = useState(0)
 
   return (
     <ConnectWalletDialog
@@ -87,24 +72,11 @@ const ConnectWalletModal = ({
       </DialogHeader>
       <DialogContent>
         <WalletList marginTop="20px">
+          <Divider variant="middle" />
           {
             WALLETS.map((item, index) => (
-              selectedWallet === index 
-              ? 
-              <SelectedWalletContainer>
-                <WalletBox onClick={() => setSelectedWallet(index)}>
-                  <Box width="50px" display="flex" justifyContent="center">
-                    <WalletImage src={item.logo} alt={item.title} />
-                  </Box>
-                  <Typography variant="subtitle3">
-                    {item.title} 
-                  </Typography>
-                </WalletBox>
-                <Divider variant="middle" />
-              </SelectedWalletContainer>
-              :
               <WalletContainer>
-                <WalletBox onClick={() => setSelectedWallet(index)}>
+                <WalletBox onClick={() => onSuccess(WALLETS[index])}>
                   <Box width="50px" display="flex" justifyContent="center">
                     <WalletImage src={item.logo} alt={item.title} />
                   </Box>
@@ -118,11 +90,11 @@ const ConnectWalletModal = ({
           }
         </WalletList>
       </DialogContent>
-      <DialogActions>
+      {/* <DialogActions>
         <Box padding="24px" width="100%">
           <AddButton variant="contained" onClick={() => {onSuccess(WALLETS[selectedWallet])}}>Connect</AddButton>
         </Box>
-      </DialogActions>
+      </DialogActions> */}
     </ConnectWalletDialog>
   )
 }
