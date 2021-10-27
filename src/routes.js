@@ -9,6 +9,7 @@ import PrivatePartyList from './pages/PrivateParty/List';
 import PrivatePartyDetail from './pages/PrivateParty/Details';
 import PublicParty from './pages/PublicParty';
 import JoinedSuccess from './pages/JoinedSuccess';
+import TransferSuccess from './pages/TransferSuccess';
 import AddFunds from './pages/AddFunds';
 import { AnimatePresence } from "framer-motion";
 import AddFunds from 'pages/AddFunds';
@@ -34,6 +35,11 @@ const renderRoutes = (props) => (
       <Route exact path="/joined-success">
         <DefaultLayout>
           <JoinedSuccess />
+        </DefaultLayout>
+      </Route>
+      <Route exact path="/transfer-success">
+        <DefaultLayout>
+          <TransferSuccess />
         </DefaultLayout>
       </Route>
       <Route path="/add-funds">

@@ -7,10 +7,20 @@ import { useDispatch } from "react-redux"
 import { useHistory } from "react-router"
 import BalanceSelector from "components/BalanceSelector";
 import PaymentMethodSelector from "components/PaymentMethodSelector";
+import CryptoSelector from "components/CryptoSelector";
 import { setHeaderTitle } from "store/actions/App";
 import ConnectWalletModal from "components/Modal/ConnectWalletModal";
+import ChooseCryptoModal from "components/Modal/ChooseCryptoModal"
 import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
 import NoMetamaskModal from "components/Modal/NoMetamaskModal";
+import { getAbbreviationAddress } from "utils/functions";
+import SwipeButton from "components/Button/SwipeButton";
+import TxnLoadingModal from "components/Modal/TxnLoadingModal";
+import { transferDaiToken } from "services/API/contracts";
+import { transferUsdcToken } from "services/API/contracts";
+import Web3 from "web3";
+import { setTransferParam } from "store/actions/App";
+import { useAlertMessage } from "components/UseAlertMessage/useAlertMessage";
 
 const HeaderBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -18,46 +28,40 @@ const HeaderBox = styled(Box)(({ theme }) => ({
   paddingBottom: theme.spacing(4)
 }));
 
-const AddButton = styled(Button)(({ theme }) => ({
-  color: theme.palette.button.primary.foreground,
-  backgroundColor: theme.palette.button.primary.background,
-  fontWeight: 500,
-  fontSize: '16px',
-  fontFamily: 'Manrope',
-  width: '100%',
-  textTransform: 'none',
-  borderRadius: '12px',
-  marginTop: '100px',
-  padding: '16px 24px',
-  display: 'flex',
-  justifyContent: 'center',
-}))
-
 const AddFunds = (props) => {
   const dispatch = useDispatch()
   const { activate, deactivate, account, library, chainId } = useWeb3React();
   const [selectedAmount, setSelectedAmount] = useState(0);
   const [step, setStep] = useState(0);
   const [openWallet, setOpenWallet] = useState(false);
+  const [openCrypto, setOpenCrypto] = useState(false);
   const [noMetamask, setNoMetamask] = useState(false);
   const [selectedWalletInfo, setSelectedWalletInfo] = useState(null);
+  const [selectedCryptoInfo, setSelectedCryptoInfo] = useState(null);
+  const [txnHash, setTxnHash] = useState('');
+  const [txnLoading, setTxnLoading] = useState(false);
+  const { showAlertMessage } = useAlertMessage();
+  const history = useHistory()
 
   useEffect(() => {
     dispatch(setHeaderTitle('Add funds'))
   }, [])
 
   const handleConnectWallet = (walletInfo) => {
-    const { connector } = walletInfo;
+    const { connector, type } = walletInfo;
     setSelectedWalletInfo(walletInfo)
     if (connector) {
       activate(connector, undefined, true)
         .then(res => {
+          setStep(1)
         })
         .catch(error => {
           if (error instanceof UnsupportedChainIdError) {
             activate(connector);
           } else {
-            setNoMetamask(true);
+            if (type === 'metamask') {
+              setNoMetamask(true);
+            }
             console.info("Connection Error - ", error);
           }
         })
@@ -66,6 +70,47 @@ const AddFunds = (props) => {
         });
     }
   }
+
+  const handleSelectCrypto = (crypto) => {
+    setSelectedCryptoInfo(crypto)
+    setOpenCrypto(false)
+  }
+
+  const handleSuccess = async (balance) => {
+    await handleTransfer(balance)
+  }
+
+  const handleTransfer = async (balance) => {
+    setTxnLoading(true)
+    try {
+      if (library) {
+        const web3 = new Web3(library.provider);
+        if (account && web3) {
+          let result = null;
+          if (selectedCryptoInfo.title === 'DAI')
+            result = await transferDaiToken(web3, selectedCryptoInfo.address, account, balance, setTxnHash)
+          else {
+            result = await transferUsdcToken(web3, selectedCryptoInfo.address, account, balance, setTxnHash)
+          }
+          if (result.status) {
+            showAlertMessage(`Successfully funded $${balance}!`, {
+              variant: "success",
+            });
+            dispatch(setTransferParam({price: balance, walletInfo: selectedWalletInfo, from: account, txnHash: txnHash, back_url: '/add-funds'}))
+            history.push('/transfer-success')
+          }
+        }
+      }
+    } catch (e) {
+      console.log("handleSubmit error", e);
+      showAlertMessage("Something went wrong. Please try again!", {
+        variant: "error",
+      });
+    } finally {
+      setTxnLoading(false)
+    }
+  }
+
   return (
     <motion.div
       initial="initial"
@@ -82,8 +127,17 @@ const AddFunds = (props) => {
         </HeaderBox>
         <Box marginBottom="56px">
         {
-          step == 0 ?
+            step == 0
+          ?
             <PaymentMethodSelector setOpenWallet={setOpenWallet}/>
+          :
+            step == 1
+          ?
+            <CryptoSelector 
+              setOpenCrypto={setOpenCrypto} 
+              walletInfo={selectedWalletInfo} 
+              account={getAbbreviationAddress(account)} 
+              cryptoInfo={selectedCryptoInfo}/>
           :
             <></>
         }
@@ -93,7 +147,22 @@ const AddFunds = (props) => {
           balance={selectedAmount}
           setBalance={setSelectedAmount}
         />
-        {/* <AddButton variant="contained" onClick={() => {}}>Continue</AddButton> */}
+        {
+          selectedCryptoInfo ?
+            <Box marginTop="64px">
+              <SwipeButton 
+                mainText="Swipe to add funds" 
+                overlayText="" 
+                onSwipeDone={() => {
+                  handleSuccess(selectedAmount)
+                  setSelectedAmount(0)
+                }} 
+                reset={0}
+              />
+            </Box>
+          :
+            <></>
+        }
       </Container>
       <ConnectWalletModal 
         open={openWallet}
@@ -101,6 +170,17 @@ const AddFunds = (props) => {
         onSuccess={(selectedWallet) => handleConnectWallet(selectedWallet)}
       />
       <NoMetamaskModal open={noMetamask} onClose={() => setNoMetamask(false)} walletInfo={selectedWalletInfo}/>
+      <ChooseCryptoModal
+        open={openCrypto}
+        onClose={() => setOpenCrypto(false)}
+        onSuccess={(selectedCrypto) => handleSelectCrypto(selectedCrypto)}
+      />
+      <TxnLoadingModal
+        loading={txnLoading}
+        title={`TRANSACTION IN \nPROGRESS`}
+        handleClose={() => setTxnLoading(false)}
+        txnHash={txnHash}
+      />
     </motion.div>
   );
 }

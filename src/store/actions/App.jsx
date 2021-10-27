@@ -10,6 +10,11 @@ export const setJoinedParam = (payload) => ({
   joinedParam: payload
 });
 
+export const setTransferParam = (payload) => ({
+  type: actionTypes.SET_TRANSFER_PARAM,
+  joinedParam: payload
+});
+
 export const setPartyList = (payload) => ({
   type: actionTypes.SET_PARTY_LIST,
   partyList: payload

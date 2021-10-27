@@ -27,6 +27,7 @@ const initialState = {
   headerTitle: '',
   isBlack: false,
   joinedParam: null,
+  transferParam: null,
   partyList: mockup_data,
   balance: 1000
 };
@@ -46,6 +47,15 @@ const setJoinedParam = (state, {joinedParam, ...rest}) => {
     ...state,
     ...{
       joinedParam: joinedParam,
+    },
+  };
+}
+
+const setTransferParam = (state, {transferParam, ...rest}) => {
+  return {
+    ...state,
+    ...{
+      transferParam: transferParam,
     },
   };
 }
@@ -84,6 +94,8 @@ const reducer = (state = initialState, action) => {
       return setHeaderTitle(state, action);
     case actionTypes.SET_JOINED_PARAM:
       return setJoinedParam(state, action);
+    case actionTypes.SET_TRANSFER_PARAM:
+      return setTransferParam(state, action);
     case actionTypes.SET_PARTY_LIST:
       return setPartyList(state, action);
     case actionTypes.SET_BLACK_THEME:
