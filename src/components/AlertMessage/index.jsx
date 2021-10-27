@@ -1,8 +1,7 @@
 import { Alert, Snackbar } from "@mui/material";
 import React from "react";
 
-export default function AlertMessage({ message, variant, onClose = null }) {
-  const [open, setOpen] = React.useState(true);
+export default function AlertMessage({ message, variant, open, onClose = null }) {
   function handleClose(event, reason) {
     if (onClose) {
       onClose();
@@ -10,7 +9,7 @@ export default function AlertMessage({ message, variant, onClose = null }) {
     if (reason === "clickaway") {
       return;
     }
-    setOpen(false);
+    onClose();
   }
 
   return (

@@ -5,7 +5,6 @@ import RenderRoutes from './routes';
 import theme from './theme';
 import {useSelector} from 'react-redux'
 import getLibrary from "utils/getLibrary";
-import { SnackbarProvider } from "notistack";
 
 const App = () => {
   const isBlack = useSelector(state => state.app.isBlack)
@@ -13,9 +12,7 @@ const App = () => {
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
       <ThemeProvider theme={theme(isBlack)}>
-        <SnackbarProvider maxSnack={3}>        
-          <RenderRoutes />
-        </SnackbarProvider>
+        <RenderRoutes />
       </ThemeProvider>
     </Web3ReactProvider>
   );

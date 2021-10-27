@@ -16,11 +16,10 @@ import NoMetamaskModal from "components/Modal/NoMetamaskModal";
 import { getAbbreviationAddress } from "utils/functions";
 import SwipeButton from "components/Button/SwipeButton";
 import TxnLoadingModal from "components/Modal/TxnLoadingModal";
-import { transferDaiToken } from "services/API/contracts";
-import { transferUsdcToken } from "services/API/contracts";
+import { transferDaiToken, transferUsdcToken } from "services/API/contracts";
 import Web3 from "web3";
 import { setTransferParam, setBalance } from "store/actions/App";
-import { useAlertMessage } from "components/UseAlertMessage/useAlertMessage";
+import AlertMessage from "components/AlertMessage";
 
 const HeaderBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -40,7 +39,8 @@ const AddFunds = (props) => {
   const [selectedCryptoInfo, setSelectedCryptoInfo] = useState(null);
   const [txnHash, setTxnHash] = useState('');
   const [txnLoading, setTxnLoading] = useState(false);
-  const { showAlertMessage } = useAlertMessage();
+  const [openAlert, setOpenAlert] = useState(false);
+  const [alertInfo, setAlertInfo] = useState(null);
   const balance = useSelector(state => state.app.balance)
   const history = useHistory()
 
@@ -94,24 +94,30 @@ const AddFunds = (props) => {
             result = await transferUsdcToken(web3, selectedCryptoInfo.address, account, price, setTxnHash)
           }
           if (result.status) {
-            showAlertMessage(`Successfully funded $${price}!`, {
-              variant: "success",
-            });
+            setAlertInfo({
+              message: `Successfully funded $${price}!`,
+              variant: 'success'
+            })
+            setOpenAlert(true)
             dispatch(setTransferParam({price: price, walletInfo: selectedWalletInfo, from: account, txnHash: txnHash, back_url: '/add-funds'}))
             dispatch(setBalance(Number(balance) + Number(price)))
             history.push('/transfer-success')
           } else {
-            showAlertMessage("Something went wrong. Please try again!", {
-              variant: "error",
-            });
+            setAlertInfo({
+              message: `Something went wrong. Please try again!`,
+              variant: 'error'
+            })
+            setOpenAlert(true)            
           }
         }
       }
     } catch (e) {
       console.log("handleSubmit error", e);
-      showAlertMessage("Something went wrong. Please try again!", {
-        variant: "error",
-      });
+      setAlertInfo({
+        message: `Something went wrong. Please try again!`,
+        variant: 'error'
+      })
+      setOpenAlert(true)
     } finally {
       setTxnLoading(false)
     }
@@ -186,7 +192,11 @@ const AddFunds = (props) => {
         title={`TRANSACTION IN \nPROGRESS`}
         handleClose={() => setTxnLoading(false)}
         txnHash={txnHash}
-      />
+      /> 
+      {
+          alertInfo && <AlertMessage message={alertInfo.message} variant={alertInfo.severity} open={openAlert} onClose={() => setOpenAlert(false)}/>
+      }
+
     </motion.div>
   );
 }
