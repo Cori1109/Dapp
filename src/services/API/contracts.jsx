@@ -29,7 +29,7 @@ export const transferDaiToken = (web3, contract_address, from, balance, setTxnHa
         });
       resolve({
         status: true,
-        result: {...result, hash: _hash}
+        data: {...result, hash: _hash}
       })
     } catch (e) {
       console.log(e);

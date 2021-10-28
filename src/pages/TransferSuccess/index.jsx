@@ -95,7 +95,7 @@ const TransferSuccess = (props) => {
         </HeaderBox>
         <PriceBox>
           <Typography variant="subtitle1">
-            ${transferParam?.price}
+            {`${transferParam?.price} ${transferParam?.cryptoInfo?.title}`}
           </Typography>
         </PriceBox>
         <Divider variant="middle" />
@@ -117,7 +117,7 @@ const TransferSuccess = (props) => {
           </Typography>
           <Typography variant="subtitle5" display="flex" alignItems="center">
             <span style={{ color: "#EA88F2" }}> {shorttenString(transferParam?.txnHash) || "loading..."} </span>
-            <ContentCopyIcon style={{paddingLeft: '24px', cursor: 'pointer'}} onClick={() => {handleClickCopy(transferParam?.txnHash)}}/>
+            <ContentCopyIcon style={{paddingLeft: '8px', cursor: 'pointer'}} onClick={() => {handleClickCopy(transferParam?.txnHash)}}/>
           </Typography>
         </Box>
         <AddButton variant="contained" onClick={() => {history.push('/dashboard'); dispatch(setTransferParam(null));}}>Done</AddButton>

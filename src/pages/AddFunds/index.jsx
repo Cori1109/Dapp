@@ -150,7 +150,7 @@ const AddFunds = (props) => {
               variant: 'success',
               open: true
             }))
-            dispatch(setTransferParam({price: price, walletInfo: selectedWalletInfo, from: account, txnHash: result.data.hash, back_url: '/add-funds'}))
+            dispatch(setTransferParam({price: price, walletInfo: selectedWalletInfo, cryptoInfo: selectedCryptoInfo, from: account, txnHash: result.data.hash, back_url: '/add-funds'}))
             dispatch(setBalance(Number(balance) + Number(price)))
             history.push('/transfer-success')
           } else {
