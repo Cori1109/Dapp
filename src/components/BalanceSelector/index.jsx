@@ -114,7 +114,7 @@ return(
                     value={balance} 
                     onChange={(e) => handleChangeBalance(e.target.value)}
                     startAdornment={<InputAdornment position="start">$</InputAdornment>}
-                    style={{width: (balance.length + 1) * 30 + 10}}
+                    style={{width: (balance.toString().length + 1) * 30 + 10}}
                 />
             </BalanceCurrency>
             <AddIcon style={{ color:"#4263EB"}} onClick={() => handleIncreaseBalance()}/>

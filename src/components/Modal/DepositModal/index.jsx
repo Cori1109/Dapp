@@ -50,19 +50,22 @@ const DepositModal = ({
           overflowMessage={'Please input the available amount.'}
         />
       </DialogContent>
-      <DialogActions>
-        <Box padding="24px" width="100%">
-          <SwipeButton 
-            mainText="Swipe to join" 
-            overlayText="" 
-            onSwipeDone={() => {
-              handleSuccess(selectedAmount)
-              setSelectedAmount(0)
-            }} 
-            reset={0}
-          />
-        </Box>
-      </DialogActions>
+        <DialogActions>
+          <Box padding="24px" width="100%">
+            {
+              selectedAmount != 0 &&
+              <SwipeButton 
+                mainText="Swipe to join" 
+                overlayText="" 
+                onSwipeDone={() => {
+                  handleSuccess(selectedAmount)
+                  setSelectedAmount(0)
+                }} 
+                reset={0}
+              />
+            }
+          </Box>
+        </DialogActions>
     </DepositDialog>
   )
 }
