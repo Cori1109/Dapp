@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, Input, Typography, InputAdornment } from "@mui/material";
 import { styled } from '@mui/system';
 import { Add as AddIcon, Remove as RemoveIcon } from '@mui/icons-material';
 import { useDispatch } from "react-redux";
@@ -25,18 +25,22 @@ const BalanceCurrency = styled(Typography)(({ theme }) => ({
     display: 'flex'
 }));
 
-const BalanceNumber = styled(TextField)(({ theme }) => ({
+const BalanceNumber = styled(Input)(({ theme }) => ({
     '& input': {
         padding: '0px',
         fontSize: '36px',
-        maxWidth: '200px',
-        textAlign: 'center',
         color: 'black',
         fontSize: '48px',
         fontWeight: 'bold'
     },
     '& .MuiOutlinedInput-notchedOutline': {
         border: '0px'
+    },
+    '& .MuiTypography-root': {
+        fontSize: '24px',
+        paddingBottom: '12px',
+        color: 'black',
+        fontWeight: 'bold',
     }
 }));
 
@@ -51,10 +55,10 @@ const handleDecreaseBalance = () => {
             open: true
         }))
     } else if (balance < 100) {
-        setBalance(0)
+        setBalance('0')
     } else {
         let _n_balance = Number(balance) - 100;
-        setBalance(Math.ceil(_n_balance / 100) * 100)
+        setBalance((Math.ceil(_n_balance / 100) * 100).toString())
     }
 }
 
@@ -66,10 +70,10 @@ const handleIncreaseBalance = () => {
             open: true
         }))
     } else if (max !== -1 && Number(balance) > max - 100) {
-        setBalance(max)
+        setBalance(max.toString())
     } else {
         let _n_balance = Number(balance) + 100;
-        setBalance(parseInt(_n_balance / 100) * 100)
+        setBalance((parseInt(_n_balance / 100) * 100).toString())
     }
 }
 
@@ -104,7 +108,14 @@ return(
         <CardBody>
             <RemoveIcon style={{ color:"#4263EB"}} onClick={() => handleDecreaseBalance()}/>
             <BalanceCurrency>
-                $<BalanceNumber type="number" value={balance} onChange={(e) => handleChangeBalance(e.target.value)}/>
+                <BalanceNumber 
+                    disableUnderline={true}  
+                    type="number" 
+                    value={balance} 
+                    onChange={(e) => handleChangeBalance(e.target.value)}
+                    startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                    style={{width: (balance.length + 1) * 30 + 10}}
+                />
             </BalanceCurrency>
             <AddIcon style={{ color:"#4263EB"}} onClick={() => handleIncreaseBalance()}/>
         </CardBody>

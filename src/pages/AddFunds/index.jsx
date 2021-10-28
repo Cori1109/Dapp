@@ -33,7 +33,7 @@ const HeaderBox = styled(Box)(({ theme }) => ({
 const AddFunds = (props) => {
   const dispatch = useDispatch()
   const { activate, deactivate, account, library, chainId } = useWeb3React();
-  const [selectedAmount, setSelectedAmount] = useState(0);
+  const [selectedAmount, setSelectedAmount] = useState('0');
   const [step, setStep] = useState(0);
   const [openWallet, setOpenWallet] = useState(false);
   const [openCrypto, setOpenCrypto] = useState(false);
@@ -231,7 +231,7 @@ const AddFunds = (props) => {
           </>
         }
         {
-          selectedCryptoInfo && chainId == 3 ?
+          selectedCryptoInfo && chainId == 3 && selectedAmount != 0 &&
             <Box marginTop="64px">
               <SwipeButton 
                 mainText="Swipe to add funds" 
@@ -242,8 +242,6 @@ const AddFunds = (props) => {
                 reset={swipeReset}
               />
             </Box>
-          :
-            <></>
         }
       </Container>
       <ConnectWalletModal 
