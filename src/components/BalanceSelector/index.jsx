@@ -2,6 +2,8 @@ import React from "react";
 import { Box, TextField, Typography } from "@mui/material";
 import { styled } from '@mui/system';
 import { Add as AddIcon, Remove as RemoveIcon } from '@mui/icons-material';
+import { useDispatch } from "react-redux";
+import { setNotificationData } from "store/actions/App";
 
 const CardBox = styled(Box)(({ theme }) => ({
     background: '#F5F7FE',
@@ -39,10 +41,16 @@ const BalanceNumber = styled(TextField)(({ theme }) => ({
 }));
 
 
-const BalanceSelector = ({max, balance, setBalance}) => {
-
+const BalanceSelector = ({max, balance, setBalance, overflowMessage, currency}) => {
+const dispatch = useDispatch()
 const handleDecreaseBalance = () => {
-    if (balance < 100) {
+    if (balance == 0) {
+        dispatch(setNotificationData({
+            message: overflowMessage,
+            variant: 'error',
+            open: true
+        }))
+    } else if (balance < 100) {
         setBalance(0)
     } else {
         let _n_balance = Number(balance) - 100;
@@ -51,7 +59,13 @@ const handleDecreaseBalance = () => {
 }
 
 const handleIncreaseBalance = () => {
-    if (max !== -1 && Number(balance) > max - 100) {
+    if (balance == max) {
+        dispatch(setNotificationData({
+            message: overflowMessage,
+            variant: 'error',
+            open: true
+        }))
+    } else if (max !== -1 && Number(balance) > max - 100) {
         setBalance(max)
     } else {
         let _n_balance = Number(balance) + 100;
@@ -60,22 +74,32 @@ const handleIncreaseBalance = () => {
 }
 
 const handleChangeBalance = (value) => {
-    let _value = value
+    let _value = Number(value)
     
     if (value.length == 0 || value < 0) {
+        dispatch(setNotificationData({
+            message: overflowMessage,
+            variant: 'error',
+            open: true
+        }))
         _value = 0;
     }
     if (max !== -1 && Number(value) > max) {
+        dispatch(setNotificationData({
+            message: overflowMessage,
+            variant: 'error',
+            open: true
+        }))
         _value = max
     }
-    
-    setBalance(_value)
+
+    setBalance(_value.toString())
 }
 
 return(
     <CardBox>
         <Typography variant="subtitle2" textAlign="center">
-            Amount (USD)
+            {`Amount (${currency ? currency : 'USD'})`}
         </Typography>
         <CardBody>
             <RemoveIcon style={{ color:"#4263EB"}} onClick={() => handleDecreaseBalance()}/>

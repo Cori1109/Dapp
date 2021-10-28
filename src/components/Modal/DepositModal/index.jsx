@@ -40,10 +40,15 @@ const DepositModal = ({
         <Box></Box>
       </DialogHeader>
       <DialogContent>
+        <Box marginBottom="20px">
+          <Typography variant="subtitle3">{`Available: ${balance}`}</Typography>
+        </Box>
         <BalanceSelector 
           max={balance} 
           balance={selectedAmount} 
-          setBalance={setSelectedAmount}/>
+          setBalance={setSelectedAmount}
+          overflowMessage={'Please input the available amount.'}
+        />
       </DialogContent>
       <DialogActions>
         <Box padding="24px" width="100%">

@@ -22,6 +22,7 @@ import { setTransferParam, setBalance } from "store/actions/App";
 import { balanceOfDai } from "services/API/contracts";
 import { balanceOfUsdc } from "services/API/contracts";
 import { setNotificationData } from "store/actions/App";
+import { switchNetwork } from "utils/web3utils";
 
 const HeaderBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -50,9 +51,25 @@ const AddFunds = (props) => {
     dispatch(setHeaderTitle('Add funds'))
   }, [])
 
-  useEffect(() => {
-    console.log(txnHash)
-  }, [txnHash])
+  useEffect(async () => {
+    if (step == 1 && chainId != 3) {
+      try {
+        dispatch(setNotificationData({
+          message: `You should switch Ethereum network to Ropsten`,
+          variant: 'error',
+          open: true
+        }))
+        await switchNetwork('0x3')
+      } catch (e) {
+        if (e.code == 4001)
+          dispatch(setNotificationData({
+            message: `You should switch Ethereum network to Ropsten`,
+            variant: 'error',
+            open: true
+          }))
+      }
+    }
+  }, [chainId])
 
   useEffect( async () => {
     if (selectedCryptoInfo && library) {
@@ -68,23 +85,33 @@ const AddFunds = (props) => {
         }
         if (result && result.status)
           setMaxBalance(result.balance)
+        else {
+          setMaxBalance(0)
+        }
       }
     }
-  }, [selectedCryptoInfo, account])
+  }, [selectedCryptoInfo, account, chainId])
 
   const handleConnectWallet = (walletInfo) => {
     const { connector, type } = walletInfo;
     setSelectedWalletInfo(walletInfo)
     if (connector) {
       activate(connector, undefined, true)
-        .then(res => {
+        .then(async res => {
+          await switchNetwork('0x3')
           setStep(1)
         })
         .catch(error => {
           if (error instanceof UnsupportedChainIdError) {
             activate(connector);
           } else {
-            if (type === 'metamask') {
+            if (error.code == 4001) {
+              dispatch(setNotificationData({
+                message: `You should switch Ethereum network to Ropsten`,
+                variant: 'error',
+                open: true
+              }))
+            } else if (type === 'metamask') {
               setNoMetamask(true);
             }
             console.info("Connection Error - ", error);
@@ -141,6 +168,7 @@ const AddFunds = (props) => {
               }))
             }
           }
+          setTxnHash('')
         }
       }
     } catch (e) {
@@ -187,13 +215,23 @@ const AddFunds = (props) => {
             <></>
         }
         </Box>
-        <BalanceSelector
-          max={maxBalance}
-          balance={selectedAmount}
-          setBalance={setSelectedAmount}
-        />
         {
-          selectedCryptoInfo ?
+          step == 1 && selectedCryptoInfo &&
+          <>
+            <Box marginBottom="20px">
+              <Typography variant="subtitle3">{`Available: ${maxBalance}`}</Typography>
+            </Box>
+            <BalanceSelector
+              max={maxBalance}
+              balance={selectedAmount}
+              setBalance={setSelectedAmount}
+              overflowMessage={'Please input the available amount.'}
+              currency={selectedCryptoInfo?.title}
+            />
+          </>
+        }
+        {
+          selectedCryptoInfo && chainId == 3 ?
             <Box marginTop="64px">
               <SwipeButton 
                 mainText="Swipe to add funds" 
@@ -222,7 +260,7 @@ const AddFunds = (props) => {
       <TxnLoadingModal
         loading={txnLoading}
         title={`TRANSACTION IN \nPROGRESS`}
-        handleClose={() => {setTxnLoading(false); setSwipeReset(swipeReset + 1)}}
+        handleClose={() => {setTxnLoading(false); setTxnHash(''); setSwipeReset(swipeReset + 1)}}
         txnHash={txnHash}
       /> 
     </motion.div>

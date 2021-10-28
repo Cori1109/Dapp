@@ -2,9 +2,15 @@ import React, { useState } from "react";
 import { Box, Container, Stack, Typography, Button, Grid, Avatar, Paper } from "@mui/material";
 import { styled } from '@mui/system';
 import { motion } from "framer-motion";
-import { pageVariants, pageTransition } from "../../utils/pageTransitions"
+import { pageVariants, pageTransition } from "../../utils/pageTransitions"
 import { Add as AddIcon, InfoOutlined as InfoOutlinedIcon } from '@mui/icons-material';
 import PrizeModal from "components/Modal/PrizeModal";
+import { useDispatch, useSelector } from "react-redux";
+import { setBalance, setPublicParty, setJoinedParam } from "store/actions/App";
+import { useLocation, useHistory } from "react-router";
+import DepositModal from "components/Modal/DepositModal";
+import EmptyAccountModal from "components/Modal/EmptyAccountModal";
+import StatusButton from "components/Button/StatusButton";
 
 const HeaderBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -23,7 +29,7 @@ const ContentPaper = styled(Paper)(({ theme }) => ({
   padding: `${theme.spacing(3)} ${theme.spacing(3)} ${theme.spacing(8)} ${theme.spacing(3)}`
 }));
 
-const BalanceInfo = styled(Box)(({ theme}) => ({
+const BalanceInfo = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center'
 }))
@@ -48,71 +54,44 @@ const AddButton = styled(Button)(({ theme }) => ({
   justifyContent: 'space-between'
 }))
 
-
-const mockup_data = {
-  partyId: '1234-5678',
-  name: 'Monthly Beers',
-  avatar: null,
-  isPublic: false,
-  balance: '75,691.54',
-  leftHours: '12 Hrs 30 Min'
-}
-
-const mockup_participants = [{
-  name: 'Phillip',
-  avatar: null
-}, {
-  name: 'Brandon',
-  avatar: null
-}, {
-  name: 'Julia',
-  avatar: null
-}, {
-  name: 'Dianne',
-  avatar: null
-}, {
-  name: 'Phillip',
-  avatar: null
-}, {
-  name: 'Brandon',
-  avatar: null
-}, {
-  name: 'Julia',
-  avatar: null
-}, {
-  name: 'Dianne',
-  avatar: null
-}, {
-  name: 'Phillip',
-  avatar: null
-}, {
-  name: 'Brandon',
-  avatar: null
-}, {
-  name: 'Julia',
-  avatar: null
-}, {
-  name: 'Dianne',
-  avatar: null
-}]
-
-const mockup_prize_result = [{
-  amount: 2273,
-  count: 2
-}, {
-  amount: 537,
-  count: 26
-}, {
-  amount: 250,
-  count: 2356
-}]
-
 const PublicParty = (props) => {
-  
-  const [data, setData] = useState(mockup_data);
-  const [participants, setParticipants] = useState(mockup_participants)
-  const [prizeResult, setPrizeResult] = useState(mockup_prize_result)
+  const data = useSelector(state => state.app.publicParty)
+  const balance = useSelector(state => state.app.balance)
+  const location = useLocation()
+  const history = useHistory()
   const [prizeModalOpen, setPrizeModalOpen] = useState(false)
+  const [joinModalOpen, setJoinModalOpen] = useState(false)
+  const [emptyAccountModalOpen, setEmptyAccountModalOpen] = useState(false)
+  const dispatch = useDispatch()
+
+  const handleJoinParty = (price) => {
+    setJoinModalOpen(false)
+    
+    let _data = JSON.parse(JSON.stringify(data))
+    _data.status = 'joined'
+    dispatch(setPublicParty(_data))
+    dispatch(setBalance(balance - price))
+    dispatch(setJoinedParam({
+      price: price,
+      party_name: data.name,
+      back_url: location.pathname
+    }))
+    history.push('/joined-success')
+  }
+
+  const handleAddMoney = () => {
+    setEmptyAccountModalOpen(false)
+    history.push('/add-funds')
+  }
+
+  const handleClickPartyStatus = (item) => {
+    if (item && item.status == "opened") {
+      if (balance !== 0)
+        setJoinModalOpen(true)
+      else
+        setEmptyAccountModalOpen(true)
+    }
+  }
 
   return (
     <motion.div
@@ -133,7 +112,7 @@ const PublicParty = (props) => {
             <Typography variant="subtitle2" marginRight="8px">
               Expected prize
             </Typography>
-            <WrapInfoOutlinedIcon onClick={() => {setPrizeModalOpen(true)}}/>
+            <WrapInfoOutlinedIcon onClick={() => { setPrizeModalOpen(true) }} />
           </Box>
           <BalanceInfo>
             <Typography variant="h1" paddingRight="8px">
@@ -146,7 +125,7 @@ const PublicParty = (props) => {
           <Box marginTop="32px" padding="24px" borderRadius="16px" backgroundColor="#F0EEFE">
             <Grid container spacing={2} >
               <Grid item xs={8}>
-              <Typography variant="subtitle2">Party closes in</Typography>
+                <Typography variant="subtitle2">Party closes in</Typography>
                 <Typography variant="subtitle1">{data ? data.leftHours : ''}</Typography>
               </Grid>
               <Grid item xs={4}>
@@ -155,28 +134,39 @@ const PublicParty = (props) => {
           </Box>
           <Box marginTop="24px" display="flex" justifyContent="space-between" alignItems="center">
             <Typography variant="subtitle4">Participants counter</Typography>
-            <Typography variant="subtitle4">{participants.length}</Typography>
+            <Typography variant="subtitle4">{data.participants.length}</Typography>
           </Box>
           <Stack direction="row" spacing={-2} marginTop="24px">
             {
-              participants.map((item, index) => (
+              data && data.participants && data.participants.map((item, index) => (
                 <Box key={`participant-${index}`}>
                   <PartyAvatar alt="A" />
                 </Box>
               ))
             }
           </Stack>
-          <AddButton variant="contained" endIcon={<AddIcon />}>Add Money</AddButton>
+          <StatusButton status={data ? data.status : 'opened'} handleClick={() => handleClickPartyStatus(data)}/>
           <AddButton variant="contained" endIcon={<AddIcon />}>Share</AddButton>
         </ContentPaper>
       </Container>
-      <PrizeModal 
+      <PrizeModal
         open={prizeModalOpen}
         handleClose={() => setPrizeModalOpen(false)}
-        list={prizeResult}
+        list={data.prizeResult}
+      />
+      <DepositModal
+        open={joinModalOpen}
+        balance={balance}
+        handleClose={() => setJoinModalOpen(false)}
+        handleSuccess={(balance) => handleJoinParty(balance)}
+      />
+      <EmptyAccountModal
+        open={emptyAccountModalOpen}
+        handleClose={() => setEmptyAccountModalOpen(false)}
+        handleSuccess={() => handleAddMoney()}
       />
     </motion.div>
   );
 }
- 
+
 export default PublicParty;

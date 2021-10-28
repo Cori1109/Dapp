@@ -20,6 +20,12 @@ export const setPartyList = (payload) => ({
   partyList: payload
 });
 
+export const setPublicParty = (payload) => ({
+  type: actionTypes.SET_PUBLIC_PARTY,
+  publicParty: payload
+});
+
+
 export const setBlackTheme = (payload) => ({
   type: actionTypes.SET_BLACK_THEME,
   isBlack: payload

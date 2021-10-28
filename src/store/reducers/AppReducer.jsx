@@ -23,12 +23,70 @@ const mockup_data = [{
   status: 'finished',
 }];
 
+const mockup_public_data = {
+  partyId: '1234-5678',
+  name: 'weekly Rand party',
+  avatar: null,
+  isPublic: false,
+  balance: '75,691.54',
+  leftHours: '12 Hrs 30 Min',
+  status: 'opened',
+  participants: [{
+    name: 'Phillip',
+    avatar: null
+  }, {
+    name: 'Brandon',
+    avatar: null
+  }, {
+    name: 'Julia',
+    avatar: null
+  }, {
+    name: 'Dianne',
+    avatar: null
+  }, {
+    name: 'Phillip',
+    avatar: null
+  }, {
+    name: 'Brandon',
+    avatar: null
+  }, {
+    name: 'Julia',
+    avatar: null
+  }, {
+    name: 'Dianne',
+    avatar: null
+  }, {
+    name: 'Phillip',
+    avatar: null
+  }, {
+    name: 'Brandon',
+    avatar: null
+  }, {
+    name: 'Julia',
+    avatar: null
+  }, {
+    name: 'Dianne',
+    avatar: null
+  }],
+  prizeResult: [{
+    amount: 2273,
+    count: 2
+  }, {
+    amount: 537,
+    count: 26
+  }, {
+    amount: 250,
+    count: 2356
+  }]
+}
+
 const initialState = {
   headerTitle: '',
   isBlack: false,
   joinedParam: null,
   transferParam: null,
   partyList: mockup_data,
+  publicParty: mockup_public_data,
   balance: 1000,
   notificationData: null
 };
@@ -70,6 +128,15 @@ const setPartyList = (state, {partyList, ...rest}) => {
   };
 }
 
+const setPublicParty = (state, {publicParty, ...rest}) => {
+  return {
+    ...state,
+    ...{
+      publicParty: publicParty
+    }
+  }
+}
+
 const setBlackTheme = (state, {isBlack, ...rest}) => {
   return {
     ...state,
@@ -108,6 +175,8 @@ const reducer = (state = initialState, action) => {
       return setTransferParam(state, action);
     case actionTypes.SET_PARTY_LIST:
       return setPartyList(state, action);
+    case actionTypes.SET_PUBLIC_PARTY:
+      return setPublicParty(state, action);
     case actionTypes.SET_BLACK_THEME:
       return setBlackTheme(state, action);
     case actionTypes.SET_BALANCE:

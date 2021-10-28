@@ -65,7 +65,6 @@ export const transferUsdcToken = (web3, contract_address, from, balance, setTxnH
           setTxnHash(hash);
           _hash = hash
         });
-        console.log(_hash)
       resolve({
         status: true,
         data: {...result, hash: _hash}
