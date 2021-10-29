@@ -18,7 +18,7 @@ const mockup_data = [{
   status: 'opened',
   isPublic: false,
 }, {
-  partyId: '1234-5678',
+  partyId: '1234-5578',
   name: 'weekly Rand party',
   avatar: null,
   balance: 75691.54,

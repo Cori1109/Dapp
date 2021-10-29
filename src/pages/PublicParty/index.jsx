@@ -11,7 +11,7 @@ import { useLocation, useHistory } from "react-router";
 import DepositModal from "components/Modal/DepositModal";
 import EmptyAccountModal from "components/Modal/EmptyAccountModal";
 import StatusButton from "components/Button/StatusButton";
-import { getFormatDate } from "utils/date";
+import { getFormatDate } from "utils/functions";
 
 const prizeResult = [{
   amount: 2273,

@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { pageVariants, pageTransition } from "../../../utils/pageTransitions"
 import { useParams, useHistory, useLocation } from "react-router";
 import { useDispatch, useSelector } from 'react-redux';
-import { getFormatDate } from "utils/date";
+import { getFormatDate } from "utils/functions";
 
 import { 
   Add as AddIcon, 

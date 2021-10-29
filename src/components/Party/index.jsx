@@ -2,7 +2,7 @@ import React from "react";
 import { Avatar, Grid, Typography, Stack, Box } from "@mui/material";
 import { styled } from '@mui/system';
 import { useHistory } from "react-router";
-import { getFormatDate } from "utils/date";
+import { getFormatDate } from "utils/functions";
 const PartyContainer = styled(Grid)(({ theme }) => ({
     width: '100%',
     padding: theme.spacing(2),
