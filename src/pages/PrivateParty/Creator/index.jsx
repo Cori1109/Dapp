@@ -104,7 +104,7 @@ const PrivatePartyCreator = (props) => {
       dispatch(createParty({
         ...party, 
         partyId: Math.random().toString(),
-        endDate: moment(new Date()).add(party.duration * 3600 * 24)
+        endDate: moment(new Date()).add(party.duration * 1000 * 3600 * 24)
       }))
     } else {
       dispatch(setNotificationData({
