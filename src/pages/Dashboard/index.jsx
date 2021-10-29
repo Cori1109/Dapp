@@ -1,12 +1,12 @@
 import React from "react";
 import { Box, Container, Stack, Paper, Typography, Button } from "@mui/material";
 import { styled } from '@mui/system';
-import SwipeButton from '../../components/Button/SwipeButton';
 import BalanceCard from '../../components/BalanceCard';
 import { motion } from "framer-motion";
 import { pageVariants, pageTransition } from "../../utils/pageTransitions"
 import HeaderBar from "../../components/HeaderBar";
 import PartiesList from "components/PartiesList";
+import Banner from "components/Banner";
 
 const Item = styled(Paper)`
     textAlign: 'center',
@@ -70,7 +70,7 @@ return(
         <Stack spacing={2}>
             <HeaderBar setTheme={props.setTheme}/>
             <BalanceCard />
-            <Item>Banner</Item>
+            <Banner />
             <ContentPaper>
               <ContentHeader>
                 <Typography variant="subtitle3">
@@ -81,14 +81,6 @@ return(
               <PartiesList list={mockup_data}/>
             </ContentPaper>
         </Stack>
-            <SwipeButton 
-                mainText="Swipe to join" 
-                overlayText="" 
-                onSwipeDone={() => {
-                    console.log("Done!");
-                }} 
-                reset={0}
-            />
     </Box>
   </motion.div>
   );

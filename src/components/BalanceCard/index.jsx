@@ -44,11 +44,11 @@ const BalanceCard = (props) => {
 
 return(
     <CardBox>
-        <Title>Your Balance</Title>
+        <Title variant="subtitle3">Your Balance</Title>
         <CardBody>
             <Grid container spacing={2}>
                 <Grid item xs={6}>
-                    <BalanceNumber variant="h5">$2,736.15</BalanceNumber>
+                    <BalanceNumber variant="subtitle1">$2,736.15</BalanceNumber>
                 </Grid>
                 <Grid item xs={6} sx={{textAlign:'right'}}>
                     <FundsButton text="Add Money"/>
