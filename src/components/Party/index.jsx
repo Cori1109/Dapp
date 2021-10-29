@@ -15,8 +15,16 @@ const PartyAvatar = styled(Avatar)(({ theme }) => ({
 
 const Party = ({ data, index }) => {
     const history = useHistory()
+
+    const handleGotoParty = () => {
+        if (data.isPublic)
+            history.push('/public-party')
+        else
+            history.push(`/private-party/${data.partyId}`)
+    }
+
     return (
-        <PartyContainer container spacing={2} onClick={() => history.push(`/private-party/${data.partyId}`)}>
+        <PartyContainer container spacing={2} onClick={() => handleGotoParty()}>
             <Grid item xs={6}>
                 <Stack direction="row" spacing={2}>
                     <PartyAvatar src={data.avatar} alt="A" />

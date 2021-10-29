@@ -6,12 +6,61 @@ import { pageVariants, pageTransition } from "../../utils/pageTransitions"
 import { Add as AddIcon, InfoOutlined as InfoOutlinedIcon } from '@mui/icons-material';
 import PrizeModal from "components/Modal/PrizeModal";
 import { useDispatch, useSelector } from "react-redux";
-import { setBalance, setPublicParty, setJoinedParam } from "store/actions/App";
+import { setBalance, editParty, setJoinedParam } from "store/actions/App";
 import { useLocation, useHistory } from "react-router";
 import DepositModal from "components/Modal/DepositModal";
 import EmptyAccountModal from "components/Modal/EmptyAccountModal";
 import StatusButton from "components/Button/StatusButton";
 import { getFormatDate } from "utils/date";
+
+const prizeResult = [{
+  amount: 2273,
+  count: 2
+}, {
+  amount: 537,
+  count: 26
+}, {
+  amount: 250,
+  count: 2356
+}]
+
+const participants = [{
+  name: 'Phillip',
+  avatar: null
+}, {
+  name: 'Brandon',
+  avatar: null
+}, {
+  name: 'Julia',
+  avatar: null
+}, {
+  name: 'Dianne',
+  avatar: null
+}, {
+  name: 'Phillip',
+  avatar: null
+}, {
+  name: 'Brandon',
+  avatar: null
+}, {
+  name: 'Julia',
+  avatar: null
+}, {
+  name: 'Dianne',
+  avatar: null
+}, {
+  name: 'Phillip',
+  avatar: null
+}, {
+  name: 'Brandon',
+  avatar: null
+}, {
+  name: 'Julia',
+  avatar: null
+}, {
+  name: 'Dianne',
+  avatar: null
+}]
 
 const HeaderBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -56,7 +105,7 @@ const AddButton = styled(Button)(({ theme }) => ({
 }))
 
 const PublicParty = (props) => {
-  const data = useSelector(state => state.app.publicParty)
+  const data = useSelector(state => state.app.partyList[2])
   const balance = useSelector(state => state.app.balance)
   const location = useLocation()
   const history = useHistory()
@@ -70,7 +119,7 @@ const PublicParty = (props) => {
     
     let _data = JSON.parse(JSON.stringify(data))
     _data.status = 'joined'
-    dispatch(setPublicParty(_data))
+    dispatch(editParty(_data))
     dispatch(setBalance(balance - price))
     dispatch(setJoinedParam({
       price: price,
@@ -135,11 +184,11 @@ const PublicParty = (props) => {
           </Box>
           <Box marginTop="24px" display="flex" justifyContent="space-between" alignItems="center">
             <Typography variant="subtitle4">Participants counter</Typography>
-            <Typography variant="subtitle4">{data.participants.length}</Typography>
+            <Typography variant="subtitle4">{participants.length}</Typography>
           </Box>
           <Stack direction="row" spacing={-2} marginTop="24px">
             {
-              data && data.participants && data.participants.map((item, index) => (
+              participants.map((item, index) => (
                 <Box key={`participant-${index}`}>
                   <PartyAvatar alt="A" />
                 </Box>
@@ -153,7 +202,7 @@ const PublicParty = (props) => {
       <PrizeModal
         open={prizeModalOpen}
         handleClose={() => setPrizeModalOpen(false)}
-        list={data.prizeResult}
+        list={prizeResult}
       />
       <DepositModal
         open={joinModalOpen}

@@ -69,7 +69,7 @@ const PrivatePartyList = (props) => {
             <PrimaryButton variant="text" onClick={handleCreate}>Create</PrimaryButton>
           </ContentHeader>
           <ContentImage src={parivatePartyImage} />
-          <PartiesList list={partyList}/>
+          <PartiesList list={partyList.filter((item) => {return !item.isPublic})}/>
         </ContentPaper>
       </Container>
     </motion.div>

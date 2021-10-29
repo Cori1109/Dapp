@@ -5,81 +5,35 @@ const mockup_data = [{
   partyId: '1234-5678',
   name: 'Monthly Beers',
   avatar: null,
-  balance: '450,90',
+  balance: 450.90,
   endDate: moment(new Date()).add(1000 * 60 * 60 * 24),
   status: 'opened',
+  isPublic: false,
 }, {
   partyId: '1324-1142',
   name: 'Trip to Ibiza',
   avatar: null,
-  balance: '650,90',
+  balance: 650.90,
   endDate: moment(new Date()).add(1000 * 60 * 3),
   status: 'opened',
+  isPublic: false,
+}, {
+  partyId: '1234-5678',
+  name: 'weekly Rand party',
+  avatar: null,
+  balance: 75691.54,
+  endDate: moment(new Date()).add(1000 * 60 * 3),
+  status: 'opened',
+  isPublic: true,
 }, {
   partyId: '5619-3131',
   name: 'Family Party',
   avatar: null,
-  balance: '780,90',
+  balance: 780.90,
   endDate: moment(new Date()).add(1000 * 60 * 60 * 300),
   status: 'finished',
-}];
-
-const mockup_public_data = {
-  partyId: '1234-5678',
-  name: 'weekly Rand party',
-  avatar: null,
   isPublic: false,
-  balance: '75,691.54',
-  endDate: moment(new Date()).add(1000 * 60 * 3),
-  status: 'opened',
-  participants: [{
-    name: 'Phillip',
-    avatar: null
-  }, {
-    name: 'Brandon',
-    avatar: null
-  }, {
-    name: 'Julia',
-    avatar: null
-  }, {
-    name: 'Dianne',
-    avatar: null
-  }, {
-    name: 'Phillip',
-    avatar: null
-  }, {
-    name: 'Brandon',
-    avatar: null
-  }, {
-    name: 'Julia',
-    avatar: null
-  }, {
-    name: 'Dianne',
-    avatar: null
-  }, {
-    name: 'Phillip',
-    avatar: null
-  }, {
-    name: 'Brandon',
-    avatar: null
-  }, {
-    name: 'Julia',
-    avatar: null
-  }, {
-    name: 'Dianne',
-    avatar: null
-  }],
-  prizeResult: [{
-    amount: 2273,
-    count: 2
-  }, {
-    amount: 537,
-    count: 26
-  }, {
-    amount: 250,
-    count: 2356
-  }]
-}
+}];
 
 const initialState = {
   headerTitle: '',
@@ -87,7 +41,6 @@ const initialState = {
   joinedParam: null,
   transferParam: null,
   partyList: mockup_data,
-  publicParty: mockup_public_data,
   balance: 1000,
   notificationData: null
 };
@@ -120,11 +73,18 @@ const setTransferParam = (state, {transferParam, ...rest}) => {
   };
 }
 
-const setPartyList = (state, {partyList, ...rest}) => {
+const getParty = (_party, partyId) => {
+  return _party.partyId == partyId;
+}
+
+const editParty = (state, {party, ...rest}) => {
+  let index = state.partyList.findIndex((item) => getParty(item, party.partyId))
+  let _partyList = JSON.parse(JSON.stringify(state.partyList))
+  _partyList[index] = party
   return {
     ...state,
     ...{
-      partyList: partyList,
+      partyList: _partyList
     },
   };
 }
@@ -136,15 +96,6 @@ const createParty = (state, {party, ...rest}) => {
       partyList: [...state.partyList, party],
     },
   };
-}
-
-const setPublicParty = (state, {publicParty, ...rest}) => {
-  return {
-    ...state,
-    ...{
-      publicParty: publicParty
-    }
-  }
 }
 
 const setBlackTheme = (state, {isBlack, ...rest}) => {
@@ -183,12 +134,10 @@ const reducer = (state = initialState, action) => {
       return setJoinedParam(state, action);
     case actionTypes.SET_TRANSFER_PARAM:
       return setTransferParam(state, action);
-    case actionTypes.SET_PARTY_LIST:
-      return setPartyList(state, action);
+    case actionTypes.EDIT_PARTY:
+      return editParty(state, action);
     case actionTypes.CREATE_PARTY:
       return createParty(state, action);
-    case actionTypes.SET_PUBLIC_PARTY:
-      return setPublicParty(state, action);
     case actionTypes.SET_BLACK_THEME:
       return setBlackTheme(state, action);
     case actionTypes.SET_BALANCE:

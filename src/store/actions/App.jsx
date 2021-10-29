@@ -15,21 +15,15 @@ export const setTransferParam = (payload) => ({
   transferParam: payload
 });
 
-export const setPartyList = (payload) => ({
-  type: actionTypes.SET_PARTY_LIST,
-  partyList: payload
+export const editParty = (payload) => ({
+  type: actionTypes.EDIT_PARTY,
+  party: payload
 });
 
 export const createParty = (payload) => ({
   type: actionTypes.CREATE_PARTY,
   party: payload
 });
-
-export const setPublicParty = (payload) => ({
-  type: actionTypes.SET_PUBLIC_PARTY,
-  publicParty: payload
-});
-
 
 export const setBlackTheme = (payload) => ({
   type: actionTypes.SET_BLACK_THEME,

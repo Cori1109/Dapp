@@ -14,7 +14,7 @@ import {
 import StatusButton from "../../../components/Button/StatusButton";
 import DepositModal from "../../../components/Modal/DepositModal";
 import EmptyAccountModal from "components/Modal/EmptyAccountModal";
-import { setHeaderTitle, setPartyList, setBalance, setJoinedParam } from "store/actions/App";
+import { setHeaderTitle, editParty, setBalance, setJoinedParam } from "store/actions/App";
 
 const Content = styled(Box)(({ theme }) => ({
   padding: `${theme.spacing(3)} ${theme.spacing(3)}`
@@ -86,7 +86,7 @@ const PrivateParty = (props) => {
   const partyList = useSelector(state => state.app.partyList)
   const balance = useSelector(state => state.app.balance)
 
-  const [index, setIndex] = useState(-1)
+  const [party, setParty] = useState(null)
   const [participants, setParticipants] = useState(mockup_participants)
   const [joinModalOpen, setJoinModalOpen] = useState(false)
   const [emptyAccountModalOpen, setEmptyAccountModalOpen] = useState(false)
@@ -96,14 +96,14 @@ const PrivateParty = (props) => {
   }
 
   useEffect(() => {
-    setIndex(partyList.findIndex(getParty))
+    setParty(partyList.find(getParty))
   }, [partyId])
 
   useEffect(() => {
-    if (index !== -1) {
-      dispatch(setHeaderTitle(partyList[index].name))
+    if (party) {
+      dispatch(setHeaderTitle(party.name))
     }
-  }, [index])
+  }, [party])
 
   const handleClickPartyStatus = (item) => {
     if (item && item.status == "opened") {
@@ -117,13 +117,13 @@ const PrivateParty = (props) => {
   const handleJoinParty = (price) => {
     setJoinModalOpen(false)
     
-    let _partyList = JSON.parse(JSON.stringify(partyList))
-    _partyList[index].status = 'joined'
-    dispatch(setPartyList(_partyList))
+    let _party = JSON.parse(JSON.stringify(party))
+    _party.status = 'joined'
+    dispatch(editParty(_party))
     dispatch(setBalance(balance - price))
     dispatch(setJoinedParam({
       price: price,
-      party_name: partyList[index].name,
+      party_name: party.name,
       back_url: location.pathname
     }))
     history.push('/joined-success')
@@ -152,7 +152,7 @@ const PrivateParty = (props) => {
           </Box>
           <BalanceInfo>
             <Typography variant="h1" paddingRight="8px">
-              ${index !== -1 ? partyList[index].balance : 0}
+              ${party ? party.balance : 0}
             </Typography>
             <Typography variant="subtitle5">
               +3.1% from last month
@@ -162,7 +162,7 @@ const PrivateParty = (props) => {
             <Grid container spacing={2} >
               <Grid item xs={8}>
               <Typography variant="subtitle2">Party closes in</Typography>
-                <Typography variant="subtitle1">{index !== -1 ? getFormatDate(partyList[index].endDate) : ''}</Typography>
+                <Typography variant="subtitle1">{party ? getFormatDate(party.endDate) : ''}</Typography>
               </Grid>
               <Grid item xs={4}>
               </Grid>
@@ -185,7 +185,7 @@ const PrivateParty = (props) => {
               ))
             }
           </Stack>
-          <StatusButton status={index !== -1 ? partyList[index].status : 'opened'} handleClick={() => handleClickPartyStatus(partyList[index])}/>
+          <StatusButton status={party ? party.status : 'opened'} handleClick={() => handleClickPartyStatus(party)}/>
           <AddButton variant="contained" endIcon={<AddIcon />}>Add participants</AddButton>
           <TextButton variant="text" onClick={() => {history.goBack()}}>Leave Party</TextButton>
         </Content>
