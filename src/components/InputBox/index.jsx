@@ -9,7 +9,7 @@ const WrapInput = styled(Input)(({ theme }) => ({
     width: '100%'
 }));
 
-const InputBox = ({id, startIcon, placeholder, value, type, onChange, validated}) => {
+const InputBox = ({id, startIcon, endText, placeholder, value, type, onChange, validated}) => {
 
     return (
         <WrapInput
@@ -21,6 +21,14 @@ const InputBox = ({id, startIcon, placeholder, value, type, onChange, validated}
                 <InputAdornment position="start">
                     {startIcon}
                 </InputAdornment>
+            }
+            endAdornment={
+                endText ?
+                <InputAdornment position="end">
+                    {endText}
+                </InputAdornment>
+                :
+                null
             }
             value={value}
             onChange={(e) => onChange(e.target.id, e.target.value)}

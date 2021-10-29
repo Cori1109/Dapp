@@ -78,7 +78,7 @@ const handleIncreaseBalance = () => {
 }
 
 const handleChangeBalance = (value) => {
-    let _value = Number(value)
+    let _value = parseInt(value)
     
     if (value.length == 0 || value < 0) {
         dispatch(setNotificationData({

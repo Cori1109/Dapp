@@ -12,6 +12,7 @@ import DepositModal from "components/Modal/DepositModal";
 import EmptyAccountModal from "components/Modal/EmptyAccountModal";
 import StatusButton from "components/Button/StatusButton";
 import { getFormatDate } from "utils/functions";
+import PartyInfo from "components/PartyInfo";
 
 const prizeResult = [{
   amount: 2273,
@@ -164,24 +165,7 @@ const PublicParty = (props) => {
             </Typography>
             <WrapInfoOutlinedIcon onClick={() => { setPrizeModalOpen(true) }} />
           </Box>
-          <BalanceInfo>
-            <Typography variant="h1" paddingRight="8px">
-              ${data ? data.balance : 0}
-            </Typography>
-            <Typography variant="subtitle5">
-              +3.1% from last month
-            </Typography>
-          </BalanceInfo>
-          <Box marginTop="32px" padding="24px" borderRadius="16px" backgroundColor="#F0EEFE">
-            <Grid container spacing={2} >
-              <Grid item xs={8}>
-                <Typography variant="subtitle2">Party closes in</Typography>
-                <Typography variant="subtitle1">{data ? getFormatDate(data.endDate) : ''}</Typography>
-              </Grid>
-              <Grid item xs={4}>
-              </Grid>
-            </Grid>
-          </Box>
+          <PartyInfo party={data} />
           <Box marginTop="24px" display="flex" justifyContent="space-between" alignItems="center">
             <Typography variant="subtitle4">Participants counter</Typography>
             <Typography variant="subtitle4">{participants.length}</Typography>

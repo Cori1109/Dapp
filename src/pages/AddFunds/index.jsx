@@ -84,7 +84,7 @@ const AddFunds = (props) => {
           result = await balanceOfUsdc(web3, selectedCryptoInfo.address, account)
         }
         if (result && result.status)
-          setMaxBalance(result.balance)
+          setMaxBalance(parseInt(result.balance))
         else {
           setMaxBalance(0)
         }

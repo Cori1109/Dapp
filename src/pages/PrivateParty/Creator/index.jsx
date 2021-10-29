@@ -137,7 +137,7 @@ const PrivatePartyCreator = (props) => {
             <InputBox id='name' type={'text'} startIcon={<PartyIcon/>} value={party.name} placeholder='Title of your party' onChange={onInputChange} validated={validated.name}/>
             <InputBox id='participantCount' type={'number'} startIcon={<CountIcon/>} value={party.participantCount} placeholder='Number of participants' onChange={onInputChange} validated={validated.participantCount}/>
             <InputBox id='maxDepositAmount' type={'number'} startIcon={<DepositIcon/>} value={party.maxDepositAmount} placeholder='Max deposit per participant' onChange={onInputChange} validated={validated.maxDepositAmount}/>
-            <InputBox id='duration' type={'number'} startIcon={<TimerIcon/>} value={party.duration} placeholder='Duration' onChange={onInputChange} validated={validated.duration}/>
+            <InputBox id='duration' type={'number'} startIcon={<TimerIcon/>} endText='days' value={party.duration} placeholder='Duration' onChange={onInputChange} validated={validated.duration}/>
           </Stack>
           <AddButton variant="contained" onClick={handleCreate}>Create</AddButton>
         </Content>
