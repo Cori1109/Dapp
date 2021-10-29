@@ -2,7 +2,7 @@ import React from "react";
 import { Avatar, Grid, Typography, Stack, Box } from "@mui/material";
 import { styled } from '@mui/system';
 import { useHistory } from "react-router";
-
+import { getFormatDate } from "utils/date";
 const PartyContainer = styled(Grid)(({ theme }) => ({
     width: '100%',
     padding: theme.spacing(2),
@@ -42,7 +42,7 @@ const Party = ({ data, index }) => {
                 </Box>
                 <Box>
                     <Typography variant="subtitle5">
-                        {data.leftHours} Left
+                        {getFormatDate(data.endDate)} Left
                     </Typography>
                 </Box>
             </Grid>

@@ -11,6 +11,7 @@ import { useLocation, useHistory } from "react-router";
 import DepositModal from "components/Modal/DepositModal";
 import EmptyAccountModal from "components/Modal/EmptyAccountModal";
 import StatusButton from "components/Button/StatusButton";
+import { getFormatDate } from "utils/date";
 
 const HeaderBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -126,7 +127,7 @@ const PublicParty = (props) => {
             <Grid container spacing={2} >
               <Grid item xs={8}>
                 <Typography variant="subtitle2">Party closes in</Typography>
-                <Typography variant="subtitle1">{data ? data.leftHours : ''}</Typography>
+                <Typography variant="subtitle1">{data ? getFormatDate(data.endDate) : ''}</Typography>
               </Grid>
               <Grid item xs={4}>
               </Grid>

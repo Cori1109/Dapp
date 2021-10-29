@@ -6,6 +6,7 @@ import { pageVariants, pageTransition } from "../../../utils/pageTransitions"
 import parivatePartyImage from '../../../assets/landing/private-party.png'
 import PartiesList from '../../../components/PartiesList'
 import { useSelector} from 'react-redux'
+import { useHistory } from "react-router";
 
 const HeaderBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -39,7 +40,12 @@ const ContentImage = styled(`img`)(({ theme }) => ({
 
 const PrivatePartyList = (props) => {
 
+  const history = useHistory();
   const partyList = useSelector(state => state.app.partyList)
+
+  const handleCreate = () => {
+    history.push('/private-party/create')
+  }
 
   return (
     <motion.div
@@ -60,7 +66,7 @@ const PrivatePartyList = (props) => {
             <Typography variant="subtitle3">
               Your private parites
             </Typography>
-            <PrimaryButton variant="text">Create</PrimaryButton>
+            <PrimaryButton variant="text" onClick={handleCreate}>Create</PrimaryButton>
           </ContentHeader>
           <ContentImage src={parivatePartyImage} />
           <PartiesList list={partyList}/>

@@ -20,6 +20,11 @@ export const setPartyList = (payload) => ({
   partyList: payload
 });
 
+export const createParty = (payload) => ({
+  type: actionTypes.CREATE_PARTY,
+  party: payload
+});
+
 export const setPublicParty = (payload) => ({
   type: actionTypes.SET_PUBLIC_PARTY,
   publicParty: payload

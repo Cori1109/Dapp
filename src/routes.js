@@ -7,6 +7,7 @@ import DefaultLayout from './layouts/DefaultLayout';
 import Dashboard from './pages/Dashboard';
 import PrivatePartyList from './pages/PrivateParty/List';
 import PrivatePartyDetail from './pages/PrivateParty/Details';
+import PrivatePartyCreator from './pages/PrivateParty/Creator';
 import PublicParty from './pages/PublicParty';
 import JoinedSuccess from './pages/JoinedSuccess';
 import TransferSuccess from './pages/TransferSuccess';
@@ -20,6 +21,11 @@ const renderRoutes = (props) => (
         <MainLayout>
           <PrivatePartyList />
         </MainLayout>
+      </Route>
+      <Route path="/private-party/create">
+        <DetailLayout>
+          <PrivatePartyCreator />
+        </DetailLayout>
       </Route>
       <Route path="/private-party/:partyId">
         <DetailLayout>

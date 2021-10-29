@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { pageVariants, pageTransition } from "../../../utils/pageTransitions"
 import { useParams, useHistory, useLocation } from "react-router";
 import { useDispatch, useSelector } from 'react-redux';
+import { getFormatDate } from "utils/date";
 
 import { 
   Add as AddIcon, 
@@ -161,7 +162,7 @@ const PrivateParty = (props) => {
             <Grid container spacing={2} >
               <Grid item xs={8}>
               <Typography variant="subtitle2">Party closes in</Typography>
-                <Typography variant="subtitle1">{index !== -1 ? partyList[index].leftHours : ''}</Typography>
+                <Typography variant="subtitle1">{index !== -1 ? getFormatDate(partyList[index].endDate) : ''}</Typography>
               </Grid>
               <Grid item xs={4}>
               </Grid>

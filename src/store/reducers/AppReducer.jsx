@@ -1,3 +1,4 @@
+import moment from "moment";
 import * as actionTypes from "../actions/ActionTypes";
 
 const mockup_data = [{
@@ -5,21 +6,21 @@ const mockup_data = [{
   name: 'Monthly Beers',
   avatar: null,
   balance: '450,90',
-  leftHours: '12 Hours 30 Min',
+  endDate: moment(new Date()).add(1000 * 60 * 60 * 24),
   status: 'opened',
 }, {
   partyId: '1324-1142',
   name: 'Trip to Ibiza',
   avatar: null,
   balance: '650,90',
-  leftHours: '12 Hours 30 Min',
+  endDate: moment(new Date()).add(1000 * 60 * 3),
   status: 'opened',
 }, {
   partyId: '5619-3131',
   name: 'Family Party',
   avatar: null,
   balance: '780,90',
-  leftHours: '12 Hours 30 Min',
+  endDate: moment(new Date()).add(1000 * 60 * 60 * 300),
   status: 'finished',
 }];
 
@@ -29,7 +30,7 @@ const mockup_public_data = {
   avatar: null,
   isPublic: false,
   balance: '75,691.54',
-  leftHours: '12 Hrs 30 Min',
+  endDate: moment(new Date()).add(1000 * 60 * 3),
   status: 'opened',
   participants: [{
     name: 'Phillip',
@@ -128,6 +129,15 @@ const setPartyList = (state, {partyList, ...rest}) => {
   };
 }
 
+const createParty = (state, {party, ...rest}) => {
+  return {
+    ...state,
+    ...{
+      partyList: [...state.partyList, party],
+    },
+  };
+}
+
 const setPublicParty = (state, {publicParty, ...rest}) => {
   return {
     ...state,
@@ -175,6 +185,8 @@ const reducer = (state = initialState, action) => {
       return setTransferParam(state, action);
     case actionTypes.SET_PARTY_LIST:
       return setPartyList(state, action);
+    case actionTypes.CREATE_PARTY:
+      return createParty(state, action);
     case actionTypes.SET_PUBLIC_PARTY:
       return setPublicParty(state, action);
     case actionTypes.SET_BLACK_THEME:
