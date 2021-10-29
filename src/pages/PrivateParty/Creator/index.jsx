@@ -101,11 +101,16 @@ const PrivatePartyCreator = (props) => {
         variant: 'success',
         open: true
       }))
+      let partyId = `${parseInt(Math.random() * 10000).toString()}-${parseInt(Math.random() * 10000).toString()}`
       dispatch(createParty({
         ...party, 
-        partyId: Math.random().toString(),
+        partyId: partyId,
         endDate: moment(new Date()).add(party.duration * 1000 * 3600 * 24)
       }))
+      history.push({
+        pathname: `/private-party/${partyId}`,
+        search: '?join'
+      })
     } else {
       dispatch(setNotificationData({
         message: `Please input all fields`,

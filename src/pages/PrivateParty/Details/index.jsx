@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { pageVariants, pageTransition } from "../../../utils/pageTransitions"
 import { useParams, useHistory, useLocation } from "react-router";
 import { useDispatch, useSelector } from 'react-redux';
-import { getFormatDate } from "utils/functions";
 
 import { 
   Add as AddIcon, 
@@ -15,15 +14,11 @@ import StatusButton from "../../../components/Button/StatusButton";
 import DepositModal from "../../../components/Modal/DepositModal";
 import EmptyAccountModal from "components/Modal/EmptyAccountModal";
 import { setHeaderTitle, editParty, setBalance, setJoinedParam } from "store/actions/App";
+import PartyInfo from "components/PartyInfo";
 
 const Content = styled(Box)(({ theme }) => ({
   padding: `${theme.spacing(3)} ${theme.spacing(3)}`
 }));
-
-const BalanceInfo = styled(Box)(({ theme}) => ({
-  display: 'flex',
-  alignItems: 'center'
-}))
 
 const PartyAvatar = styled(Avatar)(({ theme }) => ({
   backgroundColor: theme.palette.button.primary.background,
@@ -79,16 +74,19 @@ const mockup_participants = [{
 
 const PrivateParty = (props) => {
   const { partyId } = useParams()
+
   const history = useHistory()
   const location = useLocation()
   const dispatch = useDispatch()
+
+  const isJoin = location.search ? true : false
 
   const partyList = useSelector(state => state.app.partyList)
   const balance = useSelector(state => state.app.balance)
 
   const [party, setParty] = useState(null)
   const [participants, setParticipants] = useState(mockup_participants)
-  const [joinModalOpen, setJoinModalOpen] = useState(false)
+  const [joinModalOpen, setJoinModalOpen] = useState(isJoin)
   const [emptyAccountModalOpen, setEmptyAccountModalOpen] = useState(false)
 
   const getParty = (_party) => {
@@ -150,24 +148,7 @@ const PrivateParty = (props) => {
             </Typography>
             <WrapInfoOutlinedIcon/>
           </Box>
-          <BalanceInfo>
-            <Typography variant="h1" paddingRight="8px">
-              ${party ? party.balance : 0}
-            </Typography>
-            <Typography variant="subtitle5">
-              +3.1% from last month
-            </Typography>
-          </BalanceInfo>
-          <Box marginTop="32px" padding="24px" borderRadius="16px" backgroundColor="#F0EEFE">
-            <Grid container spacing={2} >
-              <Grid item xs={8}>
-              <Typography variant="subtitle2">Party closes in</Typography>
-                <Typography variant="subtitle1">{party ? getFormatDate(party.endDate) : ''}</Typography>
-              </Grid>
-              <Grid item xs={4}>
-              </Grid>
-            </Grid>
-          </Box>
+          <PartyInfo party={party} />
           <Box marginTop="24px">
             <Typography variant="subtitle3">Participants</Typography>
           </Box>
