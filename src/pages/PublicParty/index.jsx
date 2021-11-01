@@ -13,6 +13,7 @@ import EmptyAccountModal from "components/Modal/EmptyAccountModal";
 import StatusButton from "components/Button/StatusButton";
 import { getFormatDate } from "utils/functions";
 import PartyInfo from "components/PartyInfo";
+import ShareFriendsModal from "components/Modal/ShareFriendsModal";
 
 const prizeResult = [{
   amount: 2273,
@@ -112,6 +113,7 @@ const PublicParty = (props) => {
   const history = useHistory()
   const [prizeModalOpen, setPrizeModalOpen] = useState(false)
   const [joinModalOpen, setJoinModalOpen] = useState(false)
+  const [shareModalOpen, setShareModalOpen] = useState(false)
   const [emptyAccountModalOpen, setEmptyAccountModalOpen] = useState(false)
   const dispatch = useDispatch()
 
@@ -142,6 +144,10 @@ const PublicParty = (props) => {
       else
         setEmptyAccountModalOpen(true)
     }
+  }
+
+  const handleOpenShareModal = () => {
+    setShareModalOpen(true);
   }
 
   return (
@@ -180,7 +186,7 @@ const PublicParty = (props) => {
             }
           </Stack>
           <StatusButton status={data ? data.status : 'opened'} handleClick={() => handleClickPartyStatus(data)}/>
-          <AddButton variant="contained" endIcon={<AddIcon />}>Share</AddButton>
+          <AddButton variant="contained" endIcon={<AddIcon />} onClick = {() => handleOpenShareModal()}>Share</AddButton>
         </ContentPaper>
       </Container>
       <PrizeModal
@@ -198,6 +204,11 @@ const PublicParty = (props) => {
         open={emptyAccountModalOpen}
         handleClose={() => setEmptyAccountModalOpen(false)}
         handleSuccess={() => handleAddMoney()}
+      />
+
+      <ShareFriendsModal
+        open={shareModalOpen}
+        handleClose={() => setShareModalOpen(false)}
       />
     </motion.div>
   );
