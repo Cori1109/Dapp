@@ -16,6 +16,11 @@ import EmptyAccountModal from "components/Modal/EmptyAccountModal";
 import { setHeaderTitle, editParty, setBalance, setJoinedParam } from "store/actions/App";
 import PartyInfo from "components/PartyInfo";
 import LeavePartyModal from "components/Modal/LeavePartyModal";
+import UserAvatarImage1 from "../../../assets/avatar/me.png";
+import UserAvatarImage2 from "../../../assets/avatar/Brandon.png";
+import UserAvatarImage3 from "../../../assets/avatar/Julia.png";
+import UserAvatarImage4 from "../../../assets/avatar/Phillip.png";
+import UserAvatarImage5 from "../../../assets/avatar/Dianne.png";
 
 const Content = styled(Box)(({ theme }) => ({
   padding: `${theme.spacing(3)} ${theme.spacing(3)}`
@@ -60,16 +65,16 @@ const WrapInfoOutlinedIcon = styled(InfoOutlinedIcon)(({ theme }) => ({
 
 const mockup_participants = [{
   name: 'Phillip',
-  avatar: null
+  avatar: UserAvatarImage4
 }, {
   name: 'Brandon',
-  avatar: null
+  avatar: UserAvatarImage2
 }, {
   name: 'Julia',
-  avatar: null
+  avatar: UserAvatarImage3
 }, {
   name: 'Dianne',
-  avatar: null
+  avatar: UserAvatarImage5
 }]
 
 
@@ -171,13 +176,13 @@ const PrivateParty = (props) => {
           </Box>
           <Stack direction="row" spacing={2} justifyContent="space-between" marginTop="24px">
             <Box>
-              <PartyAvatar alt="A" />
+              <PartyAvatar alt="A" src={UserAvatarImage1}/>
               <Typography textAlign="center">Me</Typography>
             </Box>
             {
               participants.map((item, index) => (
                 <Box key={`participants-${index}`}>
-                  <PartyAvatar alt="A" />
+                  <PartyAvatar alt="A" src={item.avatar}/>
                   <Typography textAlign="center">{item.name}</Typography>
                 </Box>
               ))

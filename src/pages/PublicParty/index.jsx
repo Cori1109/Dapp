@@ -15,6 +15,11 @@ import { getFormatDate } from "utils/functions";
 import PartyInfo from "components/PartyInfo";
 import ShareFriendsModal from "components/Modal/ShareFriendsModal";
 import LeavePartyModal from "components/Modal/LeavePartyModal";
+import UserAvatarImage1 from "../../assets/avatar/me.png";
+import UserAvatarImage2 from "../../assets/avatar/Brandon.png";
+import UserAvatarImage3 from "../../assets/avatar/Julia.png";
+import UserAvatarImage4 from "../../assets/avatar/Phillip.png";
+import UserAvatarImage5 from "../../assets/avatar/Dianne.png";
 
 const prizeResult = [{
   amount: 2273,
@@ -29,40 +34,40 @@ const prizeResult = [{
 
 const participants = [{
   name: 'Phillip',
-  avatar: null
+  avatar: UserAvatarImage4
 }, {
   name: 'Brandon',
-  avatar: null
+  avatar: UserAvatarImage2
 }, {
   name: 'Julia',
-  avatar: null
+  avatar: UserAvatarImage3
 }, {
   name: 'Dianne',
-  avatar: null
-}, {
+  avatar: UserAvatarImage5
+},{
   name: 'Phillip',
-  avatar: null
+  avatar: UserAvatarImage4
 }, {
   name: 'Brandon',
-  avatar: null
+  avatar: UserAvatarImage2
 }, {
   name: 'Julia',
-  avatar: null
+  avatar: UserAvatarImage3
 }, {
   name: 'Dianne',
-  avatar: null
-}, {
+  avatar: UserAvatarImage5
+},{
   name: 'Phillip',
-  avatar: null
+  avatar: UserAvatarImage4
 }, {
   name: 'Brandon',
-  avatar: null
+  avatar: UserAvatarImage2
 }, {
   name: 'Julia',
-  avatar: null
+  avatar: UserAvatarImage3
 }, {
   name: 'Dianne',
-  avatar: null
+  avatar: UserAvatarImage5
 }]
 
 const HeaderBox = styled(Box)(({ theme }) => ({
@@ -207,7 +212,7 @@ const PublicParty = (props) => {
             {
               participants.map((item, index) => (
                 <Box key={`participant-${index}`}>
-                  <PartyAvatar alt="A" />
+                  <PartyAvatar alt="A" src={item.avatar}/>
                 </Box>
               ))
             }
