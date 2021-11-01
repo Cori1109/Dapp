@@ -35,6 +35,10 @@ export default {
       background: pupple,
       foreground: white,
     },
+    third: {
+      background: "#F5F7FE",
+      foreground: blue,
+    },
     text: {
       foreground: blue,
       secondary: pink
