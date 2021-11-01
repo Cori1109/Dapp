@@ -14,6 +14,7 @@ import StatusButton from "components/Button/StatusButton";
 import { getFormatDate } from "utils/functions";
 import PartyInfo from "components/PartyInfo";
 import ShareFriendsModal from "components/Modal/ShareFriendsModal";
+import LeavePartyModal from "components/Modal/LeavePartyModal";
 
 const prizeResult = [{
   amount: 2273,
@@ -106,6 +107,18 @@ const AddButton = styled(Button)(({ theme }) => ({
   justifyContent: 'space-between'
 }))
 
+const TextButton = styled(Button)(({ theme }) => ({
+  color: theme.palette.button.text.secondary,
+  fontWeight: 500,
+  fontSize: '16px',
+  fontFamily: 'Manrope',
+  width: '100%',
+  textTransform: 'none',
+  borderRadius: '12px',
+  marginTop: '24px',
+  fontWeight: 'bold'
+}))
+
 const PublicParty = (props) => {
   const data = useSelector(state => state.app.partyList[2])
   const balance = useSelector(state => state.app.balance)
@@ -114,6 +127,7 @@ const PublicParty = (props) => {
   const [prizeModalOpen, setPrizeModalOpen] = useState(false)
   const [joinModalOpen, setJoinModalOpen] = useState(false)
   const [shareModalOpen, setShareModalOpen] = useState(false)
+  const [leaveModalOpen, setLeaveModalOpen] = useState(false)
   const [emptyAccountModalOpen, setEmptyAccountModalOpen] = useState(false)
   const dispatch = useDispatch()
 
@@ -137,6 +151,15 @@ const PublicParty = (props) => {
     history.push('/add-funds')
   }
 
+  const handleLeaveParty = () => {
+    setLeaveModalOpen(false)
+    
+    let _data = JSON.parse(JSON.stringify(data))
+    _data.status = 'opened'
+    dispatch(editParty(_data))
+    // history.goBack()
+  }
+
   const handleClickPartyStatus = (item) => {
     if (item && item.status == "opened") {
       if (balance !== 0)
@@ -148,6 +171,10 @@ const PublicParty = (props) => {
 
   const handleOpenShareModal = () => {
     setShareModalOpen(true);
+  }
+
+  const handleOpenLeaveModal = () => {
+    setLeaveModalOpen(true);
   }
 
   return (
@@ -188,6 +215,8 @@ const PublicParty = (props) => {
           <StatusButton status={data ? data.status : 'opened'} handleClick={() => handleClickPartyStatus(data)}/>
           <AddButton variant="contained" endIcon={<AddIcon />} onClick = {() => handleOpenShareModal()}>Share</AddButton>
         </ContentPaper>
+        {data.status == 'joined' && (<TextButton variant="text" onClick={() => handleOpenLeaveModal()}>Leave Party</TextButton>)}
+        
       </Container>
       <PrizeModal
         open={prizeModalOpen}
@@ -209,6 +238,12 @@ const PublicParty = (props) => {
       <ShareFriendsModal
         open={shareModalOpen}
         handleClose={() => setShareModalOpen(false)}
+      />
+
+      <LeavePartyModal
+        open={leaveModalOpen}
+        handleClose={() => setLeaveModalOpen(false)}
+        handleSuccess={() => handleLeaveParty()}
       />
     </motion.div>
   );

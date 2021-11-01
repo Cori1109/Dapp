@@ -15,6 +15,7 @@ import DepositModal from "../../../components/Modal/DepositModal";
 import EmptyAccountModal from "components/Modal/EmptyAccountModal";
 import { setHeaderTitle, editParty, setBalance, setJoinedParam } from "store/actions/App";
 import PartyInfo from "components/PartyInfo";
+import LeavePartyModal from "components/Modal/LeavePartyModal";
 
 const Content = styled(Box)(({ theme }) => ({
   padding: `${theme.spacing(3)} ${theme.spacing(3)}`
@@ -88,6 +89,8 @@ const PrivateParty = (props) => {
   const [participants, setParticipants] = useState(mockup_participants)
   const [joinModalOpen, setJoinModalOpen] = useState(isJoin)
   const [emptyAccountModalOpen, setEmptyAccountModalOpen] = useState(false)
+  const [leaveModalOpen, setLeaveModalOpen] = useState(false)
+
 
   const getParty = (_party) => {
     return _party.partyId == partyId;
@@ -127,9 +130,23 @@ const PrivateParty = (props) => {
     history.push('/joined-success')
   }
 
+  const handleLeaveParty = () => {
+    setLeaveModalOpen(false)
+    
+    let _data = JSON.parse(JSON.stringify(party))
+    _data.status = 'opened'
+    dispatch(editParty(_data))
+    setParty(_data)
+    // history.goBack()
+  }
+
   const handleAddMoney = () => {
     setEmptyAccountModalOpen(false)
     history.push('/add-funds')
+  }
+
+  const handleOpenLeaveModal = () => {
+    setLeaveModalOpen(true);
   }
 
   return (
@@ -168,7 +185,8 @@ const PrivateParty = (props) => {
           </Stack>
           <StatusButton status={party ? party.status : 'opened'} handleClick={() => handleClickPartyStatus(party)}/>
           <AddButton variant="contained" endIcon={<AddIcon />}>Add participants</AddButton>
-          <TextButton variant="text" onClick={() => {history.goBack()}}>Leave Party</TextButton>
+          {party && party.status == 'joined' && (<TextButton variant="text" onClick={() => handleOpenLeaveModal()}>Leave Party</TextButton>)}
+
         </Content>
       </Container>
       <DepositModal 
@@ -181,6 +199,11 @@ const PrivateParty = (props) => {
         open={emptyAccountModalOpen}
         handleClose={() => setEmptyAccountModalOpen(false)}
         handleSuccess={() => handleAddMoney()}
+      />
+      <LeavePartyModal
+        open={leaveModalOpen}
+        handleClose={() => setLeaveModalOpen(false)}
+        handleSuccess={() => handleLeaveParty()}
       />
     </motion.div>
   );
