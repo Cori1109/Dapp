@@ -193,7 +193,7 @@ const PublicParty = (props) => {
       <Container maxWidth="sm">
         <HeaderBox>
           <Typography variant="subtitle1">
-            Public Parites
+            Public Parties
           </Typography>
         </HeaderBox>
         <ContentPaper>

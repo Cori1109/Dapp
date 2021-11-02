@@ -50,11 +50,11 @@ const Dashboard = (props) => {
             <ContentPaper>
               <ContentHeader>
                 <Typography variant="subtitle3">
-                  Your parites
+                  Your parties
                 </Typography>
                 <PrimaryButton variant="text">See all</PrimaryButton>
               </ContentHeader>
-              <PartiesList list={mockup_data}/>
+              <PartiesList list={partyList}/>
             </ContentPaper>
         </Stack>
     </Box>
