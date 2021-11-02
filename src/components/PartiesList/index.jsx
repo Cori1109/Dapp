@@ -4,15 +4,15 @@ import Party from "../Party";
 
 const PartiesList = ({list}) => {
 
-    return(
-        <Box>
-            {
-                list.map((item, index) => (
-                    <Party data={item} index={index} key={`party-${index}`}/>
-                ))
-            }
-        </Box>
-    );
+  return(
+    <Box>
+      {
+        list.map((item, index) => (
+          <Party data={item} index={index} key={`party-${index}`}/>
+          ))
+      }
+    </Box>
+  );
 }
  
 export default PartiesList;

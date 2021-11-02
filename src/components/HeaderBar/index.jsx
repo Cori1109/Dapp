@@ -58,9 +58,10 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 }));
 
 const BoxContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center'
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingTop: theme.spacing(5)
 }));
 
 const BoxAvatar = styled(Box)(({ theme }) => ({
