@@ -1,6 +1,7 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions, Typography, Box, Divider, Button } from '@mui/material'
 import { Close as CloseIcon } from '@mui/icons-material';
 import { styled } from '@mui/system';
+import { Fragment } from 'react';
 
 const PrizeDialog = styled(Dialog)(({theme}) => ({
   '& .MuiPaper-root': {
@@ -56,7 +57,7 @@ const PrizeModal = ({
         <Box marginTop="20px">
           {
             list.map((item, index) => (
-              <>
+              <Fragment key={`prize-item-${index}`}>
               <Box display="flex" justifyContent="space-between" padding="16px 48px">
                 <Typography variant="subtitle2">
                   Tier {index + 1}: ${item.amount} 
@@ -66,7 +67,7 @@ const PrizeModal = ({
                 </Typography>
               </Box>
               <Divider variant="middle" />
-              </>
+              </Fragment>
             ))
           }
         </Box>

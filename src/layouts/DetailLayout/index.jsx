@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Container, Typography } from "@mui/material";
 import { styled } from '@mui/system';
-import { useAppContext } from '../../providers/use-app-context';
+import { useSelector } from 'react-redux';
 import { ArrowBack as BackIcon } from '@mui/icons-material';
 import { useHistory } from "react-router";
 
@@ -34,7 +34,7 @@ const ContentBox = styled(Box)(({ theme }) => ({
 }));
 
 const DetailLayout = ({ children }) => {
-  const { headerTitle } = useAppContext();
+  const headerTitle = useSelector(state => state.app.headerTitle);
   const history = useHistory();
 
   return (

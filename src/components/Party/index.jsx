@@ -2,7 +2,7 @@ import React from "react";
 import { Avatar, Grid, Typography, Stack, Box } from "@mui/material";
 import { styled } from '@mui/system';
 import { useHistory } from "react-router";
-
+import { getFormatDate } from "utils/functions";
 const PartyContainer = styled(Grid)(({ theme }) => ({
     width: '100%',
     padding: theme.spacing(2),
@@ -15,8 +15,16 @@ const PartyAvatar = styled(Avatar)(({ theme }) => ({
 
 const Party = ({ data, index }) => {
     const history = useHistory()
+
+    const handleGotoParty = () => {
+        if (data.isPublic)
+            history.push('/public-party')
+        else
+            history.push(`/private-party/${data.partyId}`)
+    }
+
     return (
-        <PartyContainer container spacing={2} onClick={() => history.push(`/private-party/${data.partyId}`)}>
+        <PartyContainer container spacing={2} onClick={() => handleGotoParty()}>
             <Grid item xs={6}>
                 <Stack direction="row" spacing={2}>
                     <PartyAvatar src={data.avatar} alt="A" />
@@ -42,7 +50,7 @@ const Party = ({ data, index }) => {
                 </Box>
                 <Box>
                     <Typography variant="subtitle5">
-                        {data.leftHours} Left
+                        {getFormatDate(data.endDate)} Left
                     </Typography>
                 </Box>
             </Grid>

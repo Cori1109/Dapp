@@ -3,8 +3,9 @@ import { Box, Container, Stack, Typography, Button, Grid, Avatar } from "@mui/ma
 import { styled } from '@mui/system';
 import { motion } from "framer-motion";
 import { pageVariants, pageTransition } from "../../../utils/pageTransitions"
-import { useParams, useHistory } from "react-router";
-import { useAppContext } from "providers/use-app-context";
+import { useParams, useHistory, useLocation } from "react-router";
+import { useDispatch, useSelector } from 'react-redux';
+
 import { 
   Add as AddIcon, 
   InfoOutlined as InfoOutlinedIcon, 
@@ -12,15 +13,18 @@ import {
 import StatusButton from "../../../components/Button/StatusButton";
 import DepositModal from "../../../components/Modal/DepositModal";
 import EmptyAccountModal from "components/Modal/EmptyAccountModal";
+import { setHeaderTitle, editParty, setBalance, setJoinedParam } from "store/actions/App";
+import PartyInfo from "components/PartyInfo";
+import LeavePartyModal from "components/Modal/LeavePartyModal";
+import UserAvatarImage1 from "../../../assets/avatar/me.png";
+import UserAvatarImage2 from "../../../assets/avatar/Brandon.png";
+import UserAvatarImage3 from "../../../assets/avatar/Julia.png";
+import UserAvatarImage4 from "../../../assets/avatar/Phillip.png";
+import UserAvatarImage5 from "../../../assets/avatar/Dianne.png";
 
 const Content = styled(Box)(({ theme }) => ({
   padding: `${theme.spacing(3)} ${theme.spacing(3)}`
 }));
-
-const BalanceInfo = styled(Box)(({ theme}) => ({
-  display: 'flex',
-  alignItems: 'center'
-}))
 
 const PartyAvatar = styled(Avatar)(({ theme }) => ({
   backgroundColor: theme.palette.button.primary.background,
@@ -59,84 +63,95 @@ const WrapInfoOutlinedIcon = styled(InfoOutlinedIcon)(({ theme }) => ({
   cursor: 'pointer'
 }));
 
-
-const mockup_data = [
-  {
-    partyId: '1234-5678',
-    name: 'Monthly Beers',
-    avatar: null,
-    balance: '450,90',
-    leftHours: '12 Hours 30 Min',
-    status: 'opened',
-  }, {
-    partyId: '1324-1142',
-    name: 'Trip to Ibiza',
-    avatar: null,
-    balance: '650,90',
-    leftHours: '12 Hours 30 Min',
-    status: 'joined',
-  }, {
-    partyId: '5619-3131',
-    name: 'Family Party',
-    avatar: null,
-    balance: '780,90',
-    leftHours: '12 Hours 30 Min',
-    status: 'finished',
-  }
-]
-
 const mockup_participants = [{
   name: 'Phillip',
-  avatar: null
+  avatar: UserAvatarImage4
 }, {
   name: 'Brandon',
-  avatar: null
+  avatar: UserAvatarImage2
 }, {
   name: 'Julia',
-  avatar: null
+  avatar: UserAvatarImage3
 }, {
   name: 'Dianne',
-  avatar: null
+  avatar: UserAvatarImage5
 }]
 
 
 const PrivateParty = (props) => {
-
   const { partyId } = useParams()
-  const history = useHistory()
-  const { setHeaderTitle } = useAppContext();
 
-  const [data, setData] = useState(null)
+  const history = useHistory()
+  const location = useLocation()
+  const dispatch = useDispatch()
+
+  const isJoin = location.search ? true : false
+
+  const partyList = useSelector(state => state.app.partyList)
+  const balance = useSelector(state => state.app.balance)
+
+  const [party, setParty] = useState(null)
   const [participants, setParticipants] = useState(mockup_participants)
-  const [joinModalOpen, setJoinModalOpen] = useState(false)
+  const [joinModalOpen, setJoinModalOpen] = useState(isJoin)
   const [emptyAccountModalOpen, setEmptyAccountModalOpen] = useState(false)
-  const [balance, setBalance] = useState(0)
+  const [leaveModalOpen, setLeaveModalOpen] = useState(false)
+
 
   const getParty = (_party) => {
     return _party.partyId == partyId;
   }
 
   useEffect(() => {
-    setData(mockup_data.find(getParty))
+    setParty(partyList.find(getParty))
   }, [partyId])
 
   useEffect(() => {
-    if (data) {
-      setHeaderTitle(data.name)
+    if (party) {
+      dispatch(setHeaderTitle(party.name))
     }
-  }, [data])
+  }, [party])
 
   const handleClickPartyStatus = (item) => {
     if (item && item.status == "opened") {
-      if (balance != 0)
+      if (balance !== 0)
         setJoinModalOpen(true)
       else
         setEmptyAccountModalOpen(true)
     }
   }
 
-  const handleJoinParty = () => {
+  const handleJoinParty = (price) => {
     setJoinModalOpen(false)
+    
+    let _party = JSON.parse(JSON.stringify(party))
+    _party.status = 'joined'
+    dispatch(editParty(_party))
+    dispatch(setBalance(balance - price))
+    dispatch(setJoinedParam({
+      price: price,
+      party_name: party.name,
+      back_url: location.pathname
+    }))
+    history.push('/joined-success')
+  }
+
+  const handleLeaveParty = () => {
+    setLeaveModalOpen(false)
+    
+    let _data = JSON.parse(JSON.stringify(party))
+    _data.status = 'opened'
+    dispatch(editParty(_data))
+    setParty(_data)
+    // history.goBack()
+  }
+
+  const handleAddMoney = () => {
+    setEmptyAccountModalOpen(false)
+    history.push('/add-funds')
+  }
+
+  const handleOpenLeaveModal = () => {
+    setLeaveModalOpen(true);
   }
 
   return (
@@ -155,55 +170,45 @@ const PrivateParty = (props) => {
             </Typography>
             <WrapInfoOutlinedIcon/>
           </Box>
-          <BalanceInfo>
-            <Typography variant="h1" paddingRight="8px">
-              ${data ? data.balance : 0}
-            </Typography>
-            <Typography variant="subtitle5">
-              +3.1% from last month
-            </Typography>
-          </BalanceInfo>
-          <Box marginTop="32px" padding="24px" borderRadius="16px" backgroundColor="#F0EEFE">
-            <Grid container spacing={2} >
-              <Grid item xs={8}>
-              <Typography variant="subtitle2">Party closes in</Typography>
-                <Typography variant="subtitle1">{data ? data.leftHours : ''}</Typography>
-              </Grid>
-              <Grid item xs={4}>
-              </Grid>
-            </Grid>
-          </Box>
+          <PartyInfo party={party} />
           <Box marginTop="24px">
             <Typography variant="subtitle3">Participants</Typography>
           </Box>
           <Stack direction="row" spacing={2} justifyContent="space-between" marginTop="24px">
             <Box>
-              <PartyAvatar alt="A" />
+              <PartyAvatar alt="A" src={UserAvatarImage1}/>
               <Typography textAlign="center">Me</Typography>
             </Box>
             {
               participants.map((item, index) => (
-                <Box>
-                  <PartyAvatar alt="A" />
+                <Box key={`participants-${index}`}>
+                  <PartyAvatar alt="A" src={item.avatar}/>
                   <Typography textAlign="center">{item.name}</Typography>
                 </Box>
               ))
             }
           </Stack>
-          <StatusButton status={data ? data.status : 'opened'} handleClick={() => handleClickPartyStatus(data)}/>
+          <StatusButton status={party ? party.status : 'opened'} handleClick={() => handleClickPartyStatus(party)}/>
           <AddButton variant="contained" endIcon={<AddIcon />}>Add participants</AddButton>
-          <TextButton variant="text" onClick={() => {history.goBack()}}>Leave Party</TextButton>
+          {party && party.status == 'joined' && (<TextButton variant="text" onClick={() => handleOpenLeaveModal()}>Leave Party</TextButton>)}
+
         </Content>
       </Container>
       <DepositModal 
         open={joinModalOpen}
         balance={balance}
         handleClose={() => setJoinModalOpen(false)}
-        handleSuccess={() => handleJoinParty()}
+        handleSuccess={(balance) => handleJoinParty(balance)}
       />
       <EmptyAccountModal
         open={emptyAccountModalOpen}
         handleClose={() => setEmptyAccountModalOpen(false)}
+        handleSuccess={() => handleAddMoney()}
+      />
+      <LeavePartyModal
+        open={leaveModalOpen}
+        handleClose={() => setLeaveModalOpen(false)}
+        handleSuccess={() => handleLeaveParty()}
       />
     </motion.div>
   );

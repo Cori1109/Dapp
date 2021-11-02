@@ -29,14 +29,6 @@ const SwipeButton = ({
   const [overlayWidth, setOverlayWidth] = useState(40);
   const [swipeComplete, setSwipeComplete] = useState(false);
   const buttonRef = useRef();
-
-  useEffect(() => {
-    if (reset) {
-      setSwipeComplete(false);
-      setOverlayWidth(40);
-    }
-  }, [reset]);
-
   const handlers = useSwipeable({
     onSwipedRight: (data) => {
       if (swipeComplete)
@@ -79,6 +71,14 @@ const SwipeButton = ({
     preventDefaultTouchmoveEvent: true
   });
 
+  useEffect(() => {
+    if (reset) {
+      setSwipeComplete(false);
+      setOverlayWidth(40);
+    }
+  }, [reset]);
+
+  
   return (
     <div className={`swipezor-but ${classList}`} {...handlers} ref={(t) => {
       handlers.ref(t);
