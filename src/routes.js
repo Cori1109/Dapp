@@ -12,7 +12,9 @@ import PublicParty from './pages/PublicParty';
 import JoinedSuccess from './pages/JoinedSuccess';
 import TransferSuccess from './pages/TransferSuccess';
 import AddFunds from './pages/AddFunds';
+import Login from './pages/Auth/Login';
 import { AnimatePresence } from "framer-motion";
+import Welcome from 'pages/Welcome';
 
 const renderRoutes = (props) => (
   <AnimatePresence>
@@ -57,7 +59,17 @@ const renderRoutes = (props) => (
           <Dashboard />
         </MainLayout>
       </Route>
-      <Redirect from="/" to="/dashboard"/>
+      <Route exact path="/login">
+        <DefaultLayout>
+          <Login />
+        </DefaultLayout>
+      </Route>
+      <Route exact path="/welcome">
+        <DefaultLayout>
+          <Welcome />
+        </DefaultLayout>
+      </Route>
+      <Redirect from="/" to="/welcome"/>
     </Switch>
   </AnimatePresence>
 );

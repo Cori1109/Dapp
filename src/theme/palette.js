@@ -23,6 +23,7 @@ export default {
   text: {
     primary: black,
     secondary: grey,
+    third: blue,
     dark: white,
   },
   button: {
