@@ -40,6 +40,7 @@ const AddButton = styled(Button)(({ theme }) => ({
   width: '100%',
   textTransform: 'none',
   borderRadius: '12px',
+  boxShadow: "none",
   marginTop: '24px',
   padding: '16px 24px',
   display: 'flex',
@@ -54,6 +55,7 @@ const TextButton = styled(Button)(({ theme }) => ({
   width: '100%',
   textTransform: 'none',
   borderRadius: '12px',
+  boxShadow: "none",
   marginTop: '24px',
   fontWeight: 'bold'
 }))

@@ -24,6 +24,7 @@ const AddButton = styled(Button)(({ theme }) => ({
   fontFamily: 'Manrope',
   width: '100%',
   textTransform: 'none',
+  boxShadow: "none",
   borderRadius: '12px',
   padding: '16px'
 }))

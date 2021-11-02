@@ -33,6 +33,7 @@ const PriceBox = styled(Box)(({ theme }) => ({
 const AddButton = styled(Button)(({ theme }) => ({
   color: theme.palette.button.primary.foreground,
   backgroundColor: theme.palette.button.primary.background,
+  boxShadow: "none",
   fontWeight: 500,
   fontSize: '16px',
   fontFamily: 'Manrope',

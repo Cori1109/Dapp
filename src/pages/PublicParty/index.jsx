@@ -105,6 +105,7 @@ const AddButton = styled(Button)(({ theme }) => ({
   fontFamily: 'Manrope',
   width: '100%',
   textTransform: 'none',
+  boxShadow: "none",
   borderRadius: '12px',
   marginTop: '24px',
   padding: '16px 24px',
@@ -119,6 +120,7 @@ const TextButton = styled(Button)(({ theme }) => ({
   fontFamily: 'Manrope',
   width: '100%',
   textTransform: 'none',
+  boxShadow: "none",
   borderRadius: '12px',
   marginTop: '24px',
   fontWeight: 'bold'
