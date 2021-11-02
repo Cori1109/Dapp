@@ -5,6 +5,8 @@ import { motion } from "framer-motion";
 import { pageVariants, pageTransition } from "../../../utils/pageTransitions"
 import parivatePartyImage from '../../../assets/landing/private-party.png'
 import PartiesList from '../../../components/PartiesList'
+import { useSelector} from 'react-redux'
+import { useHistory } from "react-router";
 
 const HeaderBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -36,33 +38,15 @@ const ContentImage = styled(`img`)(({ theme }) => ({
   padding: `${theme.spacing(2)} ${theme.spacing(1)}`
 }))
 
-const mockup_data = [
-  {
-    partyId: '1234-5678',
-    name: 'Monthly Beers',
-    avatar: null,
-    balance: '450,90',
-    leftHours: '12 Hours 30 Min',
-    status: 'opened',
-  }, {
-    partyId: '1324-1142',
-    name: 'Trip to Ibiza',
-    avatar: null,
-    balance: '650,90',
-    leftHours: '12 Hours 30 Min',
-    status: 'joined',
-  }, {
-    partyId: '5619-3131',
-    name: 'Family Party',
-    avatar: null,
-    balance: '780,90',
-    leftHours: '12 Hours 30 Min',
-    status: 'finished',
-  }
-]
-
 const PrivatePartyList = (props) => {
-  
+
+  const history = useHistory();
+  const partyList = useSelector(state => state.app.partyList)
+
+  const handleCreate = () => {
+    history.push('/private-party/create')
+  }
+
   return (
     <motion.div
       initial="initial"
@@ -82,10 +66,10 @@ const PrivatePartyList = (props) => {
             <Typography variant="subtitle3">
               Your private parites
             </Typography>
-            <PrimaryButton variant="text">Create</PrimaryButton>
+            <PrimaryButton variant="text" onClick={handleCreate}>Create</PrimaryButton>
           </ContentHeader>
           <ContentImage src={parivatePartyImage} />
-          <PartiesList list={mockup_data}/>
+          <PartiesList list={partyList.filter((item) => {return !item.isPublic})}/>
         </ContentPaper>
       </Container>
     </motion.div>

@@ -33,31 +33,39 @@ const DepositModal = ({
       open={open}
     >
       <DialogHeader>
-        <CloseIcon onClick={handleClose} style={{ color:"#4263EB"}}/>
+        <CloseIcon onClick={() => {setSelectedAmount(0); handleClose();}} style={{ color:"#4263EB"}}/>
         <Typography variant="subtitle1">
           Amount to deposit
         </Typography>
         <Box></Box>
       </DialogHeader>
       <DialogContent>
+        <Box marginBottom="20px">
+          <Typography variant="subtitle3">{`Available: ${balance}`}</Typography>
+        </Box>
         <BalanceSelector 
           max={balance} 
           balance={selectedAmount} 
-          setBalance={setSelectedAmount}/>
+          setBalance={setSelectedAmount}
+          overflowMessage={'Please input the available amount.'}
+        />
       </DialogContent>
-      <DialogActions>
-        <Box padding="24px" width="100%">
-          <SwipeButton 
-            mainText="Swipe to join" 
-            overlayText="" 
-            onSwipeDone={() => {
-              setSelectedAmount(0)
-              handleSuccess()
-            }} 
-            reset={0}
-          />
-        </Box>
-      </DialogActions>
+        <DialogActions>
+          <Box padding="24px" width="100%">
+            {
+              selectedAmount != 0 &&
+              <SwipeButton 
+                mainText="Swipe to join" 
+                overlayText="" 
+                onSwipeDone={() => {
+                  handleSuccess(selectedAmount)
+                  setSelectedAmount(0)
+                }} 
+                reset={0}
+              />
+            }
+          </Box>
+        </DialogActions>
     </DepositDialog>
   )
 }

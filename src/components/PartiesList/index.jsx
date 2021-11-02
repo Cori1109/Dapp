@@ -8,8 +8,8 @@ const PartiesList = ({list}) => {
     <Box>
       {
         list.map((item, index) => (
-          <Party data={item} index={index}/>
-        ))
+          <Party data={item} index={index} key={`party-${index}`}/>
+          ))
       }
     </Box>
   );

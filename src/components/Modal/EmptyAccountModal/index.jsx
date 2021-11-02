@@ -30,7 +30,8 @@ const AddButton = styled(Button)(({ theme }) => ({
 
 const EmptyAccountModal = ({
   open,
-  handleClose
+  handleClose,
+  handleSuccess,
 }) => {
   return (
     <PrizeDialog
@@ -52,7 +53,7 @@ const EmptyAccountModal = ({
       </DialogContent>
       <DialogActions>
         <Box padding="24px" width="100%">
-          <AddButton variant="contained" onClick={() => {handleClose()}}>Add money</AddButton>
+          <AddButton variant="contained" onClick={() => {handleSuccess();}}>Add money</AddButton>
         </Box>
       </DialogActions>
     </PrizeDialog>

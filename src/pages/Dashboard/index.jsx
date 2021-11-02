@@ -3,10 +3,11 @@ import { Box, Container, Stack, Paper, Typography, Button } from "@mui/material"
 import { styled } from '@mui/system';
 import BalanceCard from '../../components/BalanceCard';
 import { motion } from "framer-motion";
-import { pageVariants, pageTransition } from "../../utils/pageTransitions"
+import { pageVariants, pageTransition } from "../../utils/pageTransitions"
 import HeaderBar from "../../components/HeaderBar";
 import PartiesList from "components/PartiesList";
 import Banner from "components/Banner";
+import { useSelector } from "react-redux";
 
 const Item = styled(Paper)`
     textAlign: 'center',
@@ -31,42 +32,17 @@ const PrimaryButton = styled(Button)(({ theme }) => ({
   fontFamily: 'Manrope'
 }))
 
-const mockup_data = [
-  {
-    partyId: '1234-5678',
-    name: 'Monthly Beers',
-    avatar: null,
-    isPublic: false,
-    balance: '450,90',
-    leftHours: '12 Hours 30 Min'
-  }, {
-    partyId: '1324-1142',
-    name: 'Weekly Party',
-    avatar: null,
-    isPublic: true,
-    balance: '1.443.650,90',
-    leftHours: '12 Hours 30 Min'
-  }, {
-    partyId: '5619-3131',
-    name: 'Family Party',
-    avatar: null,
-    isPublic: false,
-    balance: '780,90',
-    leftHours: '12 Hours 30 Min'
-  }
-]
- 
 const Dashboard = (props) => {
-
-return(
-  <motion.div
-    initial="initial"
-    animate="in"
-    exit="out"
-    variants={pageVariants}
-    transition={pageTransition}
-  >
-    <Box>
+  const partyList = useSelector(state => state.app.partyList)
+  return (
+    <motion.div
+      initial="initial"
+      animate="in"
+      exit="out"
+      variants={pageVariants}
+      transition={pageTransition}
+    >
+      <Box>
         <Stack spacing={2}>
             <HeaderBar setTheme={props.setTheme}/>
             <BalanceCard />
@@ -85,5 +61,5 @@ return(
   </motion.div>
   );
 }
- 
+
 export default Dashboard;

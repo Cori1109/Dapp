@@ -9,6 +9,15 @@ const RootBox = styled(Box)(({ theme }) => ({
   height: '100vh'
 }));
 
+const WrapContainer = styled(Container)(({ theme }) => ({
+  height: 'calc(100vh - 100px)',
+  overflow: 'auto'
+}))
+
+const WrapContent = styled(Box)(({ theme }) => ({
+  marginBottom: '40px'
+}))
+
 const NavbarBox = styled(Box)(({ theme }) => ({
   width: '50%',
   position: 'absolute',
@@ -21,12 +30,12 @@ const NavbarBox = styled(Box)(({ theme }) => ({
 const MainLayout = ({ children }) => {
   return (
     <RootBox>
-      <Container maxWidth="sm">
-        <div >{children}</div>
+      <WrapContainer maxWidth="sm">
+        <WrapContent>{children}</WrapContent>
         <NavbarBox>
           <NavBar />
         </NavbarBox>
-      </Container>
+      </WrapContainer>
     </RootBox>
   );
 };

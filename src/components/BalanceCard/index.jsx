@@ -3,11 +3,6 @@ import { Box, Grid, Paper, Typography } from "@mui/material";
 import { styled } from '@mui/system';
 import FundsButton from '../Button/FundsButton';
 
-const Item = styled(Paper)`
-    textAlign: 'center',
-    color: 'white',
-`;
-
 const CardBox = styled(Box)(({ theme }) => ({
     background: '#0C2073',
     borderRadius: '10px',
