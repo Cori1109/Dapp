@@ -58,7 +58,7 @@ const PrivatePartyList = (props) => {
       <Container maxWidth="sm">
         <HeaderBox>
           <Typography variant="subtitle1">
-            Private Partie
+            Private Parties
           </Typography>
         </HeaderBox>
         <ContentPaper>
