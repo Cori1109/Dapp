@@ -105,7 +105,7 @@ const PrivateParty = (props) => {
 
   useEffect(() => {
     setParty(partyList.find(getParty))
-  }, [partyId])
+  }, [partyId, partyList])
 
   useEffect(() => {
     if (party) {
@@ -172,7 +172,7 @@ const PrivateParty = (props) => {
             </Typography>
             <WrapInfoOutlinedIcon/>
           </Box>
-          <PartyInfo party={party} />
+          <PartyInfo party={party}/>
           <Box marginTop="24px">
             <Typography variant="subtitle3">Participants</Typography>
           </Box>

@@ -38,8 +38,12 @@ export const getFormatDate = (lastDate) => {
     else {
       if (mins > 0)
         result = (mins + 'Min ' + seconds + 'Sec')
-      else
-        result = (seconds + 'Sec')
+      else {
+        if (seconds > 0)
+          result = (seconds + 'Sec')
+        else
+          return 0
+      }
     }
   }
 
