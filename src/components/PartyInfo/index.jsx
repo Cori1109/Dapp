@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Grid, Typography, Box } from "@mui/material";
 import { styled } from '@mui/system';
 import { useHistory } from "react-router";
-import { getFormatDate } from "utils/functions";
+import { getFormatDate, getFormatNumber } from "utils/functions";
 import { editParty } from "store/actions/App";
 import { useDispatch } from "react-redux";
 
@@ -30,12 +30,12 @@ const PartyInfo = ({ party }) => {
         }, 1000);
         return () => clearInterval(interval);
     }, [party]);
-    
+
     return (
         <>
             <BalanceInfo>
                 <Typography variant="h1" paddingRight="8px">
-                    ${party ? party.balance : 0}
+                    ${party ? getFormatNumber(party.balance) : 0}
                 </Typography>
                 <Typography variant="subtitle5">
                     +3.1% from last month

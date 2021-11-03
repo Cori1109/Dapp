@@ -49,3 +49,7 @@ export const getFormatDate = (lastDate) => {
 
   return result 
 }
+
+export const getFormatNumber = (value) => {
+  return value.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+}
