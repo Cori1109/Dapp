@@ -28,8 +28,8 @@ const LeaveButton = styled(Button)(({ theme }) => ({
   borderRadius: '12px',
   padding: '16px',
   "&:hover": {
-    color: theme.palette.button.third.foreground,
-    backgroundColor: theme.palette.button.third.background,
+    color: theme.palette.button.fourth.foreground,
+    backgroundColor: theme.palette.button.fourth.background,
     boxShadow: "none"
   },
 }))
