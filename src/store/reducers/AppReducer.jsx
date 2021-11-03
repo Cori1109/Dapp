@@ -31,7 +31,7 @@ const mockup_data = [{
   avatar: null,
   balance: 780.90,
   endDate: moment(new Date()).add(1000 * 60 * 60 * 300),
-  status: 'finished',
+  status: 'opened',
   isPublic: false,
 }];
 

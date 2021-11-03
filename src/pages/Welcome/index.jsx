@@ -29,6 +29,11 @@ const LoginButton = styled(Button)(({ theme }) => ({
   padding: "16px 24px",
   display: "flex",
   justifyContent: "center",
+  "&:hover": {
+    color: theme.palette.button.primary.foreground,
+    backgroundColor: theme.palette.button.primary.background,
+    boxShadow: "none"
+  },
 }));
 
 const CreateButton = styled(Button)(({ theme }) => ({
@@ -49,6 +54,7 @@ const CreateButton = styled(Button)(({ theme }) => ({
   "&:hover": {
     color: theme.palette.button.third.foreground,
     backgroundColor: theme.palette.button.third.background,
+    boxShadow: "none",
   },
 }));
 

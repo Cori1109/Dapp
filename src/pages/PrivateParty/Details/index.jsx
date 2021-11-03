@@ -44,7 +44,12 @@ const AddButton = styled(Button)(({ theme }) => ({
   marginTop: '24px',
   padding: '16px 24px',
   display: 'flex',
-  justifyContent: 'space-between'
+  justifyContent: 'space-between',
+  "&:hover": {
+    color: theme.palette.button.primary.foreground,
+    backgroundColor: theme.palette.button.primary.background,
+    boxShadow: "none"
+  },
 }))
 
 const TextButton = styled(Button)(({ theme }) => ({
@@ -57,7 +62,11 @@ const TextButton = styled(Button)(({ theme }) => ({
   borderRadius: '12px',
   boxShadow: "none",
   marginTop: '24px',
-  fontWeight: 'bold'
+  fontWeight: 'bold',
+  "&:hover": {
+    color: theme.palette.button.text.secondary,
+    boxShadow: "none"
+  },
 }))
 
 const WrapInfoOutlinedIcon = styled(InfoOutlinedIcon)(({ theme }) => ({

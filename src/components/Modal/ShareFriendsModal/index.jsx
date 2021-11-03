@@ -65,6 +65,11 @@ const CloseButton = styled(Button)(({ theme }) => ({
   boxShadow: "none",
   borderRadius: "12px",
   padding: "16px",
+  "&:hover": {
+    color: theme.palette.button.primary.foreground,
+    backgroundColor: theme.palette.button.primary.background,
+    boxShadow: "none"
+  },
 }));
 
 const ShareFriendsModal = ({ open, handleClose }) => {

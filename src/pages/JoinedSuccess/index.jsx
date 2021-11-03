@@ -44,6 +44,11 @@ const AddButton = styled(Button)(({ theme }) => ({
   padding: '16px 24px',
   display: 'flex',
   justifyContent: 'center',
+  "&:hover": {
+    color: theme.palette.button.primary.foreground,
+    backgroundColor: theme.palette.button.primary.background,
+    boxShadow: "none"
+  },
 }))
 
 const JoinedSuccess = (props) => {

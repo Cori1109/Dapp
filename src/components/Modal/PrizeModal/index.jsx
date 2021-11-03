@@ -27,7 +27,12 @@ const AddButton = styled(Button)(({ theme }) => ({
   textTransform: 'none',
   boxShadow: "none",
   borderRadius: '12px',
-  padding: '16px'
+  padding: '16px',
+  "&:hover": {
+    color: theme.palette.button.primary.foreground,
+    backgroundColor: theme.palette.button.primary.background,
+    boxShadow: "none"
+  },
 }))
 
 const PrizeModal = ({

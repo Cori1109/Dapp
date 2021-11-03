@@ -48,6 +48,8 @@ const QuizButton = styled(Button)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
   "&:hover": {
+    color: theme.palette.button.primary.foreground,
+    boxShadow: "none",
     backgroundColor: '#15141F',
   },
 }))
@@ -66,6 +68,7 @@ const WithdrawButton = styled(Button)(({ theme }) => ({
   fontWeight: 'bold',
   "&:hover": {
     color: "#FB4E4E",
+    boxShadow: "none",
   },
 }))
 
@@ -83,6 +86,7 @@ const ConnectButton = styled(Button)(({ theme }) => ({
   fontWeight: 'bold',
   "&:hover": {
     color: "#FB4E4E",
+    boxShadow: "none",
   },
 }))
 
@@ -97,7 +101,12 @@ const GoldButton = styled(Button)(({ theme }) => ({
   borderRadius: '8px',
   boxShadow: "none",
   fontWeight: 'bold',
-  marginTop: '10px'
+  marginTop: '10px',
+  "&:hover": {
+    color: "#FFBC1F",
+    backgroundColor: "rgba(255, 188, 31, 0.1)",
+    boxShadow: "none"
+  },
 }))
 
 const UserAvatar = styled(Avatar)(({ theme }) => ({

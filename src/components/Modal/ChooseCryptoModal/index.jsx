@@ -40,19 +40,6 @@ const CryptoContainer = styled('li')(({theme}) => ({
   listStyleType: 'none',
 }))
 
-const AddButton = styled(Button)(({ theme }) => ({
-  color: theme.palette.button.primary.foreground,
-  backgroundColor: theme.palette.button.primary.background,
-  fontWeight: 500,
-  fontSize: '16px',
-  fontFamily: 'Manrope',
-  width: '100%',
-  textTransform: 'none',
-  boxShadow: "none",
-  borderRadius: '12px',
-  padding: '16px'
-}))
-
 const ChooseCryptoModal = ({
   open,
   onClose,
