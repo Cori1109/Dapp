@@ -80,10 +80,16 @@ const AddButton = styled(Button)(({ theme }) => ({
   fontFamily: "Manrope",
   width: "156px",
   textTransform: "none",
+  boxShadow: "none",
   borderRadius: "12px",
   padding: "16px 24px",
   display: "flex",
   justifyContent: "center",
+  "&:hover": {
+    color: theme.palette.button.primary.foreground,
+    backgroundColor: theme.palette.button.primary.background,
+    boxShadow: "none"
+  },
 }));
 
 const SaveButton = styled(Button)(({ theme }) => ({
@@ -94,6 +100,7 @@ const SaveButton = styled(Button)(({ theme }) => ({
   fontFamily: "Manrope",
   width: "156px",
   textTransform: "none",
+  boxShadow: "none",
   borderRadius: "12px",
   padding: "16px 24px",
   display: "flex",
@@ -101,6 +108,7 @@ const SaveButton = styled(Button)(({ theme }) => ({
   "&:hover": {
     color: theme.palette.button.third.foreground,
     backgroundColor: theme.palette.button.third.background,
+    boxShadow: "none",
   },
 }));
 

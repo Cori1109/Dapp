@@ -38,10 +38,18 @@ export const getFormatDate = (lastDate) => {
     else {
       if (mins > 0)
         result = (mins + 'Min ' + seconds + 'Sec')
-      else
-        result = (seconds + 'Sec')
+      else {
+        if (seconds > 0)
+          result = (seconds + 'Sec')
+        else
+          return 0
+      }
     }
   }
 
   return result 
+}
+
+export const getFormatNumber = (value) => {
+  return value.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 }

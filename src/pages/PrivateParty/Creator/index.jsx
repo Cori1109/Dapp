@@ -33,6 +33,7 @@ const PartyAvatar = styled(Avatar)(({ theme }) => ({
 const AddButton = styled(Button)(({ theme }) => ({
   color: theme.palette.button.primary.foreground,
   backgroundColor: theme.palette.button.primary.background,
+  boxShadow: "none",
   fontWeight: 500,
   fontSize: '16px',
   fontFamily: 'Manrope',
@@ -42,7 +43,12 @@ const AddButton = styled(Button)(({ theme }) => ({
   marginTop: '24px',
   padding: '16px 24px',
   display: 'flex',
-  justifyContent: 'center'
+  justifyContent: 'center',
+  "&:hover": {
+    color: theme.palette.button.primary.foreground,
+    backgroundColor: theme.palette.button.primary.background,
+    boxShadow: "none"
+  },
 }))
 
 const PrivatePartyCreator = (props) => {

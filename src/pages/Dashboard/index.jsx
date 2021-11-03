@@ -28,8 +28,13 @@ const ContentHeader = styled(Box)(({ theme }) => ({
 const PrimaryButton = styled(Button)(({ theme }) => ({
   color: theme.palette.button.text.foreground,
   fontWeight: 500,
+  boxShadow: "none",
   fontSize: '16px',
-  fontFamily: 'Manrope'
+  fontFamily: 'Manrope',
+  "&:hover": {
+    color: theme.palette.button.text.foreground,
+    boxShadow: "none"
+  },
 }))
 
 const Dashboard = (props) => {

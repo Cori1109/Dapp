@@ -2,6 +2,9 @@ import React from "react";
 import { Input, InputAdornment } from "@mui/material";
 import { styled } from '@mui/system';
 
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+
 const WrapInput = styled(Input)(({ theme }) => ({
     borderRadius: '16px',
     background: '#F9F9FA',
@@ -15,7 +18,7 @@ const WrapInputAdornment = styled(InputAdornment)(({ theme }) => ({
     }
 }))
 
-const InputBox = ({id, startIcon, endText, placeholder, value, type, onChange, validated}) => {
+const PasswordInputBox = ({id, startIcon, type, placeholder, value, onChange, validated, visible, setVisible}) => {
 
     return (
         <WrapInput
@@ -24,17 +27,14 @@ const InputBox = ({id, startIcon, endText, placeholder, value, type, onChange, v
             label="TextField"
             type={type}
             startAdornment={
-                <WrapInputAdornment position="start">
+                <WrapInputAdornment position="start" >
                     {startIcon}
                 </WrapInputAdornment>
             }
             endAdornment={
-                endText ?
-                <WrapInputAdornment position="end">
-                    {endText}
+                <WrapInputAdornment position="end"  onClick={() => {setVisible(!visible)}}>
+                    {visible == true ? <VisibilityOff /> : <Visibility />}
                 </WrapInputAdornment>
-                :
-                null
             }
             value={value}
             onChange={(e) => onChange(e.target.id, e.target.value)}
@@ -44,4 +44,4 @@ const InputBox = ({id, startIcon, endText, placeholder, value, type, onChange, v
     );
 }
 
-export default InputBox;
+export default PasswordInputBox;

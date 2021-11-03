@@ -29,7 +29,12 @@ const ContentHeader = styled(Box)(({ theme }) => ({
 const PrimaryButton = styled(Button)(({ theme }) => ({
   color: theme.palette.button.text.foreground,
   fontWeight: 500,
+  boxShadow: "none",
   fontSize: '16px',
+  "&:hover": {
+    color: theme.palette.button.text.foreground,
+    boxShadow: "none"
+  },
 }))
 
 const ContentImage = styled(`img`)(({ theme }) => ({

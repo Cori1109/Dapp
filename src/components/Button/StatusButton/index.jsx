@@ -17,8 +17,14 @@ const WrapButton = styled(Button)(({ theme }) => ({
   borderRadius: '12px',
   marginTop: '24px',
   padding: '16px 24px',
+  boxShadow: "none",
   display: 'flex',
-  justifyContent: 'space-between'
+  justifyContent: 'space-between',
+  "&:hover": {
+    color: theme.palette.button.primary.foreground,
+    backgroundColor: theme.palette.button.secondary.background,
+    boxShadow: "none"
+  },
 }))
 
 const JoinButton = styled(Button)(({ theme }) => ({
@@ -33,7 +39,13 @@ const JoinButton = styled(Button)(({ theme }) => ({
   marginTop: '24px',
   padding: '16px 24px',
   display: 'flex',
-  justifyContent: 'center'
+  boxShadow: "none",
+  justifyContent: 'center',
+  "&:hover": {
+    color: theme.palette.button.primary.foreground,
+    backgroundColor: theme.palette.button.secondary.background,
+    boxShadow: "none"
+  },  
 }))
 
 const StatusButton = ({status, handleClick}) => {

@@ -23,9 +23,15 @@ const LeaveButton = styled(Button)(({ theme }) => ({
   fontSize: '16px',
   fontFamily: 'Manrope',
   width: '135px',
+  boxShadow: "none",
   textTransform: 'none',
   borderRadius: '12px',
-  padding: '16px'
+  padding: '16px',
+  "&:hover": {
+    color: theme.palette.button.fourth.foreground,
+    backgroundColor: theme.palette.button.fourth.background,
+    boxShadow: "none"
+  },
 }))
 
 const StayButton = styled(Button)(({ theme }) => ({
@@ -36,8 +42,14 @@ const StayButton = styled(Button)(({ theme }) => ({
   fontFamily: 'Manrope',
   width: '135px',
   textTransform: 'none',
+  boxShadow: "none",
   borderRadius: '12px',
-  padding: '16px'
+  padding: '16px',
+  "&:hover": {
+    color: theme.palette.button.primary.foreground,
+    backgroundColor: theme.palette.button.primary.background,
+    boxShadow: "none"
+  },
 }))
 
 const LeavePartyModal = ({

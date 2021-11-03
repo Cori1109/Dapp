@@ -40,10 +40,16 @@ const AddButton = styled(Button)(({ theme }) => ({
   width: '100%',
   textTransform: 'none',
   borderRadius: '12px',
+  boxShadow: "none",
   marginTop: '24px',
   padding: '16px 24px',
   display: 'flex',
-  justifyContent: 'space-between'
+  justifyContent: 'space-between',
+  "&:hover": {
+    color: theme.palette.button.primary.foreground,
+    backgroundColor: theme.palette.button.primary.background,
+    boxShadow: "none"
+  },
 }))
 
 const TextButton = styled(Button)(({ theme }) => ({
@@ -54,8 +60,13 @@ const TextButton = styled(Button)(({ theme }) => ({
   width: '100%',
   textTransform: 'none',
   borderRadius: '12px',
+  boxShadow: "none",
   marginTop: '24px',
-  fontWeight: 'bold'
+  fontWeight: 'bold',
+  "&:hover": {
+    color: theme.palette.button.text.secondary,
+    boxShadow: "none"
+  },
 }))
 
 const WrapInfoOutlinedIcon = styled(InfoOutlinedIcon)(({ theme }) => ({
@@ -103,7 +114,7 @@ const PrivateParty = (props) => {
 
   useEffect(() => {
     setParty(partyList.find(getParty))
-  }, [partyId])
+  }, [partyId, partyList])
 
   useEffect(() => {
     if (party) {
@@ -170,7 +181,7 @@ const PrivateParty = (props) => {
             </Typography>
             <WrapInfoOutlinedIcon/>
           </Box>
-          <PartyInfo party={party} />
+          <PartyInfo party={party}/>
           <Box marginTop="24px">
             <Typography variant="subtitle3">Participants</Typography>
           </Box>

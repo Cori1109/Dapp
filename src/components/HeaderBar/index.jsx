@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Grid, Paper, Typography } from "@mui/material";
+import { Box, Grid, Paper, Typography, Link } from "@mui/material";
 import Switch, { SwitchProps } from '@mui/material/Switch';
 import { styled } from '@mui/system';
 import { useDispatch } from 'react-redux';
@@ -79,6 +79,15 @@ const UserName = styled(Typography)(({ theme }) => ({
   color: theme.palette.text.primary
 }));
 
+const UserLink = styled(Link)(({ theme }) => ({
+  color: theme.palette.text.primary,
+  textDecoration: 'none',
+  '&:hover': {
+    textDecoration: 'underline',
+  }
+}));
+
+
 const HeaderBar = (props) => {
   const dispatch = useDispatch()
 
@@ -89,13 +98,18 @@ const HeaderBar = (props) => {
 
   return (
     <BoxContainer>
-      <Box>
+      <Box marginTop="40px">
         <Typography variant='subtitle2'>
           Good morning,
         </Typography>
+        <Box display="flex" >
         <Typography variant='subtitle1'>
+          <UserLink href='/profile'>
           {mockup_profile.name}
+          </UserLink>
         </Typography>
+        
+        </Box>
       </Box>
       <BoxAvatar>
         <Box>
