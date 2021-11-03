@@ -18,6 +18,17 @@ import LockIcon from "../../assets/logo/lock.png";
 import CameraIcon from "../../assets/logo/camera.png";
 import { ArrowRightIcon, QuizIcon, RankingIcon } from "../../assets/logo/icon";
 
+import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
+import ConnectWalletModal from "components/Modal/ConnectWalletModal";
+import { setNotificationData } from "store/actions/App";
+import { switchNetwork } from "utils/web3utils";
+import { getAbbreviationAddress } from "utils/functions";
+
+const WrapContainer = styled(Container)(({ theme }) => ({
+  height: 'calc(100vh - 200px)',
+  overflow: 'auto'
+}))
+
 const Content = styled(Box)(({ theme }) => ({
   padding: `${theme.spacing(3)} ${theme.spacing(3)}`
 }));
@@ -58,6 +69,23 @@ const WithdrawButton = styled(Button)(({ theme }) => ({
   },
 }))
 
+const ConnectButton = styled(Button)(({ theme }) => ({
+  color: "#FB4E4E",
+  border: "1px solid #E8E8E8",
+  fontWeight: 500,
+  fontSize: '16px',
+  fontFamily: 'Manrope',
+  width: '100%',
+  textTransform: 'none',
+  borderRadius: '12px',
+  boxShadow: "none",
+  marginTop: '24px',
+  fontWeight: 'bold',
+  "&:hover": {
+    color: "#FB4E4E",
+  },
+}))
+
 
 const GoldButton = styled(Button)(({ theme }) => ({
   backgroundColor: "rgba(255, 188, 31, 0.1)",
@@ -65,7 +93,6 @@ const GoldButton = styled(Button)(({ theme }) => ({
   fontWeight: 300,
   fontSize: '12px',
   fontFamily: 'Manrope',
-  width: '90%',
   textTransform: 'none',
   borderRadius: '8px',
   boxShadow: "none",
@@ -95,7 +122,7 @@ const WrapImage = styled(`img`)(({ theme }) => ({
 }));
 
 const WrapBox = styled(Box)(({ theme }) => ({
-  marginTop: "10px",
+  margin: "1px",
   padding: "20px",
   borderRadius: "16px",
   backgroundColor: "#F5F7FE"
@@ -107,22 +134,40 @@ const Profile = (props) => {
   const location = useLocation()
   const dispatch = useDispatch()
 
+  const { activate, deactivate, account, library, chainId } = useWeb3React();
+  const [openWallet, setOpenWallet] = useState(false);
+
   const balance = useSelector(state => state.app.balance)
-
-  const [user, setParty] = useState(null)
-  const [emptyAccountModalOpen, setEmptyAccountModalOpen] = useState(false)
   
-
-  useEffect(() => {
-    if (user) {
-      dispatch(setHeaderTitle(user.name))
+  const handleConnectWallet = (walletInfo) => {
+    const { connector, type } = walletInfo;
+    // setSelectedWalletInfo(walletInfo)
+    if (connector) {
+      activate(connector, undefined, true)
+        .then(async res => {
+          await switchNetwork('0x3')
+          // setStep(1)
+        })
+        .catch(error => {
+          if (error instanceof UnsupportedChainIdError) {
+            activate(connector);
+          } else {
+            if (error.code == 4001) {
+              dispatch(setNotificationData({
+                message: `You should switch Ethereum network to Ropsten`,
+                variant: 'error',
+                open: true
+              }))
+            } else if (type === 'metamask') {
+              // setNoMetamask(true);
+            }
+            console.info("Connection Error - ", error);
+          }
+        })
+        .finally(() => {
+          setOpenWallet(false);
+        });
     }
-  }, [user])
-
-  
-  const handleAddMoney = () => {
-    setEmptyAccountModalOpen(false)
-    history.push('/add-funds')
   }
 
   return (
@@ -133,7 +178,7 @@ const Profile = (props) => {
       variants={pageVariants}
       transition={pageTransition}
     >
-      <Container maxWidth="sm">
+      <WrapContainer maxWidth="sm">
         <Content>
           <Box display="flex" paddingBottom="30px" >
             <Badge
@@ -148,53 +193,53 @@ const Profile = (props) => {
             
             <Box display="" alignItems="center" padding="10px" marginLeft="20px">
               <Typography variant="subtitle1" >
-                Daniel Travis
+                {account && getAbbreviationAddress(account)}
               </Typography>
               <GoldButton endIcon={<RankingIcon/>}> Member Gold </GoldButton>
             </Box>
           </Box>
-          <Box >
-            <Typography variant="">Overview</Typography>
+          <Box paddingBottom="12px">
+            <Typography variant="subtitle3">Overview</Typography>
           </Box>
-          <Box display="flex" justifyContent="space-between">
-            <WrapBox>
-                <Grid container spacing={2} >
-                    <Grid item xs={12}>
-                        <Typography variant="" >Total Balance</Typography>
-                        <Box display='flex' marginTop="10px">
-                          <WrapImage src={IncomeIcon} alt='' />
-                          <Typography variant="subtitle1" >$4500</Typography>
-                        </Box>
-                        
-                    </Grid>
-                </Grid>
-            </WrapBox>
-            <WrapBox>
-                <Grid container spacing={2} >
-                    <Grid item xs={12}>
-                        <Typography variant="">Lock in Parties</Typography>
-                        <Box display='flex' marginTop="10px">
-                          <WrapImage src={LockIcon} alt='' />
-                          <Typography variant="subtitle1" >$4500</Typography>
-                        </Box>
-                    </Grid>                    
-                </Grid>
-            </WrapBox>
-          </Box>
+          {
+            account ? 
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <WrapBox>
+                  <Typography variant="" >Total Balance</Typography>
+                  <Box display='flex' marginTop="10px">
+                    <WrapImage src={IncomeIcon} alt='' />
+                    <Typography variant="subtitle1" >$4,500</Typography>
+                  </Box>
+                </WrapBox>                        
+              </Grid>
+              <Grid item xs={6}>
+                <WrapBox>
+                  <Typography variant="">Lock in Parties</Typography>
+                  <Box display='flex' marginTop="10px">
+                    <WrapImage src={LockIcon} alt='' />
+                    <Typography variant="subtitle1" >$1,500</Typography>
+                  </Box>
+                </WrapBox>
+              </Grid>
+            </Grid>
+            :
+              <ConnectButton onClick={() => setOpenWallet(true)}>Connect wallet</ConnectButton>
+          }
+          
           <WithdrawButton> Withdraw money </WithdrawButton>
           <QuizButton variant="contained" startIcon={<QuizIcon />} endIcon={<ArrowRightIcon />}>Got any questions for Rand? <br/> Our CS are ready 24/7 to help!</QuizButton>
           <Box marginTop="24px" textAlign="center" fontSize="14px">
             <Typography variant="subtitle2" >You joined Finpay on September 2021. It’s been 1 month since then and our mission is still the same, help you better manage your finance.</Typography>
           </Box>
         </Content>
-      </Container>
+      </WrapContainer>
       
-      <EmptyAccountModal
-        open={emptyAccountModalOpen}
-        handleClose={() => setEmptyAccountModalOpen(false)}
-        handleSuccess={() => handleAddMoney()}
+      <ConnectWalletModal
+        open={openWallet}
+        onClose={() => setOpenWallet(false)}
+        onSuccess={(selectedWallet) => handleConnectWallet(selectedWallet)}
       />
-      
     </motion.div>
   );
 }
