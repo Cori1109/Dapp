@@ -229,7 +229,6 @@ const Login = (props) => {
           </ForgotLink>
           <LoginButton
             variant="contained"
-            paddingTop="40px"
             onClick={handleLogin}
           >
             Login
@@ -262,7 +261,6 @@ const Login = (props) => {
           <GoogleLoginButton
             variant="contained"
             startIcon={<GoogleIcon />}
-            paddingTop="20px"
             onClick={handleLogin}
           >
             Login with Google

@@ -15,6 +15,8 @@ import AddFunds from './pages/AddFunds';
 import Login from './pages/Auth/Login';
 import { AnimatePresence } from "framer-motion";
 import Welcome from 'pages/Welcome';
+import Profile from 'pages/Profile';
+import ProfileLayout from 'layouts/ProfileLayout';
 
 const renderRoutes = (props) => (
   <AnimatePresence>
@@ -68,6 +70,11 @@ const renderRoutes = (props) => (
         <DefaultLayout>
           <Welcome />
         </DefaultLayout>
+      </Route>
+      <Route path="/profile">
+        <ProfileLayout>
+          <Profile />
+        </ProfileLayout>
       </Route>
       <Redirect from="/" to="/welcome"/>
     </Switch>

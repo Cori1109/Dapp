@@ -12,7 +12,7 @@ const Content = styled(Box)(({ theme }) => ({
 
 const ContentImage = styled(`img`)(({ theme }) => ({
   borderRadius: "16px",
-  width: "calc(100% - 16px)",
+  width: "100%",
 }));
 
 const LoginButton = styled(Button)(({ theme }) => ({
