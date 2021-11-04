@@ -47,6 +47,34 @@ export default {
     letterSpacing: '-0.05px',
     lineHeight: '20px'
   },
+  sm_title: {
+    color: palette.secondary_gray,
+    fontFamily: 'Overpass',
+    fontWeight: 500,
+    fontSize: '1em',
+    letterSpacing: '-0.5px',
+    wordSpacing: '-3px',
+    lineHeight: '25px',
+    display: 'block'
+  },
+  md_title: {
+    color: palette.primary_gray,
+    fontFamily: 'Montserrat Alternative',
+    fontWeight: 800,
+    fontSize: '1.5em',
+    letterSpacing: '-0.3px',
+    lineHeight: '32px',
+    display: 'block'
+  },
+  lg_title: {
+    color: palette.primary_gray,
+    fontFamily: 'Montserrat Alternative',
+    fontWeight: 800,
+    fontSize: '2em',
+    letterSpacing: '-0.3px',
+    lineHeight: '41px',
+    display: 'block'
+  },
   subtitle1: {
     color: palette.text.primary,
     fontFamily: 'Montserrat Alternative',

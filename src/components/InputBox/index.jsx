@@ -6,12 +6,19 @@ const WrapInput = styled(Input)(({ theme }) => ({
     borderRadius: '16px',
     background: '#F9F9FA',
     padding: '16px',
-    width: '100%'
+    width: '100%',
+    color: theme.palette.primary_gray,
+    fontFamily: 'Overpass',
+    fontWeight: 600,
+    '&::placeholder': {
+        color: theme.palette.secondary_gray,
+        fontWeight: 400
+    }
 }));
 
 const WrapInputAdornment = styled(InputAdornment)(({ theme }) => ({
     '& svg': {
-        color: theme.palette.text.third
+        color: theme.palette.primary_gray
     }
 }))
 

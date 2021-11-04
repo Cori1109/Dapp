@@ -14,9 +14,8 @@ import EmptyAccountModal from "components/Modal/EmptyAccountModal";
 import { setHeaderTitle, editParty, setBalance, setJoinedParam } from "store/actions/App";
 import UserAvatarImage1 from "../../assets/avatar/me.png";
 import IncomeIcon from "../../assets/logo/income.png";
-import LockIcon from "../../assets/logo/lock.png";
 import CameraIcon from "../../assets/logo/camera.png";
-import { ArrowRightIcon, QuizIcon, RankingIcon } from "../../assets/logo/icon";
+import { ArrowRightIcon, QuizIcon, RankingIcon, LockIcon } from "../../assets/logo/icon";
 
 import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
 import ConnectWalletModal from "components/Modal/ConnectWalletModal";

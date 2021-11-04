@@ -13,11 +13,7 @@ import { motion } from "framer-motion";
 import { pageVariants, pageTransition } from "../../../utils/pageTransitions";
 import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
-import {
-  ArrowBack as BackIcon,
-  Lock as LockIcon,
-  Call as CallIcon,
-} from "@mui/icons-material";
+import { LockIcon, LockDarkIcon, CallIcon, CallDarkIcon } from "assets/logo/icon";
 
 import { GoogleIcon } from "assets/logo/icon";
 import { setHeaderTitle } from "store/actions/App";
@@ -25,16 +21,11 @@ import InputBox from "components/InputBox";
 import PasswordInputBox from "components/InputBox/PasswordInputBox";
 import { setNotificationData } from "store/actions/App";
 import SimpleBackdrop from "components/Backdrop";
+import BackButton from "components/Button/BackButton";
 
 const Content = styled(Box)(({ theme }) => ({
-  padding: `${theme.spacing(3)} ${theme.spacing(3)}`,
+  padding: `20px 20px`,
   height: "100vh",
-}));
-
-const WrapBackIcon = styled(BackIcon)(({ theme }) => ({
-  color: theme.palette.text.primary,
-  fontSize: "25px",
-  paddingTop: "40px",
 }));
 
 const WrapTypography = styled(Typography)(({ theme }) => ({
@@ -115,6 +106,8 @@ const GoogleLoginButton = styled(Button)(({ theme }) => ({
   },
 }));
 
+const phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+
 const Login = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -134,6 +127,11 @@ const Login = (props) => {
     password: true,
   });
 
+  const [iconValidated, setIconValidated] = useState({
+    phoneNumber: false,
+    password: false,
+  });
+
   const [ableValidate, setAbleValidate] = useState(false);
 
   useEffect(() => {
@@ -141,7 +139,14 @@ const Login = (props) => {
   }, []);
 
   const onInputChange = (id, value) => {
+    const _user = { ...user, [id]: value }
     setUser({ ...user, [id]: value });
+
+    setIconValidated({
+      phoneNumber:
+        _user.phoneNumber.match(phoneno),
+      password: _user.password.length >= 6,
+    });
 
     if (ableValidate) {
       setValidated({
@@ -153,12 +158,11 @@ const Login = (props) => {
 
   const handleLogin = () => {
     setAbleValidate(true);
-    var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
 
     const _userValidate = {
       phoneNumber:
         user.phoneNumber.length != 0 && user.phoneNumber.match(phoneno),
-      password: user.password.length != 0,
+      password: user.password.length >= 6,
     };
     setValidated({
       ...validated,
@@ -177,10 +181,10 @@ const Login = (props) => {
               open: true,
             })
           );
-    
+
           history.push("/dashboard");
         }, 2000);
-      }      
+      }
     } else {
       dispatch(
         setNotificationData({
@@ -192,7 +196,7 @@ const Login = (props) => {
     }
   };
 
-  const handleForgotPassword = () => {};
+  const handleForgotPassword = () => { };
 
   return (
     <motion.div
@@ -204,29 +208,20 @@ const Login = (props) => {
     >
       <Container maxWidth="sm">
         <Content>
-          <WrapBackIcon
-            onClick={() => {
-              history.goBack();
-            }}
-          />
-          <Typography
-            variant="subtitle1"
-            fontSize="24px"
-            paddingTop="40px"
-            lineHeight="36px"
-          >
-            {" "}
-            Hi, Welcome Back!{" "}
+          <Box marginTop="36px" marginBottom="32px">
+            <BackButton />
+          </Box>
+          <Typography variant="md_title" marginBottom="4px">
+            Hi, Welcome Back!
           </Typography>
-          <Typography variant="subtitle5" fontSize="16px" fontWeight="500">
-            {" "}
-            Sign in to your account.{" "}
+          <Typography variant="sm_title" marginBottom="32px">
+            Sign in to your account.
           </Typography>
-          <Stack direction="column" spacing={3} paddingTop="40px">
+          <Stack direction="column" spacing={3}>
             <InputBox
               id="phoneNumber"
               type={"text"}
-              startIcon={<CallIcon />}
+              startIcon={iconValidated.phoneNumber ? <CallIcon /> : <CallDarkIcon />}
               value={user.phoneNumber}
               placeholder="Phone Number"
               onChange={onInputChange}
@@ -235,7 +230,7 @@ const Login = (props) => {
             <PasswordInputBox
               id="password"
               type={visible ? "text" : "password"}
-              startIcon={<LockIcon />}
+              startIcon={iconValidated.password ? <LockIcon /> : <LockDarkIcon />}
               value={user.password}
               placeholder="Password"
               onChange={onInputChange}
