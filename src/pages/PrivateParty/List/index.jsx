@@ -8,6 +8,10 @@ import PartiesList from '../../../components/PartiesList'
 import { useSelector} from 'react-redux'
 import { useHistory } from "react-router";
 
+const WrapContainer = styled(Container)(({ theme }) => ({
+  padding: theme.spacing(0)
+}));
+
 const HeaderBox = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'center',
@@ -60,7 +64,7 @@ const PrivatePartyList = (props) => {
       variants={pageVariants}
       transition={pageTransition}
     >
-      <Container maxWidth="sm">
+      <WrapContainer maxWidth="sm">
         <HeaderBox>
           <Typography variant="subtitle1">
             Private Parites
@@ -76,7 +80,7 @@ const PrivatePartyList = (props) => {
           <ContentImage src={parivatePartyImage} />
           <PartiesList list={partyList.filter((item) => {return !item.isPublic})}/>
         </ContentPaper>
-      </Container>
+      </WrapContainer>
     </motion.div>
   );
 }

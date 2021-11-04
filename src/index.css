@@ -42,37 +42,37 @@ code {
 @font-face {
   font-family: 'Montserrat Alternative';
   font-style: normal;
-  font-weight: bold;
+  font-weight: 800;
   src: url('./styles/fonts/Montserrat_Alternates/MontserratAlternates-Bold.ttf');
 }
 @font-face {
   font-family: 'Montserrat Alternative';
   font-style: normal;
-  font-weight: normal;
+  font-weight: 400;
   src: url('./styles/fonts/Montserrat_Alternates/MontserratAlternates-Regular.ttf');
 }
 @font-face {
   font-family: 'Montserrat Alternative';
   font-style: normal;
-  font-weight: thin;
+  font-weight: 200;
   src: url('./styles/fonts/Montserrat_Alternates/MontserratAlternates-Thin.ttf');
 }
 
 @font-face {
   font-family: 'Overpass';
   font-style: normal;
-  font-weight: bold;
+  font-weight: 800;
   src: url('./styles/fonts/Overpass_Mono/OverpassMono-Bold.ttf');
 }
 @font-face {
   font-family: 'Overpass';
   font-style: normal;
-  font-weight: normal;
+  font-weight: 400;
   src: url('./styles/fonts/Overpass_Mono/OverpassMono-Regular.ttf');
 }
 @font-face {
   font-family: 'Overpass';
   font-style: normal;
-  font-weight: thin;
+  font-weight: 200;
   src: url('./styles/fonts/Overpass_Mono/OverpassMono-Light.ttf');
 }

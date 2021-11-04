@@ -37,7 +37,7 @@ const QuizButton = styled(Button)(({ theme }) => ({
   color: theme.palette.button.primary.foreground,
   backgroundColor: '#15141F',
   fontWeight: 500,
-  fontSize: '14px',
+  fontSize: '11px',
   fontFamily: 'Overpass',
   width: '100%',
   textTransform: 'none',
@@ -238,7 +238,7 @@ const Profile = (props) => {
           
           <WithdrawButton> Withdraw money </WithdrawButton>
           <QuizButton variant="contained" startIcon={<QuizIcon />} endIcon={<ArrowRightIcon />}>Got any questions for Rand? <br/> Our CS are ready 24/7 to help!</QuizButton>
-          <Box marginTop="24px" textAlign="center" fontSize="14px">
+          <Box marginTop="24px" textAlign="center" fontSize="12px">
             <Typography variant="subtitle2" >You joined Finpay on September 2021. It’s been 1 month since then and our mission is still the same, help you better manage your finance.</Typography>
           </Box>
         </Content>

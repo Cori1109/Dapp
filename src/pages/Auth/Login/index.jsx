@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Box, Container, Button, Link, Stack, Typography, Divider } from "@mui/material";
+import {
+  Box,
+  Container,
+  Button,
+  Link,
+  Stack,
+  Typography,
+  Divider,
+} from "@mui/material";
 import { styled } from "@mui/system";
 import { motion } from "framer-motion";
 import { pageVariants, pageTransition } from "../../../utils/pageTransitions";
@@ -9,8 +17,6 @@ import {
   ArrowBack as BackIcon,
   Lock as LockIcon,
   Call as CallIcon,
-  Visibility as EyeIcon,
-  VisibilityOff as EyeOffIcon,
 } from "@mui/icons-material";
 
 import { GoogleIcon } from "assets/logo/icon";
@@ -18,9 +24,11 @@ import { setHeaderTitle } from "store/actions/App";
 import InputBox from "components/InputBox";
 import PasswordInputBox from "components/InputBox/PasswordInputBox";
 import { setNotificationData } from "store/actions/App";
+import SimpleBackdrop from "components/Backdrop";
 
 const Content = styled(Box)(({ theme }) => ({
   padding: `${theme.spacing(3)} ${theme.spacing(3)}`,
+  height: "100vh",
 }));
 
 const WrapBackIcon = styled(BackIcon)(({ theme }) => ({
@@ -30,7 +38,7 @@ const WrapBackIcon = styled(BackIcon)(({ theme }) => ({
 }));
 
 const WrapTypography = styled(Typography)(({ theme }) => ({
-  color: "grey"
+  color: "grey",
 }));
 
 const WrapDivider = styled(Divider)(({ theme }) => ({
@@ -38,7 +46,7 @@ const WrapDivider = styled(Divider)(({ theme }) => ({
   fontSize: "16px",
   fontWeight: "400",
   textAlign: "center",
-  color: "grey"
+  color: "grey",
 }));
 
 const ForgotLink = styled(Link)(({ theme }) => ({
@@ -58,7 +66,7 @@ const SignUpLink = styled(Link)(({ theme }) => ({
   paddingBottom: "40px",
   fontWeight: "500",
   color: "blue",
-  paddingLeft: "10px"
+  paddingLeft: "10px",
 }));
 
 const LoginButton = styled(Button)(({ theme }) => ({
@@ -78,7 +86,7 @@ const LoginButton = styled(Button)(({ theme }) => ({
   "&:hover": {
     color: theme.palette.button.primary.foreground,
     backgroundColor: theme.palette.button.primary.background,
-    boxShadow: "none"
+    boxShadow: "none",
   },
 }));
 
@@ -99,17 +107,18 @@ const GoogleLoginButton = styled(Button)(({ theme }) => ({
   "&:hover": {
     color: theme.palette.text.primary,
     backgroundColor: theme.palette.button.third.background,
-    boxShadow: "none"
+    boxShadow: "none",
   },
   "& .MuiButton-startIcon": {
     position: "absolute",
-    left: "20px"
-  }
+    left: "20px",
+  },
 }));
 
 const Login = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const timer = React.useRef();
 
   const [user, setUser] = useState({
     phoneNumber: "",
@@ -117,6 +126,8 @@ const Login = (props) => {
   });
 
   const [visible, setVisible] = useState(false);
+
+  const [loading, setLoading] = useState(false);
 
   const [validated, setValidated] = useState({
     phoneNumber: true,
@@ -143,9 +154,10 @@ const Login = (props) => {
   const handleLogin = () => {
     setAbleValidate(true);
     var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-    
+
     const _userValidate = {
-      phoneNumber: user.phoneNumber.length != 0 && user.phoneNumber.match(phoneno),
+      phoneNumber:
+        user.phoneNumber.length != 0 && user.phoneNumber.match(phoneno),
       password: user.password.length != 0,
     };
     setValidated({
@@ -154,15 +166,21 @@ const Login = (props) => {
     });
 
     if (_userValidate.phoneNumber && _userValidate.password) {
-      dispatch(
-        setNotificationData({
-          message: `Successfully User logined.`,
-          variant: "success",
-          open: true,
-        })
-      );
-
-      history.push("/dashboard");
+      if (!loading) {
+        setLoading(true);
+        timer.current = window.setTimeout(() => {
+          setLoading(false);
+          dispatch(
+            setNotificationData({
+              message: `Successfully User logined.`,
+              variant: "success",
+              open: true,
+            })
+          );
+    
+          history.push("/dashboard");
+        }, 2000);
+      }      
     } else {
       dispatch(
         setNotificationData({
@@ -233,10 +251,7 @@ const Login = (props) => {
           >
             Forgot Password?
           </ForgotLink>
-          <LoginButton
-            variant="contained"
-            onClick={handleLogin}
-          >
+          <LoginButton variant="contained" onClick={handleLogin}>
             Login
           </LoginButton>
           <Box display="flex" justifyContent="center" paddingTop="10px">
@@ -254,16 +269,11 @@ const Login = (props) => {
               variant="subtitle1"
               onClick={handleForgotPassword}
             >
-              {" "}Sign Up
+              {" "}
+              Sign Up
             </SignUpLink>
           </Box>
-          <WrapDivider
-            variant="subtitle1"
-            
-          >
-            {" "}
-            Or login with{" "}
-          </WrapDivider>
+          <WrapDivider variant="subtitle1"> Or login with </WrapDivider>
           <GoogleLoginButton
             variant="contained"
             startIcon={<GoogleIcon />}
@@ -273,6 +283,7 @@ const Login = (props) => {
           </GoogleLoginButton>
         </Content>
       </Container>
+      <SimpleBackdrop open={loading}></SimpleBackdrop>
     </motion.div>
   );
 };

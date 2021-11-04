@@ -70,6 +70,10 @@ const participants = [{
   avatar: UserAvatarImage5
 }]
 
+const WrapContainer = styled(Container)(({ theme }) => ({
+  padding: theme.spacing(0)
+}));
+
 const HeaderBox = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'center',
@@ -201,7 +205,7 @@ const PublicParty = (props) => {
       variants={pageVariants}
       transition={pageTransition}
     >
-      <Container maxWidth="sm">
+      <WrapContainer maxWidth="sm">
         <HeaderBox>
           <Typography variant="subtitle1">
             Public Parites
@@ -233,7 +237,7 @@ const PublicParty = (props) => {
         </ContentPaper>
         {data.status == 'joined' && (<TextButton variant="text" onClick={() => handleOpenLeaveModal()}>Leave Party</TextButton>)}
         
-      </Container>
+      </WrapContainer>
       <PrizeModal
         open={prizeModalOpen}
         handleClose={() => setPrizeModalOpen(false)}
