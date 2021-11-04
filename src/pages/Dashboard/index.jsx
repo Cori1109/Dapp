@@ -30,7 +30,7 @@ const PrimaryButton = styled(Button)(({ theme }) => ({
   fontWeight: 500,
   boxShadow: "none",
   fontSize: '16px',
-  fontFamily: 'Manrope',
+  fontFamily: 'Overpass',
   "&:hover": {
     color: theme.palette.button.text.foreground,
     boxShadow: "none"

@@ -36,7 +36,7 @@ const AddButton = styled(Button)(({ theme }) => ({
   boxShadow: "none",
   fontWeight: 500,
   fontSize: '16px',
-  fontFamily: 'Manrope',
+  fontFamily: 'Overpass',
   width: '100%',
   textTransform: 'none',
   borderRadius: '12px',

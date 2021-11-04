@@ -2,7 +2,7 @@ import palette from './palette';
 
 export default {
   fontFamily: [
-    'Manrope',
+    'Overpass',
     'sans-serif',
   ].join(','),
   h1: {
@@ -49,42 +49,42 @@ export default {
   },
   subtitle1: {
     color: palette.text.primary,
-    fontFamily: 'Manrope',
+    fontFamily: 'Montserrat Alternative',
     fontWeight: 700,
     fontSize: '1.5em',
     lineHeight: '36px'
   },
   subtitle2: {
     color: palette.text.secondary,
-    fontFamily: 'Manrope',
+    fontFamily: 'Montserrat Alternative',
     fontWeight: 400,
     fontSize: '1em',
     lineHeight: '24px'
   },
   subtitle3: {
     color: palette.text.primary,
-    fontFamily: 'Manrope',
+    fontFamily: 'Montserrat Alternative',
     fontWeight: 800,
     fontSize: '1.25em',
     lineHeight: '27px'
   },
   subtitle4: {
     color: palette.text.primary,
-    fontFamily: 'Manrope',
+    fontFamily: 'Overpass',
     fontWeight: 700,
     fontSize: '0.875em',
     lineHeight: '19.6px'
   },
   subtitle5: {
     color: palette.text.secondary,
-    fontFamily: 'Manrope',
+    fontFamily: 'Overpass',
     fontWeight: 700,
     fontSize: '0.875em',
     lineHeight: '19.6px'
   },
   subtitle1_dark: {
     color: palette.text.dark,
-    fontFamily: 'Manrope',
+    fontFamily: 'Montserrat Alternative',
     fontWeight: 700,
     fontSize: '1.5em',
     lineHeight: '36px'

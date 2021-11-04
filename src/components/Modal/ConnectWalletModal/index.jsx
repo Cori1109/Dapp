@@ -20,7 +20,7 @@ const WalletList = styled('ul')(({ theme }) => ({
   padding: '0px'
 }))
 
-const DialogHeader = styled(DialogTitle)(({ theme }) => ({
+const DialogHeader = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
@@ -59,11 +59,11 @@ const ConnectWalletModal = ({
         <Box></Box>
       </DialogHeader>
       <DialogContent>
-        <WalletList marginTop="20px">
+        <WalletList>
           <Divider variant="middle" />
           {
             WALLETS.map((item, index) => (
-              <WalletContainer>
+              <WalletContainer key={index}>
                 <WalletBox onClick={() => onSuccess(WALLETS[index])}>
                   <Box width="50px" display="flex" justifyContent="center">
                     <WalletImage src={item.logo} alt={item.title} />
