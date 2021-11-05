@@ -1,13 +1,23 @@
 import React from 'react';
 import { styled } from '@mui/system';
 import { Button, Typography } from "@mui/material";
-import ControlPointIcon from '@mui/icons-material/ControlPoint';
+import AddIcon from '@mui/icons-material/Add';
 
 const ButtonContainer = styled(Button)(({ theme }) => ({
-    borderRadius: '40px'
-}));
-
-const AddIcon = styled(ControlPointIcon)(({ theme }) => ({
+    fontsize: "14px",
+    background: "rgba(255, 255, 255, 0.2)",
+    backdropFilter: "blur(30px)",
+    borderRadius: "40px",
+    padding: "12px",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    textTransform: 'none',
+    boxShadow: "none",
+    "&: hover": {
+        background: "rgba(255, 255, 255, 0.2)",
+        boxShadow: "none"
+    }
 }));
 
 const Text = styled(Typography)(({ theme }) => ({
@@ -18,8 +28,8 @@ const Text = styled(Typography)(({ theme }) => ({
 
 const FundsButton = (props) => {
     return(
-        <ButtonContainer variant="contained" startIcon={<AddIcon />}>
-            <Text>{props.text}</Text>
+        <ButtonContainer variant="contained" startIcon={<AddIcon />} onClick={props.onClick}>
+            {props.text}
         </ButtonContainer>        
     );
 }

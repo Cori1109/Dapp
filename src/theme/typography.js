@@ -57,6 +57,36 @@ export default {
     lineHeight: '25px',
     display: 'block'
   },
+  sm_content: {
+    color: palette.primary_blue,
+    fontFamily: 'Overpass',
+    fontWeight: 600,
+    fontSize: '1em',
+    letterSpacing: '-0.5px',
+    wordSpacing: '-3px',
+    lineHeight: '25px',
+    display: 'block'
+  },
+  md_content: {
+    color: palette.primary_gray,
+    fontFamily: 'Overpass',
+    fontWeight: 600,
+    fontSize: '18px',
+    letterSpacing: '-0.5px',
+    wordSpacing: '-3px',
+    lineHeight: '25px',
+    display: 'block'
+  },
+  xs_content: {
+    color: palette.white,
+    fontFamily: 'Overpass',
+    fontWeight: 800,
+    fontSize: '14px',
+    letterSpacing: '-0.01em',
+    wordSpacing: '-3px',
+    lineHeight: '140%',
+    display: 'block'
+  },
   md_title: {
     color: palette.primary_gray,
     fontFamily: 'Montserrat Alternative',

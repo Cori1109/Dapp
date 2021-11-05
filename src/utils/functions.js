@@ -31,10 +31,10 @@ export const getFormatDate = (lastDate) => {
     seconds = 0
   let result = ''
   if (days > 0) {
-    result = (days + 'Days ' + hrs + 'Hours')
+    result = (days + 'Days ' + hrs + 'Hrs')
   } else {
     if (hrs > 0)
-      result = (hrs + 'Hours ' + mins + 'Min')
+      result = (hrs + 'Hrs ' + mins + 'Min')
     else {
       if (mins > 0)
         result = (mins + 'Min ' + seconds + 'Sec')

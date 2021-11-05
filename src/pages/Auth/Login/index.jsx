@@ -22,82 +22,40 @@ import PasswordInputBox from "components/InputBox/PasswordInputBox";
 import { setNotificationData } from "store/actions/App";
 import SimpleBackdrop from "components/Backdrop";
 import BackButton from "components/Button/BackButton";
+import PrimaryButton from "components/Button/PrimaryButton";
 
 const Content = styled(Box)(({ theme }) => ({
   padding: `20px 20px`,
   height: "100vh",
 }));
 
-const WrapTypography = styled(Typography)(({ theme }) => ({
-  color: "grey",
+const PrimaryTypography = styled(Typography)(({ theme }) => ({
+  cursor: "pointer",
 }));
 
 const WrapDivider = styled(Divider)(({ theme }) => ({
-  paddingTop: "40px",
-  fontSize: "16px",
-  fontWeight: "400",
-  textAlign: "center",
-  color: "grey",
-}));
-
-const ForgotLink = styled(Link)(({ theme }) => ({
-  color: theme.palette.text.primary,
-  fontSize: "16px",
-  paddingTop: "10px",
-  paddingBottom: "40px",
-  fontWeight: "500",
-  float: "right",
-  color: "blue",
-}));
-
-const SignUpLink = styled(Link)(({ theme }) => ({
-  color: theme.palette.text.primary,
-  fontSize: "16px",
-  paddingTop: "10px",
-  paddingBottom: "40px",
-  fontWeight: "500",
-  color: "blue",
-  paddingLeft: "10px",
-}));
-
-const LoginButton = styled(Button)(({ theme }) => ({
-  color: theme.palette.button.primary.foreground,
-  backgroundColor: theme.palette.button.primary.background,
-  fontWeight: 500,
-  fontSize: "16px",
-  fontFamily: "Overpass",
-  width: "100%",
-  textTransform: "none",
-  boxShadow: "none",
-  borderRadius: "12px",
-  marginTop: "24px",
-  padding: "16px 24px",
-  display: "flex",
-  justifyContent: "center",
-  "&:hover": {
-    color: theme.palette.button.primary.foreground,
-    backgroundColor: theme.palette.button.primary.background,
-    boxShadow: "none",
-  },
+  marginTop: "134px",
+  marginBottom: "16px",
+  color: theme.palette.secondary_gray
 }));
 
 const GoogleLoginButton = styled(Button)(({ theme }) => ({
-  color: theme.palette.text.primary,
-  backgroundColor: theme.palette.button.third.background,
+  color: theme.palette.primary_gray,
+  backgroundColor: theme.palette.white,
   fontWeight: 700,
   fontSize: "16px",
   fontFamily: "Overpass",
   boxShadow: "none",
   width: "100%",
   textTransform: "none",
-  borderRadius: "12px",
-  marginTop: "24px",
+  borderRadius: "16px",
+  border: `1px solid #E8E8E8`,
   padding: "16px 24px",
   display: "flex",
   justifyContent: "center",
   "&:hover": {
-    color: theme.palette.text.primary,
-    backgroundColor: theme.palette.button.third.background,
+    color: theme.palette.primary_gray,
+    backgroundColor: theme.palette.white,
     boxShadow: "none",
   },
   "& .MuiButton-startIcon": {
@@ -239,36 +197,33 @@ const Login = (props) => {
               setVisible={setVisible}
             />
           </Stack>
-          <ForgotLink
-            component="button"
-            variant="subtitle1"
+          <PrimaryTypography
+            variant="sm_content"
+            width= "100%"
+            textAlign= "right"
+            marginTop= "16px"
+            marginBottom= "32px"            
             onClick={handleForgotPassword}
           >
             Forgot Password?
-          </ForgotLink>
-          <LoginButton variant="contained" onClick={handleLogin}>
-            Login
-          </LoginButton>
-          <Box display="flex" justifyContent="center" paddingTop="10px">
-            <WrapTypography
-              paddingTop="20px"
-              fontSize="16px"
-              fontWeight="500"
-              textAlign="center"
+          </PrimaryTypography>
+          <PrimaryButton variant="contained" onClick={handleLogin} text="Login" />
+          <Box display="flex" justifyContent="center" marginTop="24px">
+            <Typography
+              variant="sm_title"
             >
               Don't have account?
-            </WrapTypography>
+            </Typography>
 
-            <SignUpLink
-              component="button"
-              variant="subtitle1"
+            <PrimaryTypography
+              variant="sm_content"
+              marginLeft="4px"
               onClick={handleForgotPassword}
             >
-              {" "}
               Sign Up
-            </SignUpLink>
+            </PrimaryTypography>
           </Box>
-          <WrapDivider variant="subtitle1"> Or login with </WrapDivider>
+          <WrapDivider> Or login with </WrapDivider>
           <GoogleLoginButton
             variant="contained"
             startIcon={<GoogleIcon />}

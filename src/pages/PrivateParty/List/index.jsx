@@ -30,6 +30,10 @@ const ContentHeader = styled(Box)(({ theme }) => ({
   alignItems: 'center',
 }));
 
+const WrapTypography = styled(Typography)(({ theme }) => ({
+  fontSize: "18px"
+}));
+
 const PrimaryButton = styled(Button)(({ theme }) => ({
   color: theme.palette.button.text.foreground,
   fontWeight: 500,
@@ -66,16 +70,16 @@ const PrivatePartyList = (props) => {
     >
       <WrapContainer maxWidth="sm">
         <HeaderBox>
-          <Typography variant="subtitle1">
+          <Typography variant="md_title">
             Private Parites
           </Typography>
         </HeaderBox>
         <ContentPaper>
           <ContentHeader>
-            <Typography variant="subtitle3">
+            <WrapTypography variant="md_content">
               Your private parites
-            </Typography>
-            <PrimaryButton variant="text" onClick={handleCreate}>Create</PrimaryButton>
+            </WrapTypography>
+            <Typography variant="sm_content" style={{cursor:"pointer"}} onClick={handleCreate}>Create</Typography>
           </ContentHeader>
           <ContentImage src={parivatePartyImage} />
           <PartiesList list={partyList.filter((item) => {return !item.isPublic})}/>
