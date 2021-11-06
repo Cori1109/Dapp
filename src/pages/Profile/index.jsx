@@ -200,14 +200,14 @@ const Profile = (props) => {
             </Badge>
             
             <Box display="" alignItems="center" padding="10px" marginLeft="20px">
-              <Typography variant="subtitle1" >
+              <Typography variant="sl_title" >
                 {account && getAbbreviationAddress(account)}
               </Typography>
               <GoldButton endIcon={<RankingIcon/>}> Member Gold </GoldButton>
             </Box>
           </Box>
           <Box paddingBottom="12px">
-            <Typography variant="subtitle3">Overview</Typography>
+            <Typography variant="sm_content_gray">Overview</Typography>
           </Box>
           {
             account ? 
@@ -217,7 +217,7 @@ const Profile = (props) => {
                   <Typography variant="" >Total Balance</Typography>
                   <Box display='flex' marginTop="10px">
                     <WrapImage src={IncomeIcon} alt='' />
-                    <Typography variant="subtitle1" >$4,500</Typography>
+                    <Typography variant="sl_title" >$4,500</Typography>
                   </Box>
                 </WrapBox>                        
               </Grid>
@@ -226,7 +226,7 @@ const Profile = (props) => {
                   <Typography variant="">Lock in Parties</Typography>
                   <Box display='flex' marginTop="10px">
                     <WrapImage src={LockIcon} alt='' />
-                    <Typography variant="subtitle1" >$1,500</Typography>
+                    <Typography variant="sl_title" >$1,500</Typography>
                   </Box>
                 </WrapBox>
               </Grid>
@@ -238,7 +238,7 @@ const Profile = (props) => {
           <WithdrawButton> Withdraw money </WithdrawButton>
           <QuizButton variant="contained" startIcon={<QuizIcon />} endIcon={<ArrowRightIcon />}>Got any questions for Rand? <br/> Our CS are ready 24/7 to help!</QuizButton>
           <Box marginTop="24px" textAlign="center" fontSize="12px">
-            <Typography variant="subtitle2" >You joined Finpay on September 2021. It’s been 1 month since then and our mission is still the same, help you better manage your finance.</Typography>
+            <Typography variant="sm_content_gray" >You joined Finpay on September 2021. It’s been 1 month since then and our mission is still the same, help you better manage your finance.</Typography>
           </Box>
         </Content>
       </WrapContainer>

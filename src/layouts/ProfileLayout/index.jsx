@@ -53,7 +53,7 @@ const ProfileLayout = ({ children }) => {
       <Container maxWidth="sm">
         <HeaderBox>
           <WrapBackIcon onClick={() => {history.goBack()}}/>
-          <HeaderTitle variant="subtitle1_dark">
+          <HeaderTitle variant="sl_title_dark">
             
           </HeaderTitle>
           <Box></Box>

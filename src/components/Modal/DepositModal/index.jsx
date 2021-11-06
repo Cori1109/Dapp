@@ -34,14 +34,14 @@ const DepositModal = ({
     >
       <DialogHeader>
         <CloseIcon onClick={() => {setSelectedAmount(0); handleClose();}} style={{ color:"#4263EB"}}/>
-        <Typography variant="subtitle1">
+        <Typography variant="sl_title">
           Amount to deposit
         </Typography>
         <Box></Box>
       </DialogHeader>
       <DialogContent>
         <Box marginBottom="20px">
-          <Typography variant="subtitle3">{`Available: ${balance}`}</Typography>
+          <Typography variant="sm_content_gray">{`Available: ${balance}`}</Typography>
         </Box>
         <BalanceSelector 
           max={balance} 

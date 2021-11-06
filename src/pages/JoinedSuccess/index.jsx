@@ -76,16 +76,16 @@ const JoinedSuccess = (props) => {
           <SuccessLogo src={SuccessImage} alt="Success Logo"/>
         </ImageBox>
         <HeaderBox>
-          <Typography variant="subtitle1">
+          <Typography variant="sl_title">
             Party Joined Success
           </Typography>
         </HeaderBox>
         <PriceBox>
-          <Typography variant="subtitle1">
+          <Typography variant="sl_title">
             ${joinedParam?.price}
           </Typography>
         </PriceBox>
-        <Typography variant="subtitle2" textAlign="center">
+        <Typography variant="sm_content_gray" textAlign="center">
           You have joined the {joinedParam?.party_name}.
         </Typography>
         <AddButton variant="contained" onClick={() => {history.push(joinedParam?.back_url); dispatch(setJoinedParam(null));}}>Done</AddButton>

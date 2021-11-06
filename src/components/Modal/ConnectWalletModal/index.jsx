@@ -53,7 +53,7 @@ const ConnectWalletModal = ({
     >
       <DialogHeader>
         <CloseIcon onClick={onClose}/>
-        <Typography variant="subtitle1">
+        <Typography variant="sl_title">
           Choose wallet
         </Typography>
         <Box></Box>
@@ -68,7 +68,7 @@ const ConnectWalletModal = ({
                   <Box width="50px" display="flex" justifyContent="center">
                     <WalletImage src={item.logo} alt={item.title} />
                   </Box>
-                  <Typography variant="subtitle3">
+                  <Typography variant="sm_content_gray">
                     {item.title} 
                   </Typography>
                 </WalletBox>

@@ -49,14 +49,14 @@ const NoMetamaskModal = ({
     >
       <DialogHeader>
         <CloseIcon onClick={onClose}/>
-        <Typography variant="subtitle1" textAlign="center">
+        <Typography variant="sl_title" textAlign="center">
           Don't have wallet?
         </Typography>
         <Box></Box>
       </DialogHeader>
       <DialogContent>
         <Box display="flex" justifyContent="space-around">
-          <Typography variant="subtitle3">
+          <Typography variant="sm_content_gray">
             You can download  browser extension for Chrome, Firefox, Brave or Edge. For more guidance, check{" "}
             <a href="https://medium.com/coinmonks/how-to-set-up-metamask-and-add-networks-bsc-matic-smartbch-476d5d023191" target="_blank">here</a>.
           </Typography>

@@ -26,7 +26,7 @@ const OptionButton = (props) => {
         <ButtonContainer variant="contained" disabled={props.disabled} onClick={props.handleClick}>
             <Box display="flex" alignItems="center">
                 <Icon src={props.startIcon}/>
-                <Typography variant="subtitle5">{props.text}</Typography>
+                <Typography variant="xs_content_gray">{props.text}</Typography>
             </Box>
             <Icon src={props.endIcon}/>
         </ButtonContainer>        

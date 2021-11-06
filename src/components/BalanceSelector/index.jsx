@@ -19,7 +19,7 @@ const CardBody = styled('div')(({ theme }) => ({
 }));
 
 const BalanceCurrency = styled(Typography)(({ theme }) => ({
-    color: 'black',
+    color: theme.palette.primary_gray,
     fontSize: '20px',
     fontWeight: 'bold',
     display: 'flex'
@@ -28,18 +28,17 @@ const BalanceCurrency = styled(Typography)(({ theme }) => ({
 const BalanceNumber = styled(Input)(({ theme }) => ({
     '& input': {
         padding: '0px',
-        fontSize: '36px',
-        color: 'black',
-        fontSize: '48px',
+        fontSize: '2.25em',
+        color: theme.palette.primary_gray,
         fontWeight: 'bold'
     },
     '& .MuiOutlinedInput-notchedOutline': {
         border: '0px'
     },
     '& .MuiTypography-root': {
-        fontSize: '24px',
+        fontSize: '1.5em',
         paddingBottom: '12px',
-        color: 'black',
+        color: theme.palette.primary_gray,
         fontWeight: 'bold',
     }
 }));
@@ -102,7 +101,7 @@ const handleChangeBalance = (value) => {
 
 return(
     <CardBox>
-        <Typography variant="subtitle2" textAlign="center">
+        <Typography variant="sm_content_gray" textAlign="center">
             {`Amount (${currency ? currency : 'USD'})`}
         </Typography>
         <CardBody>

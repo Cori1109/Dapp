@@ -63,14 +63,14 @@ const LeavePartyModal = ({
     >
       <DialogHeader>
         <CloseIcon onClick={handleClose}/>
-        <Typography variant="subtitle1" textAlign="center">
+        <Typography variant="sl_title" textAlign="center">
           Are you sure want<br /> to leave the party?
         </Typography>
         <Box></Box>
       </DialogHeader>
       <DialogContent>
         <Box display="flex" justifyContent="space-around">
-          <Typography variant="subtitle4" textAlign="center">
+          <Typography variant="xs_content_gray" textAlign="center">
             If you leave the party now you won't be <br />able to claim any prize
           </Typography>
         </Box>

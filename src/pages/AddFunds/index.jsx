@@ -194,7 +194,7 @@ const AddFunds = (props) => {
     >
       <Container maxWidth="sm">
         <HeaderBox>
-          <Typography variant="subtitle3" textAlign="center" marginTop="32px">
+          <Typography variant="sm_content_gray" textAlign="center" marginTop="32px">
             How do you want to add funds?
           </Typography>
         </HeaderBox>
@@ -219,7 +219,7 @@ const AddFunds = (props) => {
           step == 1 && selectedCryptoInfo &&
           <>
             <Box marginBottom="20px">
-              <Typography variant="subtitle3">{`Available: ${maxBalance}`}</Typography>
+              <Typography variant="sm_content_gray">{`Available: ${maxBalance}`}</Typography>
             </Box>
             <BalanceSelector
               max={maxBalance}

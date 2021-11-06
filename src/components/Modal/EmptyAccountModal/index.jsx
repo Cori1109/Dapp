@@ -45,14 +45,14 @@ const EmptyAccountModal = ({
     >
       <DialogHeader>
         <CloseIcon onClick={handleClose}/>
-        <Typography variant="subtitle1" textAlign="center">
+        <Typography variant="sl_title" textAlign="center">
           Oops! Your account <br /> it's empty
         </Typography>
         <Box></Box>
       </DialogHeader>
       <DialogContent>
         <Box display="flex" justifyContent="space-around">
-          <Typography variant="subtitle3">
+          <Typography variant="sm_content_gray">
             Add money to join a party
           </Typography>
         </Box>

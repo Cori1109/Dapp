@@ -53,7 +53,7 @@ const ChooseCryptoModal = ({
     >
       <DialogHeader>
         <CloseIcon onClick={onClose}/>
-        <Typography variant="subtitle1">
+        <Typography variant="sl_title">
           Choose crypto
         </Typography>
         <Box></Box>
@@ -68,7 +68,7 @@ const ChooseCryptoModal = ({
                   <Box width="50px" display="flex" justifyContent="center">
                     <CryptoImage src={item.logo} alt={item.title} />
                   </Box>
-                  <Typography variant="subtitle3">
+                  <Typography variant="sm_content_gray">
                     {item.title} 
                   </Typography>
                 </CryptoBox>
