@@ -23,7 +23,7 @@ const Welcome = (props) => {
   };
 
   const handleCreateAccount = () => {
-
+    history.push('/signup')
   };
 
   return (

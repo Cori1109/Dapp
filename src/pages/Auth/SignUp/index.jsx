@@ -13,7 +13,7 @@ import { motion } from "framer-motion";
 import { pageVariants, pageTransition } from "../../../utils/pageTransitions";
 import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
-import { LockIcon, LockDarkIcon, CallIcon, CallDarkIcon } from "assets/logo/icon";
+import { LockIcon, LockDarkIcon, CallIcon, CallDarkIcon, UserIcon, UserDarkIcon } from "assets/logo/icon";
 
 import { GoogleIcon } from "assets/logo/icon";
 import { setHeaderTitle } from "store/actions/App";
@@ -34,12 +34,12 @@ const PrimaryTypography = styled(Typography)(({ theme }) => ({
 }));
 
 const WrapDivider = styled(Divider)(({ theme }) => ({
-  marginTop: "134px",
-  marginBottom: "16px",
+  marginTop: "36px",
+  marginBottom: "30px",
   color: theme.palette.secondary_gray
 }));
 
-const GoogleLoginButton = styled(Button)(({ theme }) => ({
+const GoogleSignUpButton = styled(Button)(({ theme }) => ({
   color: theme.palette.primary_gray,
   backgroundColor: theme.palette.white,
   fontWeight: 700,
@@ -65,13 +65,15 @@ const GoogleLoginButton = styled(Button)(({ theme }) => ({
 }));
 
 const phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+const fullnameRegex = /^[a-zA-Z ]{2,40}$/;
 
-const Login = (props) => {
+const SignUp = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const timer = React.useRef();
 
   const [user, setUser] = useState({
+    fullname: "",
     phoneNumber: "",
     password: "",
   });
@@ -81,11 +83,13 @@ const Login = (props) => {
   const [loading, setLoading] = useState(false);
 
   const [validated, setValidated] = useState({
+    fullname: true,
     phoneNumber: true,
     password: true,
   });
 
   const [iconValidated, setIconValidated] = useState({
+    fullname: false,
     phoneNumber: false,
     password: false,
   });
@@ -101,6 +105,7 @@ const Login = (props) => {
     setUser({ ...user, [id]: value });
 
     setIconValidated({
+      fullname: _user.fullname.match(fullnameRegex),
       phoneNumber:
         _user.phoneNumber.match(phoneno),
       password: _user.password.length >= 6,
@@ -114,10 +119,12 @@ const Login = (props) => {
     }
   };
 
-  const handleLogin = () => {
+  const handleSignUp = () => {
     setAbleValidate(true);
 
     const _userValidate = {
+      fullname:
+        user.fullname.match(fullnameRegex),
       phoneNumber:
         user.phoneNumber.length != 0 && user.phoneNumber.match(phoneno),
       password: user.password.length >= 6,
@@ -127,14 +134,14 @@ const Login = (props) => {
       ..._userValidate,
     });
 
-    if (_userValidate.phoneNumber && _userValidate.password) {
+    if (_userValidate.fullname && _userValidate.phoneNumber && _userValidate.password) {
       if (!loading) {
         setLoading(true);
         timer.current = window.setTimeout(() => {
           setLoading(false);
           dispatch(
             setNotificationData({
-              message: `Successfully User logined.`,
+              message: `Successfully User Registered.`,
               variant: "success",
               open: true,
             })
@@ -146,7 +153,7 @@ const Login = (props) => {
     } else {
       dispatch(
         setNotificationData({
-          message: `Please input all validated phone number and password fields`,
+          message: `Please input all validated name, phone number and password fields`,
           variant: "error",
           open: true,
         })
@@ -154,10 +161,8 @@ const Login = (props) => {
     }
   };
 
-  const handleForgotPassword = () => { };
-
-  const handleSignUp = () => { 
-    history.push('/signup')
+  const handleLogin = () => { 
+    history.push('/login');
   };
 
   return (
@@ -174,12 +179,21 @@ const Login = (props) => {
             <BackButton />
           </Box>
           <Typography variant="md_title" marginBottom="4px">
-            Hi, Welcome Back!
+            Hi, Welcome to Rand!
           </Typography>
           <Typography variant="sm_title" marginBottom="32px">
-            Sign in to your account.
+            Create an account.
           </Typography>
           <Stack direction="column" spacing={3}>
+            <InputBox
+              id="fullname"
+              type={"text"}
+              startIcon={iconValidated.fullname ? <UserIcon /> : <UserDarkIcon />}
+              value={user.fullname}
+              placeholder="Full Name"
+              onChange={onInputChange}
+              validated={validated.fullname}
+            />
             <InputBox
               id="phoneNumber"
               type={"text"}
@@ -201,40 +215,30 @@ const Login = (props) => {
               setVisible={setVisible}
             />
           </Stack>
-          <PrimaryTypography
-            variant="sm_content"
-            width= "100%"
-            textAlign= "right"
-            marginTop= "16px"
-            marginBottom= "32px"            
-            onClick={handleForgotPassword}
+          <PrimaryButton variant="contained" style={{marginTop: "56px"}} onClick={handleSignUp} text="Sign Up" />
+          <WrapDivider> Or </WrapDivider>
+          <GoogleSignUpButton
+            variant="contained"
+            startIcon={<GoogleIcon />}
+            onClick={handleSignUp}
           >
-            Forgot Password?
-          </PrimaryTypography>
-          <PrimaryButton variant="contained" onClick={handleLogin} text="Login" />
-          <Box display="flex" justifyContent="center" marginTop="24px">
+            Sign Up with Google
+          </GoogleSignUpButton>
+          <Box display="flex" justifyContent="center" marginTop="64px">
             <Typography
               variant="sm_title"
             >
-              Don't have account?
+              Have an account?
             </Typography>
 
             <PrimaryTypography
               variant="sm_content"
               marginLeft="4px"
-              onClick={handleSignUp}
+              onClick={handleLogin}
             >
-              Sign Up
+              Log In
             </PrimaryTypography>
           </Box>
-          <WrapDivider> Or login with </WrapDivider>
-          <GoogleLoginButton
-            variant="contained"
-            startIcon={<GoogleIcon />}
-            onClick={handleLogin}
-          >
-            Login with Google
-          </GoogleLoginButton>
         </Content>
       </Container>
       <SimpleBackdrop open={loading}></SimpleBackdrop>
@@ -242,4 +246,4 @@ const Login = (props) => {
   );
 };
 
-export default Login;
+export default SignUp;

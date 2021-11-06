@@ -6,6 +6,8 @@ import {ReactComponent as LockIcon} from "assets/logo/lock.svg";
 import {ReactComponent as LockDarkIcon} from "assets/logo/lock_dark.svg";
 import {ReactComponent as CallIcon} from "assets/logo/call.svg";
 import {ReactComponent as CallDarkIcon} from "assets/logo/call_dark.svg";
+import {ReactComponent as UserIcon} from "assets/logo/user.svg";
+import {ReactComponent as UserDarkIcon} from "assets/logo/user_dark.svg";
 
 export {
     GoogleIcon,
@@ -15,5 +17,7 @@ export {
     LockIcon,
     LockDarkIcon,
     CallIcon,
-    CallDarkIcon
+    CallDarkIcon,
+    UserIcon,
+    UserDarkIcon,
 }

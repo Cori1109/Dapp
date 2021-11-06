@@ -17,6 +17,7 @@ import { AnimatePresence } from "framer-motion";
 import Welcome from 'pages/Welcome';
 import Profile from 'pages/Profile';
 import ProfileLayout from 'layouts/ProfileLayout';
+import SignUp from 'pages/Auth/SignUp';
 
 const renderRoutes = (props) => (
   <AnimatePresence>
@@ -64,6 +65,11 @@ const renderRoutes = (props) => (
       <Route exact path="/login">
         <DefaultLayout>
           <Login />
+        </DefaultLayout>
+      </Route>
+      <Route exact path="/signup">
+        <DefaultLayout>
+          <SignUp />
         </DefaultLayout>
       </Route>
       <Route exact path="/welcome">
