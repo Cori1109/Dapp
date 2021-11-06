@@ -56,7 +56,7 @@ const PrizeModal = ({
           {
             list.map((item, index) => (
               <Fragment key={`prize-item-${index}`}>
-              <Box display="flex" justifyContent="space-between" padding="16px 48px">
+              <Box display="flex" justifyContent="space-between" padding="16px 18px">
                 <Typography variant="sm_content_gray">
                   Tier {index + 1}: ${item.amount} 
                 </Typography>

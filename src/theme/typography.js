@@ -103,7 +103,7 @@ export default {
     fontWeight: 400,
     fontSize: '0.875em',
     letterSpacing: '-0.01em',
-    wordSpacing: '-3px',
+    wordSpacing: '-5px',
     lineHeight: '140%',
     display: 'block'
   },

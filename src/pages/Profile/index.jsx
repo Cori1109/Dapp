@@ -214,7 +214,7 @@ const Profile = (props) => {
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <WrapBox>
-                  <Typography variant="" >Total Balance</Typography>
+                  <Typography variant="xs_content_gray" >Total Balance</Typography>
                   <Box display='flex' marginTop="10px">
                     <WrapImage src={IncomeIcon} alt='' />
                     <Typography variant="sl_title" >$4,500</Typography>
@@ -223,7 +223,7 @@ const Profile = (props) => {
               </Grid>
               <Grid item xs={6}>
                 <WrapBox>
-                  <Typography variant="">Lock in Parties</Typography>
+                  <Typography variant="xs_content_gray">Lock in Parties</Typography>
                   <Box display='flex' marginTop="10px">
                     <WrapImage src={LockIcon} alt='' />
                     <Typography variant="sl_title" >$1,500</Typography>
