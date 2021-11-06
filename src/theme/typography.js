@@ -100,7 +100,7 @@ export default {
   xs_content_gray: {
     color: palette.secondary_gray,
     fontFamily: 'Overpass',
-    fontWeight: 800,
+    fontWeight: 400,
     fontSize: '0.875em',
     letterSpacing: '-0.01em',
     wordSpacing: '-3px',
@@ -133,7 +133,6 @@ export default {
     fontWeight: 800,
     fontSize: '1.25em',
     letterSpacing: '-0.5px',
-    wordSpacing: '-3px',
     lineHeight: '28px',
     display: 'block'
   },
