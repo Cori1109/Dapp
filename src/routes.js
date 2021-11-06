@@ -18,6 +18,7 @@ import Welcome from 'pages/Welcome';
 import Profile from 'pages/Profile';
 import ProfileLayout from 'layouts/ProfileLayout';
 import SignUp from 'pages/Auth/SignUp';
+import Splash from 'pages/Splash';
 
 const renderRoutes = (props) => (
   <AnimatePresence>
@@ -82,7 +83,10 @@ const renderRoutes = (props) => (
           <Profile />
         </ProfileLayout>
       </Route>
-      <Redirect from="/" to="/welcome"/>
+      <Route path="/">
+        <Splash />
+      </Route>
+      {/* <Redirect from="/" to="/welcome"/> */}
     </Switch>
   </AnimatePresence>
 );
