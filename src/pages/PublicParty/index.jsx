@@ -20,6 +20,7 @@ import UserAvatarImage2 from "../../assets/avatar/Brandon.png";
 import UserAvatarImage3 from "../../assets/avatar/Julia.png";
 import UserAvatarImage4 from "../../assets/avatar/Phillip.png";
 import UserAvatarImage5 from "../../assets/avatar/Dianne.png";
+import PrimaryButton from "components/Button/PrimaryButton";
 
 const prizeResult = [{
   amount: 2273,
@@ -70,6 +71,11 @@ const participants = [{
   avatar: UserAvatarImage5
 }]
 
+const WrapTypography = styled(Typography)(({ theme }) => ({
+  color: theme.palette.secondary_gray,
+  lineHeight: '0'
+}))
+
 const WrapContainer = styled(Container)(({ theme }) => ({
   padding: theme.spacing(0)
 }));
@@ -81,8 +87,11 @@ const HeaderBox = styled(Box)(({ theme }) => ({
 }));
 
 const WrapInfoOutlinedIcon = styled(InfoOutlinedIcon)(({ theme }) => ({
-  color: theme.palette.text.secondary,
-  cursor: 'pointer'
+  color: theme.palette.secondary_gray,
+  width: "19px",
+  height: "19px",
+  cursor: 'pointer',
+  marginLeft: "8px"
 }));
 
 const ContentPaper = styled(Paper)(({ theme }) => ({
@@ -99,27 +108,6 @@ const BalanceInfo = styled(Box)(({ theme }) => ({
 const PartyAvatar = styled(Avatar)(({ theme }) => ({
   backgroundColor: theme.palette.button.primary.background,
   margin: 'auto'
-}))
-
-const AddButton = styled(Button)(({ theme }) => ({
-  color: theme.palette.button.primary.foreground,
-  backgroundColor: theme.palette.button.primary.background,
-  fontWeight: 500,
-  fontSize: '16px',
-  fontFamily: 'Overpass',
-  width: '100%',
-  textTransform: 'none',
-  boxShadow: "none",
-  borderRadius: '12px',
-  marginTop: '24px',
-  padding: '16px 24px',
-  display: 'flex',
-  justifyContent: 'space-between',
-  "&:hover": {
-    color: theme.palette.button.primary.foreground,
-    backgroundColor: theme.palette.button.primary.background,
-    boxShadow: "none"
-  },
 }))
 
 const TextButton = styled(Button)(({ theme }) => ({
@@ -175,13 +163,13 @@ const PublicParty = (props) => {
     setLeaveModalOpen(false)
     
     let _data = JSON.parse(JSON.stringify(data))
-    _data.status = 'opened'
+    _data.status = 'Opened'
     dispatch(editParty(_data))
     // history.goBack()
   }
 
   const handleClickPartyStatus = (item) => {
-    if (item && item.status == "opened") {
+    if (item && item.status == "Opened") {
       if (balance !== 0)
         setJoinModalOpen(true)
       else
@@ -207,23 +195,23 @@ const PublicParty = (props) => {
     >
       <WrapContainer maxWidth="sm">
         <HeaderBox>
-          <Typography variant="subtitle1">
+          <WrapTypography variant="md_title">
             Public Parites
-          </Typography>
+          </WrapTypography>
         </HeaderBox>
         <ContentPaper>
           <Box display="flex" alignItems="center" paddingBottom="8px" >
-            <Typography variant="subtitle2" marginRight="8px">
+            <Typography variant="sm_title" marginRight="8px">
               Expected prize
             </Typography>
             <WrapInfoOutlinedIcon onClick={() => { setPrizeModalOpen(true) }} />
           </Box>
           <PartyInfo party={data} />
-          <Box marginTop="24px" display="flex" justifyContent="space-between" alignItems="center">
-            <Typography variant="subtitle4">Participants counter</Typography>
-            <Typography variant="subtitle4">{participants.length}</Typography>
+          <Box display="flex" justifyContent="space-between" alignItems="center" marginTop="27px" marginBottom="19px">
+            <Typography variant="sm_title">Participants counter</Typography>
+            <Typography variant="sm_title">{participants.length}</Typography>
           </Box>
-          <Stack direction="row" spacing={-2} marginTop="24px">
+          <Stack direction="row" spacing={-2} >
             {
               participants.map((item, index) => (
                 <Box key={`participant-${index}`}>
@@ -232,8 +220,9 @@ const PublicParty = (props) => {
               ))
             }
           </Stack>
-          <StatusButton status={data ? data.status : 'opened'} handleClick={() => handleClickPartyStatus(data)}/>
-          <AddButton variant="contained" endIcon={<AddIcon />} onClick = {() => handleOpenShareModal()}>Share</AddButton>
+          <StatusButton status={data ? data.status : 'Opened'} handleClick={() => handleClickPartyStatus(data)}/>
+          <PrimaryButton variant="contained" style={{justifyContent: "space-between", marginTop: "23px"}} endIcon={<AddIcon />} onClick={() => handleOpenShareModal()} text="Share" />
+          
         </ContentPaper>
         {data.status == 'joined' && (<TextButton variant="text" onClick={() => handleOpenLeaveModal()}>Leave Party</TextButton>)}
         

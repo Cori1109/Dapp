@@ -11,6 +11,11 @@ const BalanceInfo = styled(Box)(({ theme }) => ({
     alignItems: 'center'
 }))
 
+const WrapTypography = styled(Typography)(({ theme }) => ({
+    color: theme.palette.secondary_gray,
+    marginBottom: "8px",
+}))
+
 const PartyInfo = ({ party }) => {
     const history = useHistory()
     const dispatch = useDispatch()
@@ -34,18 +39,18 @@ const PartyInfo = ({ party }) => {
     return (
         <>
             <BalanceInfo>
-                <Typography variant="h1" paddingRight="8px">
+                <Typography variant="lg_title" paddingRight="8px">
                     ${party ? getFormatNumber(party.balance) : 0}
                 </Typography>
-                <Typography variant="subtitle5">
+                <Typography variant="ss_content">
                     +3.1% from last month
                 </Typography>
             </BalanceInfo>
-            <Box marginTop="32px" padding="24px" borderRadius="16px" backgroundColor="#F0EEFE">
+            <Box marginTop="28px" padding="24px 16px" borderRadius="16px" backgroundColor="#F0EEFE">
                 <Grid container spacing={2} >
                     <Grid item xs={8}>
-                        <Typography variant="subtitle2">{party && getFormatDate(party.endDate) != 0 ? 'Party closes in' : 'Party finished'}</Typography>
-                        <Typography variant="subtitle1">{party && getFormatDate(party.endDate) != 0 ? closeTime : ''}</Typography>
+                        <WrapTypography variant="sm_content">{party && getFormatDate(party.endDate) != 0 ? 'Party closes in' : 'Party finished'}</WrapTypography>
+                        <Typography variant="md_title">{party && getFormatDate(party.endDate) != 0 ? closeTime : ''}</Typography>
                     </Grid>
                     <Grid item xs={4}>
                     </Grid>

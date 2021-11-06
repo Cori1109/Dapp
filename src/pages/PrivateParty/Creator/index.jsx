@@ -61,7 +61,7 @@ const PrivatePartyCreator = (props) => {
     maxDepositAmount: '',
     duration: '',
     balance: '0',
-    status: 'opened'
+    status: 'Opened'
   })
 
   const [validated, setValidated] = useState({

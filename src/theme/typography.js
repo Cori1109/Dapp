@@ -47,16 +47,6 @@ export default {
     letterSpacing: '-0.05px',
     lineHeight: '20px'
   },
-  sm_title: {
-    color: palette.secondary_gray,
-    fontFamily: 'Overpass',
-    fontWeight: 500,
-    fontSize: '1em',
-    letterSpacing: '-0.5px',
-    wordSpacing: '-3px',
-    lineHeight: '25px',
-    display: 'block'
-  },
   sm_content: {
     color: palette.primary_blue,
     fontFamily: 'Overpass',
@@ -77,6 +67,16 @@ export default {
     lineHeight: '25px',
     display: 'block'
   },
+  ss_content: {
+    color: palette.secondary_gray,
+    fontFamily: 'Overpass',
+    fontWeight: 400,
+    fontSize: '12px',
+    letterSpacing: '-0.5px',
+    wordSpacing: '-3px',
+    lineHeight: '18px',
+    display: 'block'
+  },
   xs_content: {
     color: palette.white,
     fontFamily: 'Overpass',
@@ -85,6 +85,16 @@ export default {
     letterSpacing: '-0.01em',
     wordSpacing: '-3px',
     lineHeight: '140%',
+    display: 'block'
+  },
+  sm_title: {
+    color: palette.secondary_gray,
+    fontFamily: 'Overpass',
+    fontWeight: 500,
+    fontSize: '1em',
+    letterSpacing: '-0.5px',
+    wordSpacing: '-3px',
+    lineHeight: '25px',
     display: 'block'
   },
   md_title: {

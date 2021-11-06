@@ -8,7 +8,7 @@ const FillButtonContainer = styled(Button)(({ theme }) => ({
     fontWeight: 700,
     fontSize: '16px',
     lineHeight: '25.6px',
-    padding: '16px',
+    padding: '16px 24px',
     width: "100%",
     fontFamily: "Overpass",
     textTransform: "none",
@@ -44,11 +44,11 @@ const PrimaryButton = (props) => {
     console.log(props.text)
     return (
         props.variant == "contained" ?
-            <FillButtonContainer variant={props.variant} onClick={props.onClick}>
+            <FillButtonContainer variant={props.variant} onClick={props.onClick} endIcon={props.endIcon} startIcon={props.startIcon} style={props.style}>
                 {props.text}
             </FillButtonContainer>
             :
-            <TextButtonContainer variant={props.variant} onClick={props.onClick}>
+            <TextButtonContainer variant={props.variant} onClick={props.onClick} endIcon={props.endIcon} startIcon={props.startIcon} style={props.style}>
                 {props.text}
             </TextButtonContainer>
 

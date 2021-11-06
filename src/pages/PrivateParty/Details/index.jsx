@@ -9,18 +9,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { 
   Add as AddIcon, 
   InfoOutlined as InfoOutlinedIcon, 
+  CheckCircleOutline as CheckCircleOutlineIcon,
 } from '@mui/icons-material';
+// import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import StatusButton from "../../../components/Button/StatusButton";
 import DepositModal from "../../../components/Modal/DepositModal";
 import EmptyAccountModal from "components/Modal/EmptyAccountModal";
 import { setHeaderTitle, editParty, setBalance, setJoinedParam } from "store/actions/App";
-import PartyInfo from "components/PartyInfo";
+import PartyInfo from "../../../components/PartyInfo";
 import LeavePartyModal from "components/Modal/LeavePartyModal";
 import UserAvatarImage1 from "../../../assets/avatar/me.png";
 import UserAvatarImage2 from "../../../assets/avatar/Brandon.png";
 import UserAvatarImage3 from "../../../assets/avatar/Julia.png";
 import UserAvatarImage4 from "../../../assets/avatar/Phillip.png";
 import UserAvatarImage5 from "../../../assets/avatar/Dianne.png";
+import PrimaryButton from "components/Button/PrimaryButton";
 
 const Content = styled(Box)(({ theme }) => ({
   padding: `${theme.spacing(3)} ${theme.spacing(3)}`
@@ -29,6 +32,11 @@ const Content = styled(Box)(({ theme }) => ({
 const PartyAvatar = styled(Avatar)(({ theme }) => ({
   backgroundColor: theme.palette.button.primary.background,
   margin: 'auto'
+}))
+
+const WrapTypography = styled(Typography)(({ theme }) => ({
+  color: theme.palette.secondary_gray,
+  lineHeight: '0'
 }))
 
 const AddButton = styled(Button)(({ theme }) => ({
@@ -70,8 +78,11 @@ const TextButton = styled(Button)(({ theme }) => ({
 }))
 
 const WrapInfoOutlinedIcon = styled(InfoOutlinedIcon)(({ theme }) => ({
-  color: theme.palette.text.secondary,
-  cursor: 'pointer'
+  color: theme.palette.secondary_gray,
+  width: "19px",
+  height: "19px",
+  cursor: 'pointer',
+  marginLeft: "8px"
 }));
 
 const mockup_participants = [{
@@ -123,7 +134,7 @@ const PrivateParty = (props) => {
   }, [party])
 
   const handleClickPartyStatus = (item) => {
-    if (item && item.status == "opened") {
+    if (item && item.status == "Opened") {
       if (balance !== 0)
         setJoinModalOpen(true)
       else
@@ -135,7 +146,7 @@ const PrivateParty = (props) => {
     setJoinModalOpen(false)
     
     let _party = JSON.parse(JSON.stringify(party))
-    _party.status = 'joined'
+    _party.status = 'Joined'
     dispatch(editParty(_party))
     dispatch(setBalance(balance - price))
     dispatch(setJoinedParam({
@@ -150,7 +161,7 @@ const PrivateParty = (props) => {
     setLeaveModalOpen(false)
     
     let _data = JSON.parse(JSON.stringify(party))
-    _data.status = 'opened'
+    _data.status = 'Opened'
     dispatch(editParty(_data))
     setParty(_data)
     // history.goBack()
@@ -176,32 +187,32 @@ const PrivateParty = (props) => {
       <Container maxWidth="sm">
         <Content>
           <Box display="flex" alignItems="center" paddingBottom="8px" >
-            <Typography variant="subtitle2" marginRight="8px" >
+            <WrapTypography variant="sm_title">
               Total amount
-            </Typography>
+            </WrapTypography>
             <WrapInfoOutlinedIcon/>
           </Box>
           <PartyInfo party={party}/>
-          <Box marginTop="24px">
-            <Typography variant="subtitle3">Participants</Typography>
+          <Box marginTop="27px">
+            <Typography variant="sm_title">Participants</Typography>
           </Box>
-          <Stack direction="row" spacing={2} justifyContent="space-between" marginTop="24px">
+          <Stack direction="row" spacing={2} justifyContent="space-between" marginTop="24px" marginBottom="45px">
             <Box>
               <PartyAvatar alt="A" src={UserAvatarImage1}/>
-              <Typography textAlign="center">Me</Typography>
+              <Typography variant="ss_content" textAlign="center">Me</Typography>
             </Box>
             {
               participants.map((item, index) => (
                 <Box key={`participants-${index}`}>
                   <PartyAvatar alt="A" src={item.avatar}/>
-                  <Typography textAlign="center">{item.name}</Typography>
+                  <Typography variant="ss_content" textAlign="center">{item.name}</Typography>
                 </Box>
               ))
             }
           </Stack>
-          <StatusButton status={party ? party.status : 'opened'} handleClick={() => handleClickPartyStatus(party)}/>
-          <AddButton variant="contained" endIcon={<AddIcon />}>Add participants</AddButton>
-          {party && party.status == 'joined' && (<TextButton variant="text" onClick={() => handleOpenLeaveModal()}>Leave Party</TextButton>)}
+          <PrimaryButton variant="contained" style={{justifyContent: "space-between", backgroundColor: "#3F51B5", marginBottom: "26px"}} endIcon={<CheckCircleOutlineIcon />} onClick={() => handleClickPartyStatus(party)} text={party ? party.status : 'Opened'} />
+          <PrimaryButton variant="contained" style={{justifyContent: "space-between"}} endIcon={<AddIcon />} text="Add participants" />
+          {party && party.status == 'Joined' && (<TextButton variant="text" onClick={() => handleOpenLeaveModal()}>Leave Party</TextButton>)}
 
         </Content>
       </Container>

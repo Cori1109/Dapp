@@ -34,17 +34,6 @@ const WrapTypography = styled(Typography)(({ theme }) => ({
   fontSize: "18px"
 }));
 
-const PrimaryButton = styled(Button)(({ theme }) => ({
-  color: theme.palette.button.text.foreground,
-  fontWeight: 500,
-  boxShadow: "none",
-  fontSize: '16px',
-  "&:hover": {
-    color: theme.palette.button.text.foreground,
-    boxShadow: "none"
-  },
-}))
-
 const ContentImage = styled(`img`)(({ theme }) => ({
   borderRadius: '16px',
   width: 'calc(100% - 16px)',
