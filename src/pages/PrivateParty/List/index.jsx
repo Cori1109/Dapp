@@ -7,6 +7,8 @@ import parivatePartyImage from '../../../assets/landing/private-party.png'
 import PartiesList from '../../../components/PartiesList'
 import { useSelector} from 'react-redux'
 import { useHistory } from "react-router";
+import { useWeb3React } from "@web3-react/core";
+import { getUserDetails } from "utils/api";
 
 const WrapContainer = styled(Container)(({ theme }) => ({
   padding: theme.spacing(0),
@@ -44,21 +46,37 @@ const ContentImage = styled(`img`)(({ theme }) => ({
 const PrivatePartyList = (props) => {
 
   const history = useHistory();
-  const partyList = useSelector(state => state.app.partyList)
-
-  const [loading, setLoading] = useState(false);
+  // const partyList = useSelector(state => state.app.partyList)
+  // const [loading, setLoading] = useState(false);
+  // const timer = React.useRef();
+  
   const [parties, setParties] = useState(null);
-  const timer = React.useRef();
+  const { account } = useWeb3React();
 
+  const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B"
   useEffect(() => {
-    if (!loading) {
-      setLoading(true);
-      timer.current = window.setTimeout(() => {
-        setLoading(false);
-        setParties(partyList);
-      }, 3000);
-    }
-  }, []);
+    account && getUserDetailsInfo()
+  }, [account])
+
+  const getUserDetailsInfo = async () => {
+    getUserDetails(wallet)
+    .then((res) => {
+      setParties(res.privateParties)
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
+
+  // useEffect(() => {
+  //   if (!loading) {
+  //     setLoading(true);
+  //     timer.current = window.setTimeout(() => {
+  //       setLoading(false);
+  //       setParties(partyList);
+  //     }, 3000);
+  //   }
+  // }, []);
 
   const handleCreate = () => {
     history.push('/private-party/create')

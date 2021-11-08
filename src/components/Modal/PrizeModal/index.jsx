@@ -55,14 +55,14 @@ const PrizeModal = ({
       <DialogContent>
         <Box marginTop="20px">
           {
-            list.map((item, index) => (
+            list && list.map((item, index) => (
               <Fragment key={`prize-item-${index}`}>
               <Box display="flex" justifyContent="space-between" padding="16px 18px">
                 <Typography variant="sm_content_gray">
-                  Tier {index + 1}: ${item.amount} 
+                  Tier {index + 1}: ${item[0]} 
                 </Typography>
                 <Typography variant="sm_content_gray">
-                  {item.count} 
+                  {item[1]} 
                 </Typography>
               </Box>
               <Divider variant="middle" />

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Container, Stack, Typography, Button, Grid, Avatar, Paper } from "@mui/material";
 import { styled } from '@mui/system';
 import { motion } from "framer-motion";
@@ -21,17 +21,7 @@ import UserAvatarImage3 from "../../assets/avatar/Julia.png";
 import UserAvatarImage4 from "../../assets/avatar/Phillip.png";
 import UserAvatarImage5 from "../../assets/avatar/Dianne.png";
 import PrimaryButton from "components/Button/PrimaryButton";
-
-const prizeResult = [{
-  amount: 2273,
-  count: 2
-}, {
-  amount: 537,
-  count: 26
-}, {
-  amount: 250,
-  count: 2356
-}]
+import { getPrivatePartyDetails, getPublicParty, getUserDetails } from "utils/api";
 
 const participants = [{
   name: 'Phillip',
@@ -129,7 +119,9 @@ const TextButton = styled(Button)(({ theme }) => ({
 }))
 
 const PublicParty = (props) => {
-  const data = useSelector(state => state.app.partyList[2])
+  // const data = useSelector(state => state.app.partyList[2])
+  const [data, setData] = useState(null)
+  const [prizeDistribution, setPrizeDistribution] = useState([])
   const balance = useSelector(state => state.app.balance)
   const location = useLocation()
   const history = useHistory()
@@ -140,6 +132,25 @@ const PublicParty = (props) => {
   const [emptyAccountModalOpen, setEmptyAccountModalOpen] = useState(false)
   const dispatch = useDispatch()
 
+  useEffect(() => {
+    getPublicPartyInfo()
+  }, [])
+
+  const getPublicPartyInfo = async () => {
+    getPublicParty()
+    .then((res) => {
+      let _data = {...res, status: "Opened"}
+      setData(_data)
+      let _prizeDistribution = [
+        _data.prizeDistribution.tier1, _data.prizeDistribution.tier2, _data.prizeDistribution.tier3
+      ]
+      setPrizeDistribution(_prizeDistribution)
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
+  
   const handleJoinParty = (price) => {
     setJoinModalOpen(false)
     
@@ -201,6 +212,9 @@ const PublicParty = (props) => {
           </WrapTypography>
         </HeaderBox>
         <ContentPaper>
+          <Typography variant="md_content" marginBottom="12px">
+            {data && data.name}
+          </Typography>
           <Box display="flex" alignItems="center" paddingBottom="8px" >
             <Typography variant="sm_title" marginRight="8px">
               Expected prize
@@ -210,7 +224,7 @@ const PublicParty = (props) => {
           <PartyInfo party={data} />
           <Box display="flex" justifyContent="space-between" alignItems="center" marginTop="27px" marginBottom="19px">
             <Typography variant="sm_title">Participants counter</Typography>
-            <Typography variant="sm_title">{participants.length}</Typography>
+            <Typography variant="sm_title">{data && data.participants}</Typography>
           </Box>
           <Stack direction="row" spacing={-2} >
             {
@@ -225,13 +239,13 @@ const PublicParty = (props) => {
           <PrimaryButton variant="contained" style={{justifyContent: "space-between", marginTop: "23px"}} endIcon={<AddIcon />} onClick={() => handleOpenShareModal()} text="Share" />
           
         </ContentPaper>
-        {data.status == 'joined' && (<TextButton variant="text" onClick={() => handleOpenLeaveModal()}>Leave Party</TextButton>)}
+        {data && data.status == 'joined' && (<TextButton variant="text" onClick={() => handleOpenLeaveModal()}>Leave Party</TextButton>)}
         
       </WrapContainer>
       <PrizeModal
         open={prizeModalOpen}
         handleClose={() => setPrizeModalOpen(false)}
-        list={prizeResult}
+        list={prizeDistribution}
       />
       <DepositModal
         open={joinModalOpen}

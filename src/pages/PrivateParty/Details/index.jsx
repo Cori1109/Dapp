@@ -24,6 +24,7 @@ import UserAvatarImage3 from "../../../assets/avatar/Julia.png";
 import UserAvatarImage4 from "../../../assets/avatar/Phillip.png";
 import UserAvatarImage5 from "../../../assets/avatar/Dianne.png";
 import PrimaryButton from "components/Button/PrimaryButton";
+import { getPrivatePartyDetails } from "utils/api";
 
 const Content = styled(Box)(({ theme }) => ({
   padding: `${theme.spacing(3)} ${theme.spacing(3)}`
@@ -109,7 +110,6 @@ const PrivateParty = (props) => {
 
   const isJoin = location.search ? true : false
 
-  const partyList = useSelector(state => state.app.partyList)
   const balance = useSelector(state => state.app.balance)
 
   const [party, setParty] = useState(null)
@@ -118,14 +118,20 @@ const PrivateParty = (props) => {
   const [emptyAccountModalOpen, setEmptyAccountModalOpen] = useState(false)
   const [leaveModalOpen, setLeaveModalOpen] = useState(false)
 
-
-  const getParty = (_party) => {
-    return _party.partyId == partyId;
-  }
-
   useEffect(() => {
-    setParty(partyList.find(getParty))
-  }, [partyId, partyList])
+    getPrivatePartyDetailsInfo()
+  }, [partyId])
+
+  const getPrivatePartyDetailsInfo = async () => {
+    getPrivatePartyDetails(partyId)
+    .then((res) => {
+      let _party = { ...res, expectedPrize: 1000, status: "Opened" }
+      setParty(_party)
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
 
   useEffect(() => {
     if (party) {

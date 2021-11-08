@@ -44,7 +44,7 @@ const PartyInfo = ({ party }) => {
         <>
             <BalanceInfo>
                 <Typography variant="lg_title" paddingRight="8px">
-                    ${party ? getFormatNumber(party.balance) : 0}
+                    ${party ? getFormatNumber(party.expectedPrize) : 0}
                 </Typography>
                 <Typography variant="ss_content">
                     +3.1% from last month

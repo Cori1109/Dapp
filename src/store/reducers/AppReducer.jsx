@@ -41,7 +41,7 @@ const initialState = {
   joinedParam: null,
   transferParam: null,
   partyList: mockup_data,
-  balance: 1000,
+  balance: 0,
   notificationData: null
 };
 
