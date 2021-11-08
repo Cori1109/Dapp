@@ -84,7 +84,7 @@ const Party = ({ data, index }) => {
                 </Box>
                 <Box>
                     <WrapTypography variant="xs_content">
-                        {getFormatDate(data.endDate) != 0 ?  `${getFormatDate(data.endDate)} Left` : 'Party finished'}
+                        {getFormatDate(data.endDate) != 0 ?  `${getFormatDate(data.endDate)} left` : 'Party finished'}
                     </WrapTypography>
                 </Box>
             </Grid>
