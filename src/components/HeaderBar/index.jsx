@@ -155,9 +155,6 @@ const HeaderBar = (props) => {
 
   return (
     <BoxContainer>
-      {/*<Box width="100%" textAlign="right">
-        <MaterialUISwitch sx={{ m: 1 }} onChange={handleToggle} />
-      </Box>*/}
       <Box marginTop="20px" display="flex" justifyContent="space-between">
         <Box>
           <ContentImage src={Logo} />

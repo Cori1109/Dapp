@@ -1,5 +1,5 @@
-import MetaMaskLogo from 'assets/logo/metamask.png'
-import WalletConnectLogo from 'assets/logo/walletconnect.png'
+import MetaMaskLogo from 'assets/logo/metamask_logo.png'
+import WalletConnectLogo from 'assets/logo/walletconnect_logo.png'
 import DaiLogo from 'assets/logo/dai.png'
 import UsdcLogo from 'assets/logo/usdc.png'
 import { injected, walletconnect } from "./connectors";
