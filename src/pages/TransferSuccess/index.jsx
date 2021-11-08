@@ -12,12 +12,12 @@ import { getAbbreviationAddress, shorttenString } from "utils/functions";
 import { setNotificationData } from "store/actions/App";
 
 const WrapContainer = styled(Container)(({ theme }) => ({
-  backgroundColor: "#FFF",
+  backgroundColor: theme.palette.main.background,
   padding: "0px",
 }));
 
 const TopBox = styled(Box)(({ theme }) => ({
-  backgroundColor: "#F5F7FE",
+  backgroundColor: theme.palette.sub.background,
   padding: "20px",
   borderRadius: "0 0 40px 40px",
 }));
@@ -53,7 +53,7 @@ const ButtonBox = styled(Box)(({ theme }) => ({
 }));
 
 const TransferDetailBox = styled(Box)(({ theme }) => ({
-  backgroundColor: "#FFF",
+  backgroundColor: theme.palette.box.background,
   paddingBottom: "200px",
   borderRadius: "0 0 40px 40px",
 }));
