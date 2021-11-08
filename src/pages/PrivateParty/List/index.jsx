@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Container, Stack, Paper, Typography, Button } from "@mui/material";
 import { styled } from '@mui/system';
 import { motion } from "framer-motion";
@@ -45,6 +45,20 @@ const PrivatePartyList = (props) => {
   const history = useHistory();
   const partyList = useSelector(state => state.app.partyList)
 
+  const [loading, setLoading] = useState(false);
+  const [parties, setParties] = useState(null);
+  const timer = React.useRef();
+
+  useEffect(() => {
+    if (!loading) {
+      setLoading(true);
+      timer.current = window.setTimeout(() => {
+        setLoading(false);
+        setParties(partyList);
+      }, 3000);
+    }
+  }, []);
+
   const handleCreate = () => {
     history.push('/private-party/create')
   }
@@ -68,10 +82,10 @@ const PrivatePartyList = (props) => {
             <WrapTypography variant="md_content">
               Your private parites
             </WrapTypography>
-            <Typography variant="sm_content" style={{cursor:"pointer"}} onClick={handleCreate}>Create</Typography>
+            {parties? <Typography variant="sm_content" style={{cursor:"pointer"}} onClick={handleCreate}>Create</Typography> : null}
           </ContentHeader>
-          <ContentImage src={parivatePartyImage} />
-          <PartiesList list={partyList.filter((item) => {return !item.isPublic})}/>
+          <ContentImage src={parties? parivatePartyImage : null} />
+          <PartiesList list={parties? parties.filter((item) => {return !item.isPublic}) : null} isPrivate={true}/>
         </ContentPaper>
       </WrapContainer>
     </motion.div>

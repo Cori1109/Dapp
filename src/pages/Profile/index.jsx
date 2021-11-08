@@ -15,7 +15,8 @@ import { setHeaderTitle, editParty, setBalance, setJoinedParam } from "store/act
 import UserAvatarImage1 from "../../assets/avatar/me.png";
 import IncomeIcon from "../../assets/logo/income.png";
 import CameraIcon from "../../assets/logo/camera.png";
-import { ArrowRightIcon, QuizIcon, RankingIcon, LockIcon } from "../../assets/logo/icon";
+import LockIcon from "../../assets/logo/lock.svg";
+import { ArrowRightIcon, QuizIcon, RankingIcon} from "../../assets/logo/icon";
 
 import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
 import ConnectWalletModal from "components/Modal/ConnectWalletModal";

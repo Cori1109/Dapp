@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { Box, Avatar, Typography, Link, Button } from "@mui/material";
 import Switch, { SwitchProps } from "@mui/material/Switch";
 import { styled } from "@mui/system";
@@ -7,6 +7,12 @@ import { setBlackTheme } from "store/actions/App";
 import { RankingIcon } from "../../assets/logo/icon";
 import UserAvatarImage1 from "../../assets/avatar/me.png";
 import { useHistory } from "react-router";
+import PrimaryButton from "components/Button/PrimaryButton";
+
+import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
+import ConnectWalletModal from "components/Modal/ConnectWalletModal";
+import { setNotificationData } from "store/actions/App";
+import { switchNetwork } from "utils/web3utils";
 
 const mockup_profile = {
   name: "James Lee",
@@ -71,7 +77,7 @@ const BoxAvatar = styled(Box)(({ theme }) => ({
 }));
 
 const NameTypography = styled(Typography)(({ theme }) => ({
-  cursor: "pointer",
+  // cursor: "pointer",
 }));
 
 const GoldButton = styled(Button)(({ theme }) => ({
@@ -102,7 +108,41 @@ const UserAvatar = styled(Avatar)(({ theme }) => ({
 const HeaderBar = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const { activate, deactivate, account, library, chainId } = useWeb3React();
+  const [openWallet, setOpenWallet] = useState(false);
   
+  const handleConnectWallet = (walletInfo) => {
+    const { connector, type } = walletInfo;
+    // setSelectedWalletInfo(walletInfo)
+    if (connector) {
+      activate(connector, undefined, true)
+        .then(async res => {
+          await switchNetwork('0x3')
+          // setStep(1)
+        })
+        .catch(error => {
+          if (error instanceof UnsupportedChainIdError) {
+            activate(connector);
+          } else {
+            if (error.code == 4001) {
+              dispatch(setNotificationData({
+                message: `You should switch Ethereum network to Ropsten`,
+                variant: 'error',
+                open: true
+              }))
+            } else if (type === 'metamask') {
+              // setNoMetamask(true);
+            }
+            console.info("Connection Error - ", error);
+          }
+        })
+        .finally(() => {
+          setOpenWallet(false);
+        });
+    }
+  }
+
   const handleToggle = (event) => {
     dispatch(setBlackTheme(event.target.checked));
   };
@@ -116,16 +156,31 @@ const HeaderBar = (props) => {
         <Box>
           <Typography variant="sm_title">Good morning,</Typography>
           <Box display="flex">
-            <NameTypography variant="md_title" onClick={() => history.push('/profile')}>
+            <NameTypography variant="md_title">
               {mockup_profile.name}
             </NameTypography>
           </Box>
         </Box>
         <BoxAvatar>
-          <GoldButton startIcon={<RankingIcon />}> Gold </GoldButton>
-          <UserAvatar src={UserAvatarImage1} alt="ME" />
+          {
+            account ?
+              <> 
+                <GoldButton startIcon={<RankingIcon />}> Gold </GoldButton>
+                <UserAvatar src={UserAvatarImage1} alt="ME" onClick={() => history.push('/profile')}/>  
+              </>
+            :
+              <PrimaryButton variant="contained" style={{fontSize: "14px", padding: "8px 10px", borderRadius: "8px"}} 
+                onClick={() => setOpenWallet(true)} text="Connect Wallet" />      
+          }          
+          
         </BoxAvatar>
       </Box>
+
+      <ConnectWalletModal
+        open={openWallet}
+        onClose={() => setOpenWallet(false)}
+        onSuccess={(selectedWallet) => handleConnectWallet(selectedWallet)}
+      />
     </BoxContainer>
   );
 };
