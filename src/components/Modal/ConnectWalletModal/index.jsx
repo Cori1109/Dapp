@@ -20,7 +20,7 @@ const WalletList = styled('ul')(({ theme }) => ({
   padding: '0px'
 }))
 
-const DialogHeader = styled(DialogTitle)(({ theme }) => ({
+const DialogHeader = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
@@ -40,18 +40,6 @@ const WalletContainer = styled('li')(({theme}) => ({
   listStyleType: 'none',
 }))
 
-const AddButton = styled(Button)(({ theme }) => ({
-  color: theme.palette.button.primary.foreground,
-  backgroundColor: theme.palette.button.primary.background,
-  fontWeight: 500,
-  fontSize: '16px',
-  fontFamily: 'Manrope',
-  width: '100%',
-  textTransform: 'none',
-  borderRadius: '12px',
-  padding: '16px'
-}))
-
 const ConnectWalletModal = ({
   open,
   onClose,
@@ -65,22 +53,22 @@ const ConnectWalletModal = ({
     >
       <DialogHeader>
         <CloseIcon onClick={onClose}/>
-        <Typography variant="subtitle1">
+        <Typography variant="sl_title">
           Choose wallet
         </Typography>
         <Box></Box>
       </DialogHeader>
       <DialogContent>
-        <WalletList marginTop="20px">
+        <WalletList>
           <Divider variant="middle" />
           {
             WALLETS.map((item, index) => (
-              <WalletContainer>
+              <WalletContainer key={index}>
                 <WalletBox onClick={() => onSuccess(WALLETS[index])}>
                   <Box width="50px" display="flex" justifyContent="center">
                     <WalletImage src={item.logo} alt={item.title} />
                   </Box>
-                  <Typography variant="subtitle3">
+                  <Typography variant="sm_content_gray">
                     {item.title} 
                   </Typography>
                 </WalletBox>

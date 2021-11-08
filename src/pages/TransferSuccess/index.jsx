@@ -77,13 +77,19 @@ const AddButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.button.primary.background,
   fontWeight: 500,
   fontSize: "16px",
-  fontFamily: "Manrope",
+  fontFamily: "Overpass",
   width: "156px",
   textTransform: "none",
+  boxShadow: "none",
   borderRadius: "12px",
   padding: "16px 24px",
   display: "flex",
   justifyContent: "center",
+  "&:hover": {
+    color: theme.palette.button.primary.foreground,
+    backgroundColor: theme.palette.button.primary.background,
+    boxShadow: "none"
+  },
 }));
 
 const SaveButton = styled(Button)(({ theme }) => ({
@@ -91,9 +97,10 @@ const SaveButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.button.third.background,
   fontWeight: 500,
   fontSize: "16px",
-  fontFamily: "Manrope",
+  fontFamily: "Overpass",
   width: "156px",
   textTransform: "none",
+  boxShadow: "none",
   borderRadius: "12px",
   padding: "16px 24px",
   display: "flex",
@@ -101,6 +108,7 @@ const SaveButton = styled(Button)(({ theme }) => ({
   "&:hover": {
     color: theme.palette.button.third.foreground,
     backgroundColor: theme.palette.button.third.background,
+    boxShadow: "none",
   },
 }));
 
@@ -148,7 +156,7 @@ const TransferSuccess = (props) => {
       <WrapContainer maxWidth="sm">
         <TopBox>
           <HeaderBox>
-            <Typography variant="subtitle1" textAlign="center" marginTop="32px">
+            <Typography variant="sl_title" textAlign="center" marginTop="32px">
               Transfer Success
             </Typography>
           </HeaderBox>
@@ -158,7 +166,7 @@ const TransferSuccess = (props) => {
           <TransferDetailBox maxWidth="sm">
             <TransactionIdBox>
               <Typography
-                variant="subtitle5"
+                variant="xs_content_gray"
                 display="flex"
                 alignItems="center"
               >
@@ -175,7 +183,7 @@ const TransferSuccess = (props) => {
               </Typography>
             </TransactionIdBox>
             <PriceBox>
-              <Typography variant="subtitle1">
+              <Typography variant="sl_title">
                 {`${transferParam?.price} ${transferParam?.cryptoInfo?.title}`}
               </Typography>
             </PriceBox>
@@ -185,10 +193,10 @@ const TransferSuccess = (props) => {
               justifyContent="space-between"
               padding="16px 48px"
             >
-              <Typography variant="subtitle2">Transfer from</Typography>
+              <Typography variant="sm_content_gray">Transfer from</Typography>
               <Box display="flex" alignItems="center">
                 <WalletImg src={transferParam?.walletInfo.logo} />
-                <Typography variant="subtitle4">
+                <Typography variant="xs_content_gray">
                   : {getAbbreviationAddress(transferParam?.from)}
                 </Typography>
               </Box>
@@ -199,9 +207,9 @@ const TransferSuccess = (props) => {
               justifyContent="space-between"
               padding="16px 48px"
             >
-              <Typography variant="subtitle2">Transaction Date</Typography>
+              <Typography variant="sm_content_gray">Transaction Date</Typography>
               <Typography
-                variant="subtitle4"
+                variant="xs_content_gray"
                 display="flex"
                 alignItems="center"
               >

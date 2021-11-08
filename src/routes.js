@@ -12,7 +12,13 @@ import PublicParty from './pages/PublicParty';
 import JoinedSuccess from './pages/JoinedSuccess';
 import TransferSuccess from './pages/TransferSuccess';
 import AddFunds from './pages/AddFunds';
+import Login from './pages/Auth/Login';
 import { AnimatePresence } from "framer-motion";
+import Welcome from 'pages/Welcome';
+import Profile from 'pages/Profile';
+import ProfileLayout from 'layouts/ProfileLayout';
+import SignUp from 'pages/Auth/SignUp';
+import Splash from 'pages/Splash';
 
 const renderRoutes = (props) => (
   <AnimatePresence>
@@ -57,7 +63,30 @@ const renderRoutes = (props) => (
           <Dashboard />
         </MainLayout>
       </Route>
-      <Redirect from="/" to="/dashboard"/>
+      <Route exact path="/login">
+        <DefaultLayout>
+          <Login />
+        </DefaultLayout>
+      </Route>
+      <Route exact path="/signup">
+        <DefaultLayout>
+          <SignUp />
+        </DefaultLayout>
+      </Route>
+      <Route exact path="/welcome">
+        <DefaultLayout>
+          <Welcome />
+        </DefaultLayout>
+      </Route>
+      <Route path="/profile">
+        <ProfileLayout>
+          <Profile />
+        </ProfileLayout>
+      </Route>
+      <Route path="/">
+        <Splash />
+      </Route>
+      {/* <Redirect from="/" to="/welcome"/> */}
     </Switch>
   </AnimatePresence>
 );

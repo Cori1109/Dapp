@@ -38,3 +38,41 @@ code {
        url('./styles/fonts/manrope/manrope-v4-latin-800.ttf') format('truetype'), /* Safari, Android, iOS */
        url('./styles/fonts/manrope/manrope-v4-latin-800.svg#Manrope') format('svg'); /* Legacy iOS */
 }
+
+@font-face {
+  font-family: 'Montserrat Alternative';
+  font-style: normal;
+  font-weight: 800;
+  src: url('./styles/fonts/Montserrat_Alternates/MontserratAlternates-Bold.ttf');
+}
+@font-face {
+  font-family: 'Montserrat Alternative';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./styles/fonts/Montserrat_Alternates/MontserratAlternates-Regular.ttf');
+}
+@font-face {
+  font-family: 'Montserrat Alternative';
+  font-style: normal;
+  font-weight: 200;
+  src: url('./styles/fonts/Montserrat_Alternates/MontserratAlternates-Thin.ttf');
+}
+
+@font-face {
+  font-family: 'Overpass';
+  font-style: normal;
+  font-weight: 800;
+  src: url('./styles/fonts/Overpass_Mono/OverpassMono-Bold.ttf');
+}
+@font-face {
+  font-family: 'Overpass';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./styles/fonts/Overpass_Mono/OverpassMono-Regular.ttf');
+}
+@font-face {
+  font-family: 'Overpass';
+  font-style: normal;
+  font-weight: 200;
+  src: url('./styles/fonts/Overpass_Mono/OverpassMono-Light.ttf');
+}

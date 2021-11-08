@@ -1,39 +1,74 @@
-import React from "react";
-import { Box, Container, Stack, Paper, Typography, Button } from "@mui/material";
-import { styled } from '@mui/system';
-import BalanceCard from '../../components/BalanceCard';
+import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Container,
+  Stack,
+  Paper,
+  Typography,
+  Button,
+} from "@mui/material";
+import { styled } from "@mui/system";
+import SwipeButton from "../../components/Button/SwipeButton";
+import BalanceCard from "../../components/BalanceCard";
 import { motion } from "framer-motion";
-import { pageVariants, pageTransition } from "../../utils/pageTransitions"
+import { pageVariants, pageTransition } from "../../utils/pageTransitions";
 import HeaderBar from "../../components/HeaderBar";
-import PartiesList from "components/PartiesList";
-import Banner from "components/Banner";
+import PartiesList from "../../components/PartiesList";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router";
 
-const Item = styled(Paper)`
-    textAlign: 'center',
+const RootBox = styled(Box)`
+  padding: "10px";
 `;
 
+const WrapBox = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.primary_blue,
+  color: theme.palette.white,
+  borderRadius: "12px",
+  padding: "16px 24px",
+  fontFamily: "Montserrat Alternative",
+  fontWeight: "800",
+  lineHeight: "40px",
+  fontSize: "25px",
+}));
+
 const ContentPaper = styled(Paper)(({ theme }) => ({
-  boxShadow: '0px 20px 46px rgba(0, 0, 0, 0.1)',
-  borderRadius: '16px',
-  padding: theme.spacing(2)
+  boxShadow: "0px 20px 46px rgba(0, 0, 0, 0.1)",
+  borderRadius: "16px",
+  padding: "14px 17px",
+}));
+
+const WrapTypography = styled(Typography)(({ theme }) => ({
+  color: theme.palette.primary_gray,
+  fontWeight: 800,
+  fontSize: "18px",
 }));
 
 const ContentHeader = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  paddingBottom: "16px",
 }));
 
-const PrimaryButton = styled(Button)(({ theme }) => ({
-  color: theme.palette.button.text.foreground,
-  fontWeight: 500,
-  fontSize: '16px',
-  fontFamily: 'Manrope'
-}))
-
 const Dashboard = (props) => {
-  const partyList = useSelector(state => state.app.partyList)
+  const history = useHistory();
+  const partyList = useSelector((state) => state.app.partyList);
+
+  const [loading, setLoading] = useState(false);
+  const [parties, setParties] = useState(null);
+  const timer = React.useRef();
+
+  useEffect(() => {
+    if (!loading) {
+      setLoading(true);
+      timer.current = window.setTimeout(() => {
+        setLoading(false);
+        setParties(partyList);
+      }, 3000);
+    }
+  }, []);
+
   return (
     <motion.div
       initial="initial"
@@ -42,24 +77,28 @@ const Dashboard = (props) => {
       variants={pageVariants}
       transition={pageTransition}
     >
-      <Box>
+      <RootBox>
         <Stack spacing={2}>
-            <HeaderBar setTheme={props.setTheme}/>
-            <BalanceCard />
-            <Banner />
-            <ContentPaper>
-              <ContentHeader>
-                <Typography variant="subtitle3">
-                  Your parties
-                </Typography>
-                <PrimaryButton variant="text">See all</PrimaryButton>
-              </ContentHeader>
-              <PartiesList list={partyList}/>
-            </ContentPaper>
+          <HeaderBar />
+          <BalanceCard />
+          <WrapBox>THIS WEEK WIN BIG</WrapBox>
+          <ContentPaper>
+            <ContentHeader>
+              <WrapTypography variant="sm_title">Your parites</WrapTypography>
+              <Typography
+                variant="sm_content"
+                style={{ cursor: "pointer" }}
+                onClick={() => history.push("/private-party")}
+              >
+                See all
+              </Typography>
+            </ContentHeader>
+            <PartiesList list={parties} />
+          </ContentPaper>
         </Stack>
-    </Box>
-  </motion.div>
+      </RootBox>
+    </motion.div>
   );
-}
+};
 
 export default Dashboard;

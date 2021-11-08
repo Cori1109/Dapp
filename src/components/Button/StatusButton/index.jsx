@@ -1,50 +1,20 @@
 import React from "react";
-import { Button } from "@mui/material";
-import { styled } from '@mui/system';
 import { 
 
-  CheckCircleOutlined as CheckCircleOutlinedIcon 
+  CheckCircleOutline as CheckCircleOutlineIcon 
 } from '@mui/icons-material';
+import PrimaryButton from "../PrimaryButton";
 
-const WrapButton = styled(Button)(({ theme }) => ({
-  color: theme.palette.button.primary.foreground,
-  backgroundColor: theme.palette.button.secondary.background,
-  fontWeight: 500,
-  fontSize: '16px',
-  fontFamily: 'Manrope',
-  width: '100%',
-  textTransform: 'none',
-  borderRadius: '12px',
-  marginTop: '24px',
-  padding: '16px 24px',
-  display: 'flex',
-  justifyContent: 'space-between'
-}))
-
-const JoinButton = styled(Button)(({ theme }) => ({
-  color: theme.palette.button.primary.foreground,
-  backgroundColor: theme.palette.button.secondary.background,
-  fontWeight: 500,
-  fontSize: '16px',
-  fontFamily: 'Manrope',
-  width: '100%',
-  textTransform: 'none',
-  borderRadius: '12px',
-  marginTop: '24px',
-  padding: '16px 24px',
-  display: 'flex',
-  justifyContent: 'center'
-}))
 
 const StatusButton = ({status, handleClick}) => {
 
   return (
     status == "joined" ?
-      <WrapButton variant="contained" endIcon={<CheckCircleOutlinedIcon />}>Joined</WrapButton>
+      <PrimaryButton variant="contained" endIcon={<CheckCircleOutlineIcon />} style={{justifyContent: "space-between", marginTop: "36px"}} text="Joined" />
     : status == "finished" ?
-      <WrapButton variant="contained" endIcon={<CheckCircleOutlinedIcon />}>Finished</WrapButton>
+      <PrimaryButton variant="contained" endIcon={<CheckCircleOutlineIcon />} style={{justifyContent: "space-between", marginTop: "36px"}} text="Finished" />
     : 
-      <JoinButton variant="contained" onClick={handleClick}>Join</JoinButton>
+      <PrimaryButton variant="contained" onClick={handleClick} endIcon={<CheckCircleOutlineIcon />} style={{justifyContent: "space-between", marginTop: "36px"}} text="Join" />
   );
 }
  

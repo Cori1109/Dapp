@@ -31,17 +31,25 @@ export const getFormatDate = (lastDate) => {
     seconds = 0
   let result = ''
   if (days > 0) {
-    result = (days + 'Days ' + hrs + 'Hours')
+    result = (days + 'Days ' + hrs + 'Hrs')
   } else {
     if (hrs > 0)
-      result = (hrs + 'Hours ' + mins + 'Min')
+      result = (hrs + 'Hrs ' + mins + 'Min')
     else {
       if (mins > 0)
         result = (mins + 'Min ' + seconds + 'Sec')
-      else
-        result = (seconds + 'Sec')
+      else {
+        if (seconds > 0)
+          result = (seconds + 'Sec')
+        else
+          return 0
+      }
     }
   }
 
   return result 
+}
+
+export const getFormatNumber = (value) => {
+  return value.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 }

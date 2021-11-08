@@ -59,11 +59,17 @@ const CloseButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.button.primary.background,
   fontWeight: 500,
   fontSize: "16px",
-  fontFamily: "Manrope",
+  fontFamily: "Overpass",
   width: "100%",
   textTransform: "none",
+  boxShadow: "none",
   borderRadius: "12px",
   padding: "16px",
+  "&:hover": {
+    color: theme.palette.button.primary.foreground,
+    backgroundColor: theme.palette.button.primary.background,
+    boxShadow: "none"
+  },
 }));
 
 const ShareFriendsModal = ({ open, handleClose }) => {
@@ -90,7 +96,7 @@ const ShareFriendsModal = ({ open, handleClose }) => {
     <ShareFriendsDialog open={open}>
       <DialogHeader>
         <CloseIcon onClick={handleClose} />
-        <Typography variant="subtitle1">Share with Friends</Typography>
+        <Typography variant="sl_title">Share with Friends</Typography>
         <Box></Box>
       </DialogHeader>
       <DialogContent>
@@ -105,7 +111,7 @@ const ShareFriendsModal = ({ open, handleClose }) => {
                 <ShareImage src={LinkImage} />
               </Box>
               <Typography
-                variant="subtitle4"
+                variant="xs_content_gray"
                 display="flex"
                 alignItems="center"
               >
@@ -126,7 +132,7 @@ const ShareFriendsModal = ({ open, handleClose }) => {
               <Box width="50px" display="flex" justifyContent="center">
                 <ShareImage src={WhatsappImage} />
               </Box>
-              <Typography variant="subtitle4">Whatsapp</Typography>
+              <Typography variant="xs_content_gray">Whatsapp</Typography>
             </ShareListBox>
             <Divider variant="middle" />
           </ShareContainer>
@@ -139,7 +145,7 @@ const ShareFriendsModal = ({ open, handleClose }) => {
               <Box width="50px" display="flex" justifyContent="center">
                 <ShareImage src={TelegramImage} />
               </Box>
-              <Typography variant="subtitle4">Telegram</Typography>
+              <Typography variant="xs_content_gray">Telegram</Typography>
             </ShareListBox>
             <Divider variant="middle" />
           </ShareContainer>

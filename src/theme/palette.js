@@ -9,8 +9,18 @@ const gold_light = '#F6A6091A'
 const gold_dark = '#F6A609'
 const pink = '#c90076'
 const red = '#ff0000'
-
+const primary_blue='#536dfe'
+const secondary_blue='#3f51b5'
+const primary_gray='#666666'
+const secondary_gray='#808080'
+const light_blue='#F5F7FE'
 export default {
+  primary_blue,
+  secondary_blue,
+  light_blue,
+  primary_gray,
+  secondary_gray,
+  white,
   main: {
     background: white,
   },
@@ -23,6 +33,7 @@ export default {
   text: {
     primary: black,
     secondary: grey,
+    third: blue,
     dark: white,
   },
   button: {

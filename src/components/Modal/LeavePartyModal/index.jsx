@@ -21,11 +21,17 @@ const LeaveButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.button.fourth.background,
   fontWeight: 500,
   fontSize: '16px',
-  fontFamily: 'Manrope',
+  fontFamily: 'Overpass',
   width: '135px',
+  boxShadow: "none",
   textTransform: 'none',
   borderRadius: '12px',
-  padding: '16px'
+  padding: '16px',
+  "&:hover": {
+    color: theme.palette.button.fourth.foreground,
+    backgroundColor: theme.palette.button.fourth.background,
+    boxShadow: "none"
+  },
 }))
 
 const StayButton = styled(Button)(({ theme }) => ({
@@ -33,11 +39,17 @@ const StayButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.button.primary.background,
   fontWeight: 500,
   fontSize: '16px',
-  fontFamily: 'Manrope',
+  fontFamily: 'Overpass',
   width: '135px',
   textTransform: 'none',
+  boxShadow: "none",
   borderRadius: '12px',
-  padding: '16px'
+  padding: '16px',
+  "&:hover": {
+    color: theme.palette.button.primary.foreground,
+    backgroundColor: theme.palette.button.primary.background,
+    boxShadow: "none"
+  },
 }))
 
 const LeavePartyModal = ({
@@ -51,14 +63,14 @@ const LeavePartyModal = ({
     >
       <DialogHeader>
         <CloseIcon onClick={handleClose}/>
-        <Typography variant="subtitle1" textAlign="center">
+        <Typography variant="sl_title" textAlign="center">
           Are you sure want<br /> to leave the party?
         </Typography>
         <Box></Box>
       </DialogHeader>
       <DialogContent>
         <Box display="flex" justifyContent="space-around">
-          <Typography variant="subtitle4" textAlign="center">
+          <Typography variant="xs_content_gray" textAlign="center">
             If you leave the party now you won't be <br />able to claim any prize
           </Typography>
         </Box>

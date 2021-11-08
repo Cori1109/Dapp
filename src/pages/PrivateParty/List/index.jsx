@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Container, Stack, Paper, Typography, Button } from "@mui/material";
 import { styled } from '@mui/system';
 import { motion } from "framer-motion";
@@ -7,6 +7,10 @@ import privatePartyImage from '../../../assets/landing/private-party.png'
 import PartiesList from '../../../components/PartiesList'
 import { useSelector} from 'react-redux'
 import { useHistory } from "react-router";
+
+const WrapContainer = styled(Container)(({ theme }) => ({
+  padding: theme.spacing(0)
+}));
 
 const HeaderBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -26,11 +30,9 @@ const ContentHeader = styled(Box)(({ theme }) => ({
   alignItems: 'center',
 }));
 
-const PrimaryButton = styled(Button)(({ theme }) => ({
-  color: theme.palette.button.text.foreground,
-  fontWeight: 500,
-  fontSize: '16px',
-}))
+const WrapTypography = styled(Typography)(({ theme }) => ({
+  fontSize: "18px"
+}));
 
 const ContentImage = styled(`img`)(({ theme }) => ({
   borderRadius: '16px',
@@ -42,6 +44,20 @@ const PrivatePartyList = (props) => {
 
   const history = useHistory();
   const partyList = useSelector(state => state.app.partyList)
+
+  const [loading, setLoading] = useState(false);
+  const [parties, setParties] = useState(null);
+  const timer = React.useRef();
+
+  useEffect(() => {
+    if (!loading) {
+      setLoading(true);
+      timer.current = window.setTimeout(() => {
+        setLoading(false);
+        setParties(partyList);
+      }, 3000);
+    }
+  }, []);
 
   const handleCreate = () => {
     history.push('/private-party/create')
@@ -55,23 +71,23 @@ const PrivatePartyList = (props) => {
       variants={pageVariants}
       transition={pageTransition}
     >
-      <Container maxWidth="sm">
+      <WrapContainer maxWidth="sm">
         <HeaderBox>
-          <Typography variant="subtitle1">
-            Private Parties
+          <Typography variant="md_title">
+            Private Parites
           </Typography>
         </HeaderBox>
         <ContentPaper>
           <ContentHeader>
-            <Typography variant="subtitle3">
-              Your private parties
-            </Typography>
-            <PrimaryButton variant="text" onClick={handleCreate}>Create</PrimaryButton>
+            <WrapTypography variant="md_content">
+              Your private parites
+            </WrapTypography>
+            {parties? <Typography variant="sm_content" style={{cursor:"pointer"}} onClick={handleCreate}>Create</Typography> : null}
           </ContentHeader>
-          <ContentImage src={privatePartyImage} />
-          <PartiesList list={partyList.filter((item) => {return !item.isPublic})}/>
+          <ContentImage src={parties? parivatePartyImage : null} />
+          <PartiesList list={parties? parties.filter((item) => {return !item.isPublic}) : null} isPrivate={true}/>
         </ContentPaper>
-      </Container>
+      </WrapContainer>
     </motion.div>
   );
 }

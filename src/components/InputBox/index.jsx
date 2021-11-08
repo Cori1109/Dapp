@@ -6,8 +6,21 @@ const WrapInput = styled(Input)(({ theme }) => ({
     borderRadius: '16px',
     background: '#F9F9FA',
     padding: '16px',
-    width: '100%'
+    width: '100%',
+    color: theme.palette.primary_gray,
+    fontFamily: 'Overpass',
+    fontWeight: 600,
+    '&::placeholder': {
+        color: theme.palette.secondary_gray,
+        fontWeight: 400
+    }
 }));
+
+const WrapInputAdornment = styled(InputAdornment)(({ theme }) => ({
+    '& svg': {
+        color: theme.palette.primary_gray
+    }
+}))
 
 const InputBox = ({id, startIcon, endText, placeholder, value, type, onChange, validated}) => {
 
@@ -18,15 +31,15 @@ const InputBox = ({id, startIcon, endText, placeholder, value, type, onChange, v
             label="TextField"
             type={type}
             startAdornment={
-                <InputAdornment position="start">
+                <WrapInputAdornment position="start">
                     {startIcon}
-                </InputAdornment>
+                </WrapInputAdornment>
             }
             endAdornment={
                 endText ?
-                <InputAdornment position="end">
+                <WrapInputAdornment position="end">
                     {endText}
-                </InputAdornment>
+                </WrapInputAdornment>
                 :
                 null
             }

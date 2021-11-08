@@ -7,7 +7,7 @@ const mockup_data = [{
   avatar: null,
   balance: 450.90,
   endDate: moment(new Date()).add(1000 * 60 * 60 * 24),
-  status: 'opened',
+  status: 'Opened',
   isPublic: false,
 }, {
   partyId: '1324-1142',
@@ -15,7 +15,7 @@ const mockup_data = [{
   avatar: null,
   balance: 650.90,
   endDate: moment(new Date()).add(1000 * 60 * 3),
-  status: 'opened',
+  status: 'Opened',
   isPublic: false,
 }, {
   partyId: '1234-5578',
@@ -23,7 +23,7 @@ const mockup_data = [{
   avatar: null,
   balance: 75691.54,
   endDate: moment(new Date()).add(1000 * 60 * 3),
-  status: 'opened',
+  status: 'Opened',
   isPublic: true,
 }, {
   partyId: '5619-3131',
@@ -31,7 +31,7 @@ const mockup_data = [{
   avatar: null,
   balance: 780.90,
   endDate: moment(new Date()).add(1000 * 60 * 60 * 300),
-  status: 'finished',
+  status: 'Opened',
   isPublic: false,
 }];
 

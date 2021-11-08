@@ -22,11 +22,17 @@ const AddButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.button.primary.background,
   fontWeight: 500,
   fontSize: '16px',
-  fontFamily: 'Manrope',
+  fontFamily: 'Overpass',
   width: '100%',
   textTransform: 'none',
+  boxShadow: "none",
   borderRadius: '12px',
-  padding: '16px'
+  padding: '16px',
+  "&:hover": {
+    color: theme.palette.button.primary.foreground,
+    backgroundColor: theme.palette.button.primary.background,
+    boxShadow: "none"
+  },
 }))
 
 const PrizeModal = ({
@@ -40,29 +46,21 @@ const PrizeModal = ({
     >
       <DialogHeader>
         <CloseIcon onClick={handleClose}/>
-        <Typography variant="subtitle1">
+        <Typography variant="sl_title">
           Prize distribution
         </Typography>
         <Box></Box>
       </DialogHeader>
       <DialogContent>
-        <Box display="flex" justifyContent="space-around">
-          <Typography variant="subtitle3">
-            Amount
-          </Typography>
-          <Typography variant="subtitle3">
-            Winners
-          </Typography>
-        </Box>
         <Box marginTop="20px">
           {
             list.map((item, index) => (
               <Fragment key={`prize-item-${index}`}>
-              <Box display="flex" justifyContent="space-between" padding="16px 48px">
-                <Typography variant="subtitle2">
+              <Box display="flex" justifyContent="space-between" padding="16px 18px">
+                <Typography variant="sm_content_gray">
                   Tier {index + 1}: ${item.amount} 
                 </Typography>
-                <Typography variant="subtitle3">
+                <Typography variant="sm_content_gray">
                   {item.count} 
                 </Typography>
               </Box>

@@ -26,11 +26,17 @@ const AddButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.button.primary.background,
   fontWeight: 500,
   fontSize: '16px',
-  fontFamily: 'Manrope',
+  fontFamily: 'Overpass',
   width: '100%',
   textTransform: 'none',
+  boxShadow: "none",
   borderRadius: '12px',
-  padding: '16px'
+  padding: '16px',
+  "&:hover": {
+    color: theme.palette.button.primary.foreground,
+    backgroundColor: theme.palette.button.primary.background,
+    boxShadow: "none"
+  },
 }))
 
 
@@ -60,7 +66,7 @@ const TxnLoadingModal = ({
     <LoadingModal open={loading}>
       <DialogHeader>
         <CloseIcon onClick={handleClose}/>
-        <Typography variant="subtitle1">
+        <Typography variant="sl_title">
           Loading
         </Typography>
         <Box></Box>
@@ -68,11 +74,11 @@ const TxnLoadingModal = ({
       <DialogContent>
         <LoadingWrapper loading></LoadingWrapper>
         <Box justifyContent="center" display="flex">
-          <Typography variant="subtitle3" textAlign="center">{title}</Typography>
+          <Typography variant="sm_content_gray" textAlign="center">{title}</Typography>
         </Box>
         <Box display="flex" justifyContent="center" marginTop="24px">
           {txnHash && (
-            <Typography variant="subtitle5" display="flex" alignItems="center">
+            <Typography variant="xs_content_gray" display="flex" alignItems="center">
               Hash: <span style={{ color: "#EA88F2" }}> {shorttenString(txnHash) || "loading..."} </span>
               <ContentCopyIcon style={{paddingLeft: '24px', cursor: 'pointer'}} onClick={() => {handleClickCopy()}}/>
             </Typography>

@@ -33,9 +33,10 @@ const PriceBox = styled(Box)(({ theme }) => ({
 const AddButton = styled(Button)(({ theme }) => ({
   color: theme.palette.button.primary.foreground,
   backgroundColor: theme.palette.button.primary.background,
+  boxShadow: "none",
   fontWeight: 500,
   fontSize: '16px',
-  fontFamily: 'Manrope',
+  fontFamily: 'Overpass',
   width: '100%',
   textTransform: 'none',
   borderRadius: '12px',
@@ -43,6 +44,11 @@ const AddButton = styled(Button)(({ theme }) => ({
   padding: '16px 24px',
   display: 'flex',
   justifyContent: 'center',
+  "&:hover": {
+    color: theme.palette.button.primary.foreground,
+    backgroundColor: theme.palette.button.primary.background,
+    boxShadow: "none"
+  },
 }))
 
 const JoinedSuccess = (props) => {
@@ -70,16 +76,16 @@ const JoinedSuccess = (props) => {
           <SuccessLogo src={SuccessImage} alt="Success Logo"/>
         </ImageBox>
         <HeaderBox>
-          <Typography variant="subtitle1">
+          <Typography variant="sl_title">
             Party Joined Success
           </Typography>
         </HeaderBox>
         <PriceBox>
-          <Typography variant="subtitle1">
+          <Typography variant="sl_title">
             ${joinedParam?.price}
           </Typography>
         </PriceBox>
-        <Typography variant="subtitle2" textAlign="center">
+        <Typography variant="sm_content_gray" textAlign="center">
           You have joined the {joinedParam?.party_name}.
         </Typography>
         <AddButton variant="contained" onClick={() => {history.push(joinedParam?.back_url); dispatch(setJoinedParam(null));}}>Done</AddButton>

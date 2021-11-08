@@ -19,7 +19,7 @@ const HeaderBox = styled(Box)(({ theme }) => ({
 }));
 
 const HeaderTitle = styled(Typography)(({theme}) => ({
-  color: theme.palette.text.dark
+  color: theme.palette.white
 }))
 
 const WrapBackIcon = styled(BackIcon)(({ theme }) => ({
@@ -42,7 +42,7 @@ const DetailLayout = ({ children }) => {
       <Container maxWidth="sm">
         <HeaderBox>
           <WrapBackIcon onClick={() => {history.goBack()}}/>
-          <HeaderTitle variant="subtitle1_dark">
+          <HeaderTitle variant="md_title">
             {headerTitle}
           </HeaderTitle>
           <Box></Box>

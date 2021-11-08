@@ -21,11 +21,17 @@ const AddButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.button.primary.background,
   fontWeight: 500,
   fontSize: '16px',
-  fontFamily: 'Manrope',
+  fontFamily: 'Overpass',
   width: '100%',
   textTransform: 'none',
+  boxShadow: "none",
   borderRadius: '12px',
-  padding: '16px'
+  padding: '16px',
+  "&:hover": {
+    color: theme.palette.button.primary.foreground,
+    backgroundColor: theme.palette.button.primary.background,
+    boxShadow: "none"
+  },
 }))
 
 const EmptyAccountModal = ({
@@ -39,14 +45,14 @@ const EmptyAccountModal = ({
     >
       <DialogHeader>
         <CloseIcon onClick={handleClose}/>
-        <Typography variant="subtitle1" textAlign="center">
+        <Typography variant="sl_title" textAlign="center">
           Oops! Your account <br /> it's empty
         </Typography>
         <Box></Box>
       </DialogHeader>
       <DialogContent>
         <Box display="flex" justifyContent="space-around">
-          <Typography variant="subtitle3">
+          <Typography variant="sm_content_gray">
             Add money to join a party
           </Typography>
         </Box>

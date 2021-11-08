@@ -40,18 +40,6 @@ const CryptoContainer = styled('li')(({theme}) => ({
   listStyleType: 'none',
 }))
 
-const AddButton = styled(Button)(({ theme }) => ({
-  color: theme.palette.button.primary.foreground,
-  backgroundColor: theme.palette.button.primary.background,
-  fontWeight: 500,
-  fontSize: '16px',
-  fontFamily: 'Manrope',
-  width: '100%',
-  textTransform: 'none',
-  borderRadius: '12px',
-  padding: '16px'
-}))
-
 const ChooseCryptoModal = ({
   open,
   onClose,
@@ -65,7 +53,7 @@ const ChooseCryptoModal = ({
     >
       <DialogHeader>
         <CloseIcon onClick={onClose}/>
-        <Typography variant="subtitle1">
+        <Typography variant="sl_title">
           Choose crypto
         </Typography>
         <Box></Box>
@@ -80,7 +68,7 @@ const ChooseCryptoModal = ({
                   <Box width="50px" display="flex" justifyContent="center">
                     <CryptoImage src={item.logo} alt={item.title} />
                   </Box>
-                  <Typography variant="subtitle3">
+                  <Typography variant="sm_content_gray">
                     {item.title} 
                   </Typography>
                 </CryptoBox>
