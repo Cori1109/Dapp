@@ -154,7 +154,7 @@ const Profile = (props) => {
     if (connector) {
       activate(connector, undefined, true)
         .then(async res => {
-          await switchNetwork('0x3')
+          await switchNetwork('0x4')
           // setStep(1)
         })
         .catch(error => {
@@ -163,7 +163,7 @@ const Profile = (props) => {
           } else {
             if (error.code == 4001) {
               dispatch(setNotificationData({
-                message: `You should switch Ethereum network to Ropsten`,
+                message: `You should switch Ethereum network to Rinkeby`,
                 variant: 'error',
                 open: true
               }))

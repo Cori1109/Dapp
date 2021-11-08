@@ -84,7 +84,7 @@ const PrivatePartyList = (props) => {
             </WrapTypography>
             {parties? <Typography variant="sm_content" style={{cursor:"pointer"}} onClick={handleCreate}>Create</Typography> : null}
           </ContentHeader>
-          <ContentImage src={parties? parivatePartyImage : null} />
+          <ContentImage src={parties? privatePartyImage : null} />
           <PartiesList list={parties? parties.filter((item) => {return !item.isPublic}) : null} isPrivate={true}/>
         </ContentPaper>
       </WrapContainer>

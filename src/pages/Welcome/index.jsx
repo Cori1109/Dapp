@@ -18,6 +18,10 @@ const ContentImage = styled(`img`)(({ theme }) => ({
 const Welcome = (props) => {
   const history = useHistory();
 
+  const handleDashboard = () => {
+    history.push('/dashboard')
+  };
+
   const handleLogin = () => {
     history.push('/login')
   };
@@ -35,9 +39,12 @@ const Welcome = (props) => {
           <ContentImage src={MyAvatar} alt="welcome" />
         </Box>
         <Box paddingBottom="16px">
+          <PrimaryButton variant="contained" onClick={handleDashboard} text='Try it now' />
+        </Box>
+        <Box hidden paddingBottom="16px">
           <PrimaryButton variant="contained" onClick={handleLogin} text='Login' />
         </Box>
-        <PrimaryButton variant="text" onClick={handleCreateAccount} text='Create an account' />
+        {/*<PrimaryButton variant="text" onClick={handleCreateAccount} text='Create an account' />*/}
       </Content>
     </Container>
   );

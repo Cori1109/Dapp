@@ -1,5 +1,6 @@
 .swipezor-but * {
   box-sizing: border-box;
+  font-family: Overpass;
 }
 .swipezor-but {
   border: 2px solid #4263EB;

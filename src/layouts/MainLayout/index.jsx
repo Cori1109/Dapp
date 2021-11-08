@@ -10,7 +10,7 @@ const RootBox = styled(Box)(({ theme }) => ({
 }));
 
 const WrapContainer = styled(Container)(({ theme }) => ({
-  height: 'calc(100vh - 100px)',
+  height: '100vh',
   overflow: 'auto'
 }))
 
@@ -19,7 +19,7 @@ const WrapContent = styled(Box)(({ theme }) => ({
 }))
 
 const NavbarBox = styled(Box)(({ theme }) => ({
-  width: '50%',
+  width: '225px',
   position: 'absolute',
   left: 0,
   bottom: '34px',

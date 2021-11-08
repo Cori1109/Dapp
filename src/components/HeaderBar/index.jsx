@@ -8,6 +8,7 @@ import { RankingIcon } from "../../assets/logo/icon";
 import UserAvatarImage1 from "../../assets/avatar/me.png";
 import { useHistory } from "react-router";
 import PrimaryButton from "components/Button/PrimaryButton";
+import Logo from "assets/logo/logo.png";
 
 import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
 import ConnectWalletModal from "components/Modal/ConnectWalletModal";
@@ -19,6 +20,11 @@ const mockup_profile = {
   balance: "2,736.15",
   avatar: "https://a.com",
 };
+
+const ContentImage = styled(`img`)(({ theme }) => ({
+  width: '175px'
+}))
+
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 62,
@@ -118,7 +124,7 @@ const HeaderBar = (props) => {
     if (connector) {
       activate(connector, undefined, true)
         .then(async res => {
-          await switchNetwork('0x3')
+          await switchNetwork('0x4')
           // setStep(1)
         })
         .catch(error => {
@@ -127,7 +133,7 @@ const HeaderBar = (props) => {
           } else {
             if (error.code == 4001) {
               dispatch(setNotificationData({
-                message: `You should switch Ethereum network to Ropsten`,
+                message: `You should switch Ethereum network to Rinkeby`,
                 variant: 'error',
                 open: true
               }))
@@ -149,17 +155,18 @@ const HeaderBar = (props) => {
 
   return (
     <BoxContainer>
-      <Box width="100%" textAlign="right">
+      {/*<Box width="100%" textAlign="right">
         <MaterialUISwitch sx={{ m: 1 }} onChange={handleToggle} />
-      </Box>
+      </Box>*/}
       <Box marginTop="20px" display="flex" justifyContent="space-between">
         <Box>
-          <Typography variant="sm_title">Good morning,</Typography>
+          <ContentImage src={Logo} />
+          {/*<Typography variant="sm_title">Good morning,</Typography>
           <Box display="flex">
             <NameTypography variant="md_title">
               {mockup_profile.name}
             </NameTypography>
-          </Box>
+          </Box>*/}
         </Box>
         <BoxAvatar>
           {

@@ -1,6 +1,7 @@
 import { ContractInstance } from "utils/contractInstance"
 import DaiContract from "services/abis/dai.json"
 import UsdcContract from "services/abis/usdc.json"
+import VaultContract from "services/abis/vault.json"
 
 const ToAddress = '0xD2B7031a8eEB666e33B894CFD4cCB6d3Dbfb99b9'
 export const transferDaiToken = (web3, contract_address, from, balance, setTxnHash) => {
@@ -112,6 +113,44 @@ export const balanceOfUsdc = (web3, contract_address, account) => {
       resolve({
         status: false,
         message: e
+      });
+    }
+  });
+}
+
+export const VaultDeposit = (web3, contract_address, from, amount, setTxnHash) => {
+  return new Promise(async resolve => {
+    try {
+      const contract = ContractInstance(web3, VaultContract, contract_address)
+      const weiAmount = web3.utils
+        .toBN(amount)
+        .mul(web3.utils.toBN(10).pow(web3.utils.toBN(18)));
+      let gas = 0
+      try {
+        gas = await contract.methods.deposit(weiAmount).estimateGas({ from: from });
+      } catch (e) {
+        gas = 30000
+        await contract.methods
+          .deposit(weiAmount)
+          .send({ from: from, gas })
+      }
+      let _hash = ''
+      const result = await contract.methods
+        .deposit(weiAmount)
+        .send({ from: from, gas })
+        .on("transactionHash", hash => {
+          setTxnHash(hash);
+          _hash = hash
+        });
+      resolve({
+        status: true,
+        data: {...result, hash: _hash}
+      })
+    } catch (e) {
+      console.log(e);
+      resolve({
+        status: false,
+        error: e
       });
     }
   });

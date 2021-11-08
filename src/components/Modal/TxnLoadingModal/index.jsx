@@ -48,7 +48,7 @@ const TxnLoadingModal = ({
 }) => {
   const dispatch = useDispatch()
   const handleClickChainExplorer = () => {
-    window.open(`https://ropsten.etherscan.io/tx/${txnHash}`);
+    window.open(`https://rinkeby.etherscan.io/tx/${txnHash}`);
   };
 
   const handleClickCopy = () => {

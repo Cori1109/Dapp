@@ -16,7 +16,7 @@ import NoMetamaskModal from "components/Modal/NoMetamaskModal";
 import { getAbbreviationAddress } from "utils/functions";
 import SwipeButton from "components/Button/SwipeButton";
 import TxnLoadingModal from "components/Modal/TxnLoadingModal";
-import { transferDaiToken, transferUsdcToken } from "services/API/contracts";
+import { transferDaiToken, transferUsdcToken, VaultDeposit } from "services/API/contracts";
 import Web3 from "web3";
 import { setTransferParam, setBalance } from "store/actions/App";
 import { balanceOfDai } from "services/API/contracts";
@@ -52,18 +52,18 @@ const AddFunds = (props) => {
   }, [])
 
   useEffect(async () => {
-    if (step == 1 && chainId != 3) {
+    if (step == 1 && chainId != 4) {
       try {
         dispatch(setNotificationData({
-          message: `You should switch Ethereum network to Ropsten`,
+          message: `You should switch Ethereum network to Rinkeby`,
           variant: 'error',
           open: true
         }))
-        await switchNetwork('0x3')
+        await switchNetwork('0x4')
       } catch (e) {
         if (e.code == 4001)
           dispatch(setNotificationData({
-            message: `You should switch Ethereum network to Ropsten`,
+            message: `You should switch Ethereum network to Rinkeby`,
             variant: 'error',
             open: true
           }))
@@ -77,7 +77,7 @@ const AddFunds = (props) => {
       
       let result = null;
 
-      if (account && web3) {
+      /*if (account && web3) {
         if (selectedCryptoInfo.title === 'DAI') {
           result = await balanceOfDai(web3, selectedCryptoInfo.address, account)
         } else if (selectedCryptoInfo.title === 'USDC') {
@@ -86,9 +86,9 @@ const AddFunds = (props) => {
         if (result && result.status)
           setMaxBalance(parseInt(result.balance))
         else {
-          setMaxBalance(0)
         }
-      }
+      }*/
+      setMaxBalance(500)
     }
   }, [selectedCryptoInfo, account, chainId])
 
@@ -98,7 +98,7 @@ const AddFunds = (props) => {
     if (connector) {
       activate(connector, undefined, true)
         .then(async res => {
-          await switchNetwork('0x3')
+          await switchNetwork('0x4')
           setStep(1)
         })
         .catch(error => {
@@ -107,7 +107,7 @@ const AddFunds = (props) => {
           } else {
             if (error.code == 4001) {
               dispatch(setNotificationData({
-                message: `You should switch Ethereum network to Ropsten`,
+                message: `You should switch Ethereum network to Rinkeby`,
                 variant: 'error',
                 open: true
               }))
@@ -139,11 +139,12 @@ const AddFunds = (props) => {
         const web3 = new Web3(library.provider);
         if (account && web3) {
           let result = null;
-          if (selectedCryptoInfo.title === 'DAI')
+          /*if (selectedCryptoInfo.title === 'DAI')
             result = await transferDaiToken(web3, selectedCryptoInfo.address, account, price, setTxnHash)
           else {
             result = await transferUsdcToken(web3, selectedCryptoInfo.address, account, price, setTxnHash)
-          }
+          }*/
+          result = await VaultDeposit(web3, selectedCryptoInfo.address, account, price, setTxnHash)
           if (result.status) {
             dispatch(setNotificationData({
               message: `Successfully funded $${price}!`,
@@ -218,9 +219,6 @@ const AddFunds = (props) => {
         {
           step == 1 && selectedCryptoInfo &&
           <>
-            <Box marginBottom="20px">
-              <Typography variant="sm_content_gray">{`Available: ${maxBalance}`}</Typography>
-            </Box>
             <BalanceSelector
               max={maxBalance}
               balance={selectedAmount}
@@ -231,7 +229,7 @@ const AddFunds = (props) => {
           </>
         }
         {
-          selectedCryptoInfo && chainId == 3 && selectedAmount != 0 &&
+          selectedCryptoInfo && chainId == 4 && selectedAmount != 0 &&
             <Box marginTop="64px">
               <SwipeButton 
                 mainText="Swipe to add funds" 

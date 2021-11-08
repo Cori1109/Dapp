@@ -5,6 +5,7 @@ import { useHistory } from "react-router";
 
 import EllipseIcon from "assets/logo/ellipse.png";
 import PolygonIcon from "assets/logo/polygon.png";
+import LogoWhite from "assets/logo/logo_white.png";
 
 const Content = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -16,6 +17,12 @@ const Content = styled(Box)(({ theme }) => ({
   width: "100%",
   
 }));
+
+const ContentImage = styled(`img`)(({ theme }) => ({
+  width: '230px',
+  padding: `${theme.spacing(2)} ${theme.spacing(1)}`
+}))
+
 
 const WrapBox = styled(Box)(({ theme }) => ({
   position: "fixed",
@@ -35,8 +42,9 @@ const BrandTypography = styled(Typography)(({ theme }) => ({
   marginLeft: "17px"
 }));
 
-const WrapContainer = styled(Container)(({ theme }) => ({
+const WrapContainer = styled('div')(({ theme }) => ({
   height: "100vh",
+  maxWidth: "100%!important",
   padding: 0,
   backgroundColor: theme.palette.primary_blue,
 }));
@@ -52,11 +60,11 @@ const Splash = (props) => {
 
   const timer = React.useRef();
 
-  useEffect(() => {
+  /*useEffect(() => {
     timer.current = window.setTimeout(() => {
       history.push("/welcome");
     }, 5000);
-  }, []);
+  }, []);*/
 
   const handleClick = () => {
     history.push("/welcome");
@@ -66,18 +74,8 @@ const Splash = (props) => {
     <WrapContainer onClick={handleClick}>
       <Content>
         <Box alignItems="center">
-          <Box display="flex" alignItems="center" marginBottom="2px">
-            <ShapeImage src={EllipseIcon} alt="" />
-            <ShapeImage src={PolygonIcon} alt="" />
-          </Box>
-          <Box display="flex" alignItems="center">
-            <ShapeImage src={EllipseIcon} alt="" />
-            <ShapeImage src={EllipseIcon} alt="" />
-          </Box>
+          <ContentImage src={LogoWhite} />
         </Box>
-        <BrandTypography variant="lg_title">
-          RAND
-        </BrandTypography>
       </Content>
       <WrapBox marginTop="24px" textAlign="center" fontSize="12px" >
         <WrapTypography variant="xs_content">
