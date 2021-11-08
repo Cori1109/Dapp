@@ -3,6 +3,7 @@ const white = '#ffffff'
 const orange = '#f6c16a'
 const pupple = '#6c56f9'
 const grey = '#8b8a90'
+const black_second = '#F0EEFE'
 const light_grey = '#F5F7FE'
 const black = '#000000'
 const gold_light = '#F6A6091A'
@@ -25,10 +26,16 @@ export default {
     background: white,
   },
   sub: {
+    background: white,
+  },
+  header: {
     background: blue,
   },
   dark: {
     background: white,
+  },
+  box: {
+    background: black_second,
   },
   text: {
     primary: black,

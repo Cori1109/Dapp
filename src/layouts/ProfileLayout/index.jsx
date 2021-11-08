@@ -9,7 +9,7 @@ import NavBar from '../../components/NavBar';
 
 
 const RootBox = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.sub.background,
+  backgroundColor: theme.palette.header.background,
   height: '100vh'
 }));
 

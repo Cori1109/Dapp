@@ -8,6 +8,9 @@ import {ReactComponent as CallIcon} from "assets/logo/call.svg";
 import {ReactComponent as CallDarkIcon} from "assets/logo/call_dark.svg";
 import {ReactComponent as UserIcon} from "assets/logo/user.svg";
 import {ReactComponent as UserDarkIcon} from "assets/logo/user_dark.svg";
+import {ReactComponent as TelegramIcon} from "assets/logo/telegram.svg";
+import {ReactComponent as LinkIcon} from "assets/logo/link.svg";
+import {ReactComponent as WhatsappIcon} from "assets/logo/whatsapp.svg";
 
 export {
     GoogleIcon,
@@ -20,4 +23,7 @@ export {
     CallDarkIcon,
     UserIcon,
     UserDarkIcon,
+    TelegramIcon,
+    LinkIcon,
+    WhatsappIcon,
 }

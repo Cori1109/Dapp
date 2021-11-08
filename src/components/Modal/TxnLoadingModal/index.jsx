@@ -10,7 +10,8 @@ import { setNotificationData } from "store/actions/App";
 const LoadingModal = styled(Dialog)(({theme}) => ({
   '& .MuiPaper-root': {
     width: '600px',
-    borderRadius: theme.spacing(4)
+    borderRadius: theme.spacing(4),
+    backgroundColor: theme.palette.sub.background,
   }
 }))
 
@@ -78,7 +79,7 @@ const TxnLoadingModal = ({
         </Box>
         <Box display="flex" justifyContent="center" marginTop="24px">
           {txnHash && (
-            <Typography variant="xs_content_gray" display="flex" alignItems="center">
+            <Typography variant="ss_content" display="flex" alignItems="center">
               Hash: <span style={{ color: "#EA88F2" }}> {shorttenString(txnHash) || "loading..."} </span>
               <ContentCopyIcon style={{paddingLeft: '24px', cursor: 'pointer'}} onClick={() => {handleClickCopy()}}/>
             </Typography>

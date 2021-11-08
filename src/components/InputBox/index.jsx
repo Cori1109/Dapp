@@ -4,7 +4,7 @@ import { styled } from '@mui/system';
 
 const WrapInput = styled(Input)(({ theme }) => ({
     borderRadius: '16px',
-    background: '#F9F9FA',
+    background: theme.palette.box.background,
     padding: '16px',
     width: '100%',
     color: theme.palette.primary_gray,

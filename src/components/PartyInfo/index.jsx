@@ -11,6 +11,10 @@ const BalanceInfo = styled(Box)(({ theme }) => ({
     alignItems: 'center'
 }))
 
+const WrapBox = styled(Box)(({ theme }) => ({
+    backgroundColor: theme.palette.box.background
+}))
+
 const WrapTypography = styled(Typography)(({ theme }) => ({
     color: theme.palette.secondary_gray,
     marginBottom: "8px",
@@ -46,7 +50,7 @@ const PartyInfo = ({ party }) => {
                     +3.1% from last month
                 </Typography>
             </BalanceInfo>
-            <Box marginTop="28px" padding="24px 16px" borderRadius="16px" backgroundColor="#F0EEFE">
+            <WrapBox marginTop="28px" padding="24px 16px" borderRadius="16px" >
                 <Grid container spacing={2} >
                     <Grid item xs={8}>
                         <WrapTypography variant="sm_content">{party && getFormatDate(party.endDate) != 0 ? (party.isPublic ? 'Next prize distribution' : 'Party closes in') : 'Party finished'}</WrapTypography>
@@ -55,7 +59,7 @@ const PartyInfo = ({ party }) => {
                     <Grid item xs={4}>
                     </Grid>
                 </Grid>
-            </Box>
+            </WrapBox>
         </>
     );
 }

@@ -32,6 +32,7 @@ const WrapBox = styled(Box)(({ theme }) => ({
 }));
 
 const ContentPaper = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.sub.background,
   boxShadow: "0px 20px 46px rgba(0, 0, 0, 0.1)",
   borderRadius: "16px",
   padding: "14px 17px",

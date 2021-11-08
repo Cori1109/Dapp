@@ -9,7 +9,7 @@ import { useSelector} from 'react-redux'
 import { useHistory } from "react-router";
 
 const WrapContainer = styled(Container)(({ theme }) => ({
-  padding: theme.spacing(0)
+  padding: theme.spacing(0),
 }));
 
 const HeaderBox = styled(Box)(({ theme }) => ({
@@ -19,6 +19,7 @@ const HeaderBox = styled(Box)(({ theme }) => ({
 }));
 
 const ContentPaper = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.sub.background,
   boxShadow: '0px 20px 46px rgba(0, 0, 0, 0.1)',
   borderRadius: '16px',
   padding: theme.spacing(3)

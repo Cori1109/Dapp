@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { setNotificationData } from "store/actions/App";
 
 const CardBox = styled(Box)(({ theme }) => ({
-    background: '#F5F7FE',
+    background: theme.palette.box.background,
     borderRadius: '32px',
     padding: '32px'
 }));

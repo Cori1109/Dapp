@@ -95,6 +95,7 @@ const WrapInfoOutlinedIcon = styled(InfoOutlinedIcon)(({ theme }) => ({
 }));
 
 const ContentPaper = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.sub.background,
   boxShadow: '0px 20px 46px rgba(0, 0, 0, 0.1)',
   borderRadius: '16px',
   padding: `${theme.spacing(3)} ${theme.spacing(3)} ${theme.spacing(8)} ${theme.spacing(3)}`

@@ -8,14 +8,12 @@ import {
   Divider,
   Button,
 } from "@mui/material";
-import { Close as CloseIcon, Telegram } from "@mui/icons-material";
+import { Close as CloseIcon, Link, Telegram } from "@mui/icons-material";
 import { styled } from "@mui/system";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { TelegramIcon, LinkIcon, WhatsappIcon } from "assets/logo/icon";
 
-import LinkImage from "../../../assets/logo/link.png";
-import WhatsappImage from "../../../assets/logo/whatsapp.png";
-import TelegramImage from "../../../assets/logo/telegram_30.png";
 import { ContentCopy as ContentCopyIcon } from "@mui/icons-material";
 import { setNotificationData } from "store/actions/App";
 
@@ -23,10 +21,9 @@ const ShareFriendsDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiPaper-root": {
     width: "600px",
     borderRadius: theme.spacing(4),
+    backgroundColor: theme.palette.sub.background,
   },
 }));
-
-const ShareImage = styled("img")(({ theme }) => ({}));
 
 const ShareList = styled("ul")(({ theme }) => ({
   marginTop: "20px",
@@ -108,7 +105,7 @@ const ShareFriendsModal = ({ open, handleClose }) => {
           >
             <ShareListBox>
               <Box width="50px" display="flex" justifyContent="center">
-                <ShareImage src={LinkImage} />
+                <LinkIcon />
               </Box>
               <Typography
                 variant="xs_content_gray"
@@ -129,8 +126,8 @@ const ShareFriendsModal = ({ open, handleClose }) => {
             }
           >
             <ShareListBox>
-              <Box width="50px" display="flex" justifyContent="center">
-                <ShareImage src={WhatsappImage} />
+              <Box width="50px" display="flex" justifyContent="center" fill="white">
+                <WhatsappIcon />
               </Box>
               <Typography variant="xs_content_gray">Whatsapp</Typography>
             </ShareListBox>
@@ -143,7 +140,7 @@ const ShareFriendsModal = ({ open, handleClose }) => {
           >
             <ShareListBox>
               <Box width="50px" display="flex" justifyContent="center">
-                <ShareImage src={TelegramImage} />
+                <TelegramIcon />
               </Box>
               <Typography variant="xs_content_gray">Telegram</Typography>
             </ShareListBox>

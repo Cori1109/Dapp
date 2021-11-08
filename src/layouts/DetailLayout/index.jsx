@@ -7,7 +7,7 @@ import { ArrowBack as BackIcon } from '@mui/icons-material';
 import { useHistory } from "react-router";
 
 const RootBox = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.sub.background,
+  backgroundColor: theme.palette.header.background,
   height: '100vh'
 }));
 

@@ -134,7 +134,7 @@ const WrapBox = styled(Box)(({ theme }) => ({
   margin: "1px",
   padding: "20px",
   borderRadius: "16px",
-  backgroundColor: "#F5F7FE"
+  backgroundColor: theme.palette.box.background
 }))
 
 const Profile = (props) => {
