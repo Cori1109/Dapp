@@ -7,7 +7,8 @@ import { WALLETS } from 'utils/constants';
 const ConnectWalletDialog = styled(Dialog)(({theme}) => ({
   '& .MuiPaper-root': {
     width: '600px',
-    borderRadius: theme.spacing(4)
+    borderRadius: theme.spacing(4),
+    backgroundColor: theme.palette.sub.background,
   }
 }))
 

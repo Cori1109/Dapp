@@ -23,6 +23,7 @@ const ShareFriendsDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiPaper-root": {
     width: "600px",
     borderRadius: theme.spacing(4),
+    backgroundColor: theme.palette.sub.background,
   },
 }));
 

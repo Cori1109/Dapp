@@ -25,6 +25,9 @@ export default {
     background: white,
   },
   sub: {
+    background: white,
+  },
+  header: {
     background: blue,
   },
   dark: {
