@@ -53,6 +53,14 @@ const PrizeModal = ({
       </DialogHeader>
       <DialogContent>
         <Box marginTop="20px">
+          <Box display="flex" justifyContent="space-between" padding="16px 18px">
+            <Typography variant="sm_content_gray">
+              Prize
+            </Typography>
+            <Typography variant="sm_content_gray">
+              Winner
+            </Typography>
+          </Box>
           {
             list.map((item, index) => (
               <Fragment key={`prize-item-${index}`}>
@@ -72,7 +80,7 @@ const PrizeModal = ({
       </DialogContent>
       <DialogActions>
         <Box padding="24px" width="100%">
-          <AddButton variant="contained" onClick={() => {handleClose()}}>OK</AddButton>
+          <AddButton variant="contained" onClick={() => {handleClose()}}>Close</AddButton>
         </Box>
       </DialogActions>
     </PrizeDialog>

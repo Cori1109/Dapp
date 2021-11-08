@@ -49,7 +49,7 @@ const PartyInfo = ({ party }) => {
             <Box marginTop="28px" padding="24px 16px" borderRadius="16px" backgroundColor="#F0EEFE">
                 <Grid container spacing={2} >
                     <Grid item xs={8}>
-                        <WrapTypography variant="sm_content">{party && getFormatDate(party.endDate) != 0 ? 'Party closes in' : 'Party finished'}</WrapTypography>
+                        <WrapTypography variant="sm_content">{party && getFormatDate(party.endDate) != 0 ? (party.isPublic ? 'Next prize distribution' : 'Party closes in') : 'Party finished'}</WrapTypography>
                         <Typography variant="md_title">{party && getFormatDate(party.endDate) != 0 ? closeTime : ''}</Typography>
                     </Grid>
                     <Grid item xs={4}>

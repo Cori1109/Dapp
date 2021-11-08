@@ -8,7 +8,6 @@ import {
   Button,
 } from "@mui/material";
 import { styled } from "@mui/system";
-import SwipeButton from "../../components/Button/SwipeButton";
 import BalanceCard from "../../components/BalanceCard";
 import { motion } from "framer-motion";
 import { pageVariants, pageTransition } from "../../utils/pageTransitions";
@@ -84,7 +83,7 @@ const Dashboard = (props) => {
           <WrapBox>THIS WEEK WIN BIG</WrapBox>
           <ContentPaper>
             <ContentHeader>
-              <WrapTypography variant="sm_title">Your parites</WrapTypography>
+              <WrapTypography variant="sm_title">Your parties</WrapTypography>
               <Typography
                 variant="sm_content"
                 style={{ cursor: "pointer" }}

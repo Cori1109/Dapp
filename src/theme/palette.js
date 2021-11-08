@@ -41,7 +41,7 @@ export default {
       background: blue,
       foreground: white,
       hover: {
-        foreground: orange
+        foreground: primary_gray
       },
     },
     secondary: {

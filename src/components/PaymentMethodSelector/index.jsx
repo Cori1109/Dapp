@@ -15,7 +15,7 @@ const PaymentMethodSelector = ({ setOpenWallet }) => {
     return (
         <CardBox padding="32px 0px">
             <Box marginBottom="32px">
-                <OptionButton text="With debit card" startIcon={PaymentCardImg} endIcon={DownImg} disabled={true}/>
+                <OptionButton text="With debit card (coming soon)" startIcon={PaymentCardImg} disabled={true}/>
             </Box>
             <Box>
                 <OptionButton text="With crypto" startIcon={PaymentCardImg} endIcon={DownImg} handleClick={() => setOpenWallet(true)}/>

@@ -19,7 +19,7 @@ const mockup_data = [{
   isPublic: false,
 }, {
   partyId: '1234-5578',
-  name: 'weekly Rand party',
+  name: 'Weekly Rand Party',
   avatar: null,
   balance: 75691.54,
   endDate: moment(new Date()).add(1000 * 60 * 3),
@@ -41,7 +41,7 @@ const initialState = {
   joinedParam: null,
   transferParam: null,
   partyList: mockup_data,
-  balance: 1000,
+  balance: 0,
   notificationData: null
 };
 

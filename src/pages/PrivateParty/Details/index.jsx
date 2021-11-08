@@ -24,6 +24,7 @@ import UserAvatarImage3 from "../../../assets/avatar/Julia.png";
 import UserAvatarImage4 from "../../../assets/avatar/Phillip.png";
 import UserAvatarImage5 from "../../../assets/avatar/Dianne.png";
 import PrimaryButton from "components/Button/PrimaryButton";
+import ShareFriendsModal from "components/Modal/ShareFriendsModal";
 
 const Content = styled(Box)(({ theme }) => ({
   padding: `${theme.spacing(3)} ${theme.spacing(3)}`
@@ -117,6 +118,7 @@ const PrivateParty = (props) => {
   const [joinModalOpen, setJoinModalOpen] = useState(isJoin)
   const [emptyAccountModalOpen, setEmptyAccountModalOpen] = useState(false)
   const [leaveModalOpen, setLeaveModalOpen] = useState(false)
+  const [shareModalOpen, setShareModalOpen] = useState(false)
 
 
   const getParty = (_party) => {
@@ -176,6 +178,10 @@ const PrivateParty = (props) => {
     setLeaveModalOpen(true);
   }
 
+  const handleOpenShareModal = () => {
+    setShareModalOpen(true);
+  }
+
   return (
     <motion.div
       initial="initial"
@@ -211,7 +217,7 @@ const PrivateParty = (props) => {
             }
           </Stack>
           <PrimaryButton variant="contained" style={{justifyContent: "space-between", backgroundColor: "#3F51B5", marginBottom: "26px"}} endIcon={<CheckCircleOutlineIcon />} onClick={() => handleClickPartyStatus(party)} text={party ? party.status : 'Opened'} />
-          <PrimaryButton variant="contained" style={{justifyContent: "space-between"}} endIcon={<AddIcon />} text="Add participants" />
+          <PrimaryButton variant="contained" style={{justifyContent: "space-between"}} endIcon={<AddIcon />} onClick={() => handleOpenShareModal()} text="Add participants" />
           {party && party.status == 'Joined' && (<TextButton variant="text" onClick={() => handleOpenLeaveModal()}>Leave Party</TextButton>)}
 
         </Content>
@@ -231,6 +237,10 @@ const PrivateParty = (props) => {
         open={leaveModalOpen}
         handleClose={() => setLeaveModalOpen(false)}
         handleSuccess={() => handleLeaveParty()}
+      />
+      <ShareFriendsModal
+        open={shareModalOpen}
+        handleClose={() => setShareModalOpen(false)}
       />
     </motion.div>
   );

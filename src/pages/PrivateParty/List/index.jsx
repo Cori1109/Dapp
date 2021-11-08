@@ -74,13 +74,13 @@ const PrivatePartyList = (props) => {
       <WrapContainer maxWidth="sm">
         <HeaderBox>
           <Typography variant="md_title">
-            Private Parites
+            Private Parties
           </Typography>
         </HeaderBox>
         <ContentPaper>
           <ContentHeader>
             <WrapTypography variant="md_content">
-              Your private parites
+              Your private parties
             </WrapTypography>
             {parties? <Typography variant="sm_content" style={{cursor:"pointer"}} onClick={handleCreate}>Create</Typography> : null}
           </ContentHeader>
