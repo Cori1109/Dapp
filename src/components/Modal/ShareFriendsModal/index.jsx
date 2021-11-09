@@ -97,7 +97,7 @@ const ShareFriendsModal = ({ open, handleClose }) => {
         <Box></Box>
       </DialogHeader>
       <DialogContent>
-        <ShareList marginTop="20px">
+        <ShareList>
           <ShareContainer
             onClick={() => {
               handleClickCopy(window.location);

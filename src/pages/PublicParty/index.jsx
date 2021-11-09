@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Container, Stack, Typography, Button, Grid, Avatar, Paper } from "@mui/material";
 import { styled } from '@mui/system';
 import { motion } from "framer-motion";
@@ -21,17 +21,7 @@ import UserAvatarImage3 from "../../assets/avatar/Julia.png";
 import UserAvatarImage4 from "../../assets/avatar/Phillip.png";
 import UserAvatarImage5 from "../../assets/avatar/Dianne.png";
 import PrimaryButton from "components/Button/PrimaryButton";
-
-const prizeResult = [{
-  amount: 2273,
-  count: 2
-}, {
-  amount: 537,
-  count: 26
-}, {
-  amount: 250,
-  count: 2356
-}]
+import { changePartyAmount, getPublicParty } from "utils/api";
 
 const participants = [{
   name: 'Phillip',
@@ -129,8 +119,11 @@ const TextButton = styled(Button)(({ theme }) => ({
 }))
 
 const PublicParty = (props) => {
-  const data = useSelector(state => state.app.partyList[2])
+  // const data = useSelector(state => state.app.partyList[2])
+  const [data, setData] = useState(null)
+  const [prizeDistribution, setPrizeDistribution] = useState([])
   const balance = useSelector(state => state.app.balance)
+  const joinedParam = useSelector(state => state.app.joinedParam)
   const location = useLocation()
   const history = useHistory()
   const [prizeModalOpen, setPrizeModalOpen] = useState(false)
@@ -140,18 +133,50 @@ const PublicParty = (props) => {
   const [emptyAccountModalOpen, setEmptyAccountModalOpen] = useState(false)
   const dispatch = useDispatch()
 
+  useEffect(() => {
+    getPublicPartyInfo()
+  }, [])
+
+  const getPublicPartyInfo = async () => {
+    getPublicParty()
+    .then((res) => {
+      let _data = {...res, state: "open"}
+      setData(_data)
+      let _prizeDistribution = [
+        _data.prizeDistribution.tier1, _data.prizeDistribution.tier2, _data.prizeDistribution.tier3
+      ]
+      setPrizeDistribution(_prizeDistribution)
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
+
+  const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B"
+  const handlePartyAmount = async (price) => {
+    changePartyAmount(wallet, price, data.partyId)
+    .then((res) => {
+      console.log(res)
+    })
+    .catch((error) => {
+      console.log(error)
+    });
+  }
+  
   const handleJoinParty = (price) => {
     setJoinModalOpen(false)
-    
-    let _data = JSON.parse(JSON.stringify(data))
-    _data.status = 'joined'
-    dispatch(editParty(_data))
+    // let _data = JSON.parse(JSON.stringify(data))
+    // _data.state = 'joined'
+    // dispatch(editParty(_data))
     dispatch(setBalance(balance - price))
     dispatch(setJoinedParam({
       price: price,
       party_name: data.name,
-      back_url: location.pathname
+      party_id: data.partyId,
+      back_url: location.pathname,
+      state: "joined"
     }))
+    handlePartyAmount(price)
     history.push('/joined-success')
   }
 
@@ -161,16 +186,22 @@ const PublicParty = (props) => {
   }
 
   const handleLeaveParty = () => {
-    setLeaveModalOpen(false)
-    
-    let _data = JSON.parse(JSON.stringify(data))
-    _data.status = 'Opened'
-    dispatch(editParty(_data))
-    // history.goBack()
+    setLeaveModalOpen(false)    
+    // let _data = JSON.parse(JSON.stringify(data))
+    // _data.state = 'open'
+    // dispatch(editParty(_data))
+    dispatch(setJoinedParam({
+      price: -(joinedParam.price),
+      party_name: data.name,
+      party_id: data.partyId,
+      back_url: location.pathname,
+      state: "open"
+    }))
+    handlePartyAmount(-(joinedParam.price))
   }
 
   const handleClickPartyStatus = (item) => {
-    if (item && item.status == "Opened") {
+    if (item && item.state == "open") {
       if (balance !== 0)
         setJoinModalOpen(true)
       else
@@ -201,6 +232,9 @@ const PublicParty = (props) => {
           </WrapTypography>
         </HeaderBox>
         <ContentPaper>
+          <Typography variant="md_content" marginBottom="12px">
+            {data && data.name}
+          </Typography>
           <Box display="flex" alignItems="center" paddingBottom="8px" >
             <Typography variant="sm_title" marginRight="8px">
               Expected prize
@@ -210,7 +244,7 @@ const PublicParty = (props) => {
           <PartyInfo party={data} />
           <Box display="flex" justifyContent="space-between" alignItems="center" marginTop="27px" marginBottom="19px">
             <Typography variant="sm_title">Participants counter</Typography>
-            <Typography variant="sm_title">{participants.length}</Typography>
+            <Typography variant="sm_title">{data && data.participants}</Typography>
           </Box>
           <Stack direction="row" spacing={-2} >
             {
@@ -221,23 +255,23 @@ const PublicParty = (props) => {
               ))
             }
           </Stack>
-          <StatusButton status={data ? data.status : 'Opened'} handleClick={() => handleClickPartyStatus(data)}/>
+          <StatusButton status={data ? data.state : 'open'} handleClick={() => handleClickPartyStatus(data)}/>
           <PrimaryButton variant="contained" style={{justifyContent: "space-between", marginTop: "23px"}} endIcon={<AddIcon />} onClick={() => handleOpenShareModal()} text="Share" />
           
         </ContentPaper>
-        {data.status == 'joined' && (<TextButton variant="text" onClick={() => handleOpenLeaveModal()}>Leave Party</TextButton>)}
+        {data && data.state == 'joined' && (<TextButton variant="text" onClick={() => handleOpenLeaveModal()}>Leave Party</TextButton>)}
         
       </WrapContainer>
       <PrizeModal
         open={prizeModalOpen}
         handleClose={() => setPrizeModalOpen(false)}
-        list={prizeResult}
+        list={prizeDistribution}
       />
       <DepositModal
         open={joinModalOpen}
         balance={balance}
         handleClose={() => setJoinModalOpen(false)}
-        handleSuccess={(balance) => handleJoinParty(balance)}
+        handleSuccess={(amount) => handleJoinParty(amount)}
       />
       <EmptyAccountModal
         open={emptyAccountModalOpen}

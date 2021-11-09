@@ -54,7 +54,7 @@ const Party = ({ data, index }) => {
         if (data.isPublic)
             history.push('/public-party')
         else
-            history.push(`/private-party/${data.partyId}`)
+            history.push(`/private-party/${data._id}`)
     }
 
     return (
@@ -79,7 +79,7 @@ const Party = ({ data, index }) => {
             <Grid item xs={5} textAlign="right">
                 <Box>
                     <TitleTypography variant="xs_content">
-                        ${getFormatNumber(data.balance)}
+                        ${getFormatNumber(data.amount)}
                     </TitleTypography>
                 </Box>
                 <Box>

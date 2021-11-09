@@ -16,8 +16,9 @@ import {
 import { setHeaderTitle } from "store/actions/App";
 import MyAvatar from "assets/avatar/me.png";
 import InputBox from "components/InputBox";
-import { setNotificationData, createParty } from "store/actions/App";
+import { setNotificationData } from "store/actions/App";
 import moment from "moment";
+import { createParty } from "utils/api";
 
 const Content = styled(Box)(({ theme }) => ({
   padding: `${theme.spacing(3)} ${theme.spacing(3)}`
@@ -55,6 +56,8 @@ const PrivatePartyCreator = (props) => {
   const history = useHistory()
   const dispatch = useDispatch()
 
+  const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B"
+
   const [party, setParty] = useState({
     name: '',
     participantCount: '',
@@ -76,6 +79,31 @@ const PrivatePartyCreator = (props) => {
   useEffect(() => {
       dispatch(setHeaderTitle('Party creator'))
   }, [])
+
+  const createPrivateParty = async (party) => {
+    createParty(party.name, wallet, party.maxDepositAmount, party.participantCount, party.duration)
+    .then((res) => {
+      dispatch(setNotificationData({
+        message: `Successfully Party created.`,
+        variant: 'success',
+        open: true
+      }))
+      const partyId = res.id
+      // dispatch(createParty({
+      //   ...party, 
+      //   partyId: partyId,
+      //   endDate: moment(new Date()).add(party.duration * 1000 * 3600 * 24)
+      // }))
+      history.push({
+        pathname: `/private-party/${partyId}`,
+        search: '?join'
+      })
+      console.log(res)
+    })
+    .catch((error) => {
+      console.log(error)
+    });
+  }
 
   const onInputChange = (id, value) => {
     setParty({...party, [id]: value})
@@ -102,21 +130,7 @@ const PrivatePartyCreator = (props) => {
     })
 
     if (_partyValidate.name && _partyValidate.participantCount && _partyValidate.maxDepositAmount && _partyValidate.duration) {
-      dispatch(setNotificationData({
-        message: `Successfully Party created.`,
-        variant: 'success',
-        open: true
-      }))
-      let partyId = `${parseInt(Math.random() * 10000).toString()}-${parseInt(Math.random() * 10000).toString()}`
-      dispatch(createParty({
-        ...party, 
-        partyId: partyId,
-        endDate: moment(new Date()).add(party.duration * 1000 * 3600 * 24)
-      }))
-      history.push({
-        pathname: `/private-party/${partyId}`,
-        search: '?join'
-      })
+      createPrivateParty(party)      
     } else {
       dispatch(setNotificationData({
         message: `Please input all fields`,
