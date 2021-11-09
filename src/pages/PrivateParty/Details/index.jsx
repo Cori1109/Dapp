@@ -164,14 +164,15 @@ const PrivateParty = (props) => {
   const handleJoinParty = (price) => {
     setJoinModalOpen(false)
     
-    let _party = JSON.parse(JSON.stringify(party))
-    _party.state = 'Joined'
-    dispatch(editParty(_party))
+    // let _party = JSON.parse(JSON.stringify(party))
+    // _party.state = 'Joined'
+    // dispatch(editParty(_party))
     dispatch(setBalance(balance - price))
     dispatch(setJoinedParam({
       price: price,
       party_name: party.name,
-      back_url: location.pathname
+      back_url: location.pathname,
+      state: 'joined'
     }))
     handlePartyAmount(price)
     history.push('/joined-success')
@@ -180,11 +181,18 @@ const PrivateParty = (props) => {
   const handleLeaveParty = () => {
     setLeaveModalOpen(false)
     
-    let _data = JSON.parse(JSON.stringify(party))
-    _data.state = 'open'
-    dispatch(editParty(_data))
-    setParty(_data)
-    handlePartyAmount(joinedParam.price)
+    // let _data = JSON.parse(JSON.stringify(party))
+    // _data.state = 'open'
+    // dispatch(editParty(_data))
+    // setParty(_data)
+    dispatch(setJoinedParam({
+      price: joinedParam.price,
+      party_name: party.name,
+      party_id: party.partyId,
+      back_url: location.pathname,
+      state: "open"
+    }))
+    handlePartyAmount(-(joinedParam.price))
     // history.goBack()
   }
 
@@ -231,17 +239,20 @@ const PrivateParty = (props) => {
               ))
             }
           </Stack>
-          <PrimaryButton variant="contained" style={{justifyContent: "space-between", backgroundColor: "#3F51B5", marginBottom: "26px"}} endIcon={<CheckCircleOutlineIcon />} onClick={() => handleClickPartyStatus(party)} text={party ? party.state : 'Opened'} />
+          {/* <PrimaryButton variant="contained" style={{justifyContent: "space-between", backgroundColor: "#3F51B5", marginBottom: "26px"}} endIcon={<CheckCircleOutlineIcon />} onClick={() => handleClickPartyStatus(party)} text={party ? party.state : 'Opened'} /> */}
+          <PrimaryButton variant="contained" style={{justifyContent: "space-between", backgroundColor: "#3F51B5", marginBottom: "26px"}} endIcon={<CheckCircleOutlineIcon />} onClick={() => handleClickPartyStatus(joinedParam)} text={joinedParam ? joinedParam.state : 'open'} />
           <PrimaryButton variant="contained" style={{justifyContent: "space-between"}} endIcon={<AddIcon />} text="Add participants" />
-          {party && party.state == 'Joined' && (<TextButton variant="text" onClick={() => handleOpenLeaveModal()}>Leave Party</TextButton>)}
+          {/* {party && party.state == 'Joined' && (<TextButton variant="text" onClick={() => handleOpenLeaveModal()}>Leave Party</TextButton>)} */}
+          {joinedParam && joinedParam.state == 'joined' && (<TextButton variant="text" onClick={() => handleOpenLeaveModal()}>Leave Party</TextButton>)}
 
         </Content>
       </Container>
       <DepositModal 
         open={joinModalOpen}
-        balance={balance}
+        balance={party && party.maxDeposit}
         handleClose={() => setJoinModalOpen(false)}
-        handleSuccess={(balance) => handleJoinParty(balance)}
+        handleSuccess={(price) => handleJoinParty(price)}
+        isPrivate={true}
       />
       <EmptyAccountModal
         open={emptyAccountModalOpen}
