@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from "react-router"
 import { setJoinedParam } from "store/actions/App";
 
-const ImageBox = styled('Box')(({theme}) => ({
+const ImageBox = styled(Box)(({theme}) => ({
   paddingTop: theme.spacing(10),
   marginBottom: theme.spacing(6),
   display: 'flex',

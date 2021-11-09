@@ -60,11 +60,11 @@ const ChooseCryptoModal = ({
         <Box></Box>
       </DialogHeader>
       <DialogContent>
-        <CryptoList marginTop="20px">
+        <CryptoList>
           <Divider variant="middle" />
           {
             CRYPTOS.map((item, index) => (
-              <CryptoContainer>
+              <CryptoContainer key={index}>
                 <CryptoBox onClick={() => onSuccess(CRYPTOS[index])}>
                   <Box width="50px" display="flex" justifyContent="center">
                     <CryptoImage src={item.logo} alt={item.title} />

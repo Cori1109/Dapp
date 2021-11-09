@@ -22,7 +22,7 @@ import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
 import ConnectWalletModal from "components/Modal/ConnectWalletModal";
 import { setNotificationData } from "store/actions/App";
 import { switchNetwork } from "utils/web3utils";
-import { getAbbreviationAddress } from "utils/functions";
+import { getAbbreviationAddress, getFormatNumber } from "utils/functions";
 
 const WrapContainer = styled(Container)(({ theme }) => ({
   height: 'calc(100vh - 200px)',
@@ -124,7 +124,6 @@ const SmallAvatar = styled(Avatar)(({ theme }) => ({
 
 const WrapImage = styled(`img`)(({ theme }) => ({
   borderRadius: "16px",
-  paddingTop: "5px",
   paddingRight: "10px",
   width: "27px",
   height: "27px"
@@ -147,6 +146,7 @@ const Profile = (props) => {
   const [openWallet, setOpenWallet] = useState(false);
 
   const balance = useSelector(state => state.app.balance)
+  const lockBalance = useSelector(state => state.app.lockBalance)
   
   const handleConnectWallet = (walletInfo) => {
     const { connector, type } = walletInfo;
@@ -218,7 +218,7 @@ const Profile = (props) => {
                   <Typography variant="xs_content_gray" >Total Balance</Typography>
                   <Box display='flex' marginTop="10px">
                     <WrapImage src={IncomeIcon} alt='' />
-                    <Typography variant="sl_title" >$4,500</Typography>
+                    <Typography variant="sl_title" >${getFormatNumber(balance)}</Typography>
                   </Box>
                 </WrapBox>                        
               </Grid>
@@ -227,7 +227,7 @@ const Profile = (props) => {
                   <Typography variant="xs_content_gray">Lock in Parties</Typography>
                   <Box display='flex' marginTop="10px">
                     <WrapImage src={LockIcon} alt='' />
-                    <Typography variant="sl_title" >$1,500</Typography>
+                    <Typography variant="sl_title" >${getFormatNumber(lockBalance)}</Typography>
                   </Box>
                 </WrapBox>
               </Grid>

@@ -42,6 +42,7 @@ const initialState = {
   transferParam: null,
   partyList: mockup_data,
   balance: 0,
+  lockBalance: 0,
   notificationData: null
 };
 
@@ -116,6 +117,15 @@ const setBalance = (state, {balance, ...rest}) => {
   };
 }
 
+const setLockBalance = (state, {lockBalance, ...rest}) => {
+  return {
+    ...state,
+    ...{
+      lockBalance: lockBalance,
+    },
+  };
+}
+
 const setNotificationData = (state, {notificationData, ...rest}) => {
   return {
     ...state,
@@ -142,6 +152,8 @@ const reducer = (state = initialState, action) => {
       return setBlackTheme(state, action);
     case actionTypes.SET_BALANCE:
       return setBalance(state, action);
+    case actionTypes.SET_LOCK_BALANCE:
+      return setLockBalance(state, action);
     case actionTypes.SET_NOTIFICATION_DATA:
       return setNotificationData(state, action);
     default:

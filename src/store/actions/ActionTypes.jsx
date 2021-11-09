@@ -6,5 +6,6 @@ export const EDIT_PARTY = "EDIT_PARTY";
 export const CREATE_PARTY = "CREATE_PARTY";
 export const SET_BLACK_THEME = "SET_BLACK_THEME";
 export const SET_BALANCE = "SET_BALANCE";
+export const SET_LOCK_BALANCE = "SET_LOCK_BALANCE";
 
 export const SET_NOTIFICATION_DATA = "SET_NOTIFICATION_DATA";

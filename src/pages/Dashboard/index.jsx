@@ -19,6 +19,7 @@ import { useHistory } from "react-router";
 import { getUserDetails } from "utils/api";
 import { useWeb3React } from "@web3-react/core";
 import { setBalance } from "store/actions/App";
+import { setLockBalance } from "store/actions/App";
 
 const RootBox = styled(Box)`
   padding: "10px";
@@ -75,6 +76,7 @@ const Dashboard = (props) => {
     .then((res) => {
       setParties(res.privateParties)
       dispatch(setBalance(res.userDetails.balance))
+      dispatch(setLockBalance(res.userDetails.staked))
     })
     .catch((error) => {
       console.log(error);
