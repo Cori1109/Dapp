@@ -24,7 +24,7 @@ import UserAvatarImage3 from "../../../assets/avatar/Julia.png";
 import UserAvatarImage4 from "../../../assets/avatar/Phillip.png";
 import UserAvatarImage5 from "../../../assets/avatar/Dianne.png";
 import PrimaryButton from "components/Button/PrimaryButton";
-import { getPrivatePartyDetails } from "utils/api";
+import { changePartyAmount, getPrivatePartyDetails } from "utils/api";
 
 const Content = styled(Box)(({ theme }) => ({
   padding: `${theme.spacing(3)} ${theme.spacing(3)}`
@@ -111,6 +111,7 @@ const PrivateParty = (props) => {
   const isJoin = location.search ? true : false
 
   const balance = useSelector(state => state.app.balance)
+  const joinedParam = useSelector(state => state.app.joinedParam)
 
   const [party, setParty] = useState(null)
   const [participants, setParticipants] = useState(mockup_participants)
@@ -125,7 +126,8 @@ const PrivateParty = (props) => {
   const getPrivatePartyDetailsInfo = async () => {
     getPrivatePartyDetails(partyId)
     .then((res) => {
-      let _party = { ...res, expectedPrize: 1000, status: "Opened" }
+      let _party = { ...res, expectedPrize: res.amount }
+      console.log(_party)
       setParty(_party)
     })
     .catch((error) => {
@@ -139,8 +141,19 @@ const PrivateParty = (props) => {
     }
   }, [party])
 
+  const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B"
+  const handlePartyAmount = async (price) => {
+    changePartyAmount(wallet, price, partyId)
+    .then((res) => {
+      console.log(res)
+    })
+    .catch((error) => {
+      console.log(error)
+    });
+  }
+
   const handleClickPartyStatus = (item) => {
-    if (item && item.status == "Opened") {
+    if (item && item.state == "open") {
       if (balance !== 0)
         setJoinModalOpen(true)
       else
@@ -152,7 +165,7 @@ const PrivateParty = (props) => {
     setJoinModalOpen(false)
     
     let _party = JSON.parse(JSON.stringify(party))
-    _party.status = 'Joined'
+    _party.state = 'Joined'
     dispatch(editParty(_party))
     dispatch(setBalance(balance - price))
     dispatch(setJoinedParam({
@@ -160,6 +173,7 @@ const PrivateParty = (props) => {
       party_name: party.name,
       back_url: location.pathname
     }))
+    handlePartyAmount(price)
     history.push('/joined-success')
   }
 
@@ -167,9 +181,10 @@ const PrivateParty = (props) => {
     setLeaveModalOpen(false)
     
     let _data = JSON.parse(JSON.stringify(party))
-    _data.status = 'Opened'
+    _data.state = 'open'
     dispatch(editParty(_data))
     setParty(_data)
+    handlePartyAmount(joinedParam.price)
     // history.goBack()
   }
 
@@ -216,9 +231,9 @@ const PrivateParty = (props) => {
               ))
             }
           </Stack>
-          <PrimaryButton variant="contained" style={{justifyContent: "space-between", backgroundColor: "#3F51B5", marginBottom: "26px"}} endIcon={<CheckCircleOutlineIcon />} onClick={() => handleClickPartyStatus(party)} text={party ? party.status : 'Opened'} />
+          <PrimaryButton variant="contained" style={{justifyContent: "space-between", backgroundColor: "#3F51B5", marginBottom: "26px"}} endIcon={<CheckCircleOutlineIcon />} onClick={() => handleClickPartyStatus(party)} text={party ? party.state : 'Opened'} />
           <PrimaryButton variant="contained" style={{justifyContent: "space-between"}} endIcon={<AddIcon />} text="Add participants" />
-          {party && party.status == 'Joined' && (<TextButton variant="text" onClick={() => handleOpenLeaveModal()}>Leave Party</TextButton>)}
+          {party && party.state == 'Joined' && (<TextButton variant="text" onClick={() => handleOpenLeaveModal()}>Leave Party</TextButton>)}
 
         </Content>
       </Container>

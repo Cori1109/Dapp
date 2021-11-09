@@ -4,7 +4,6 @@ export const getPublicParty = async () => {
   return axios
     .get(`${process.env.REACT_APP_API_ENDPOINT_URL}/mvp/parties/public`)
     .then((response) => {
-
       //   const publicPartyRes = [
       //     {
       //       partyId: PARTY_ID,
@@ -24,7 +23,7 @@ export const getPublicParty = async () => {
     })
     .catch((error) => {
       console.log(error);
-    //   throw new Error(error.message);
+      //   throw new Error(error.message);
     });
 };
 
@@ -36,7 +35,7 @@ export const createParty = async (
   _duration
 ) => {
   return axios
-    .put(`${process.env.REACT_APP_API_ENDPOINT_URL}/mvp/parties/`, {
+    .post(`${process.env.REACT_APP_API_ENDPOINT_URL}/mvp/parties/`, {
       name: _name,
       partyCreator: _wallet,
       maxDeposit: _maxDeposit,
@@ -48,7 +47,7 @@ export const createParty = async (
     })
     .catch((error) => {
       console.log(error);
-    //   throw new Error(error.message);
+      //   throw new Error(error.message);
     });
 };
 
@@ -58,31 +57,45 @@ export const getUserDetails = (_wallet) => {
       `${process.env.REACT_APP_API_ENDPOINT_URL}/mvp/users/details/${_wallet}`
     )
     .then((response) => {
-
-    //   const userDetailsRes = {
-    //     userDetails: { balance: AVAIALBE_BALANCE, staked: LOCKED_PARTIES },
-    //     privateParties: [{ details_party1 }, { details_party2 }],
-    //     publicParties: [{ joined_public_parties }],
-    //   };
+      //   const userDetailsRes = {
+      //     userDetails: { balance: AVAIALBE_BALANCE, staked: LOCKED_PARTIES },
+      //     privateParties: [{ details_party1 }, { details_party2 }],
+      //     publicParties: [{ joined_public_parties }],
+      //   };
 
       return response.data;
     })
     .catch((error) => {
       console.log(error);
-    //   throw new Error(error.message);
+      //   throw new Error(error.message);
     });
 };
 
 export const getPrivatePartyDetails = (_partyId) => {
-    return axios
-      .get(
-        `${process.env.REACT_APP_API_ENDPOINT_URL}/mvp/parties/details/${_partyId}`
-      )
-      .then((response) => {  
-        return response.data;
-      })
-      .catch((error) => {
-        console.log(error);
+  return axios
+    .get(
+      `${process.env.REACT_APP_API_ENDPOINT_URL}/mvp/parties/details/${_partyId}`
+    )
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
       //   throw new Error(error.message);
-      });
-  };
+    });
+};
+
+export const changePartyAmount = async (_wallet, _amount, _partyId) => {
+  return axios
+    .post(`${process.env.REACT_APP_API_ENDPOINT_URL}/mvp/parties/transaction`, {
+      user: _wallet,
+      amount: _amount,
+      partyId: _partyId,
+    })
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};

@@ -88,8 +88,7 @@ const PrivatePartyCreator = (props) => {
         variant: 'success',
         open: true
       }))
-      let partyId = `${parseInt(Math.random() * 10000).toString()}-${parseInt(Math.random() * 10000).toString()}`
-      // const partyId = "61894fe3ea389fba36fad302"
+      const partyId = res.id
       // dispatch(createParty({
       //   ...party, 
       //   partyId: partyId,

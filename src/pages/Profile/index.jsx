@@ -131,7 +131,7 @@ const WrapImage = styled(`img`)(({ theme }) => ({
 
 const WrapBox = styled(Box)(({ theme }) => ({
   margin: "1px",
-  padding: "20px",
+  padding: "10px",
   borderRadius: "16px",
   backgroundColor: theme.palette.box.background
 }))
