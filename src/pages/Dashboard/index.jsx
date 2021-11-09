@@ -63,7 +63,7 @@ const Dashboard = (props) => {
   const [parties, setParties] = useState(null);
   const { account } = useWeb3React();
   const dispatch = useDispatch()
-
+  const havePrize = false;
 
   const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B"
   useEffect(() => {
@@ -118,6 +118,23 @@ const Dashboard = (props) => {
             </ContentHeader>
             <PartiesList list={parties} />
           </ContentPaper>
+          
+          {havePrize && <ContentPaper>
+            <ContentHeader>
+              <WrapTypography variant="sm_title">Your prizes</WrapTypography>
+            </ContentHeader>
+              <Box
+              marginTop="13px"
+              marginBottom="22px"
+              textAlign="center"
+              fontSize="25px"
+              >
+                <Typography variant="sm_content_gray">
+                  $0
+                </Typography>
+              </Box>
+          </ContentPaper>
+          }
         </Stack>
       </RootBox>
     </motion.div>
