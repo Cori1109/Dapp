@@ -111,6 +111,7 @@ const TextButton = styled(Button)(({ theme }) => ({
   boxShadow: "none",
   borderRadius: '12px',
   marginTop: '24px',
+  marginBottom: '50px',
   fontWeight: 'bold',
   "&:hover": {
     color: theme.palette.button.text.secondary,
