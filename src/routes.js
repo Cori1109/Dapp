@@ -73,7 +73,7 @@ const renderRoutes = (props) => (
           <SignUp />
         </DefaultLayout>
       </Route>
-      <Route exact path="/welcome">
+      <Route exact path="/">
         <DefaultLayout>
           <Welcome />
         </DefaultLayout>
@@ -82,9 +82,6 @@ const renderRoutes = (props) => (
         <ProfileLayout>
           <Profile />
         </ProfileLayout>
-      </Route>
-      <Route path="/">
-        <Splash />
       </Route>
       {/* <Redirect from="/" to="/welcome"/> */}
     </Switch>

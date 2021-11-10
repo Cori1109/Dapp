@@ -35,7 +35,7 @@ const Welcome = (props) => {
       <Content>
         <Typography variant="sm_title" marginTop="36px">Welcome to Rand</Typography>
         <Typography variant="lg_title" marginTop="16px" marginBottom="64px">Managing your money is about to get a lot better.</Typography>
-        <Box display="flex" alignItems="center" paddingBottom="120px">
+        <Box display="flex" alignItems="center" paddingBottom="75px">
           <ContentImage src={MyAvatar} alt="welcome" />
         </Box>
         <Box paddingBottom="16px">
