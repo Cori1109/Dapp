@@ -101,7 +101,7 @@ const PrivatePartyCreator = (props) => {
         // }))
         history.push({
           pathname: `/private-party/${partyId}`,
-          // search: '?join'
+          search: '?join'
         })
       } else {
         dispatch(setNotificationData({
@@ -144,13 +144,13 @@ const PrivatePartyCreator = (props) => {
     if (_partyValidate.name && _partyValidate.participantCount && _partyValidate.maxDepositAmount && _partyValidate.duration) {
       createPrivateParty(party)      
     } else {
-      setLoading(false)
       dispatch(setNotificationData({
         message: `Please input all fields`,
         variant: 'error',
         open: true
       }))
     }
+    setLoading(false)
   }
 
   return (

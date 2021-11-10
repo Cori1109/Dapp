@@ -268,7 +268,8 @@ const PrivateParty = (props) => {
       </Container>
       <DepositModal 
         open={joinModalOpen}
-        balance={party && party.maxDeposit}
+        balance={balance}
+        maxDeposit={party && party.maxDeposit}
         handleClose={() => setJoinModalOpen(false)}
         handleSuccess={(price) => handleJoinParty(price)}
         isPrivate={true}

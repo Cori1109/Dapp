@@ -26,7 +26,8 @@ const DepositModal = ({
   handleClose,
   handleSuccess,
   balance,
-  isPrivate
+  isPrivate,
+  maxDeposit,
 }) => {
 
   const [selectedAmount, setSelectedAmount] = useState(0)
@@ -44,11 +45,12 @@ const DepositModal = ({
         <Box></Box>
       </DialogHeader>
       <DialogContent>
-        <Box marginBottom="20px">
-          <Typography variant="sm_content_gray">{!isPrivate? `Available:` : `Party max. amount: `} {balance}</Typography>
+        <Box marginBottom="20px" display="flex" justifyContent="space-between">
+          <Typography variant="sm_content_gray"> Available: ${balance}</Typography>
+          {isPrivate && <Typography variant="sm_content_gray"> Party max: ${maxDeposit}</Typography>}
         </Box>
         <BalanceSelector 
-          max={balance} 
+          max={maxDeposit ? (balance < maxDeposit ? balance : maxDeposit) : balance} 
           balance={selectedAmount} 
           setBalance={setSelectedAmount}
           overflowMessage={'Please input the available amount.'}
