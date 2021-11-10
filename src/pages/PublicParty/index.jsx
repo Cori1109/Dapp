@@ -34,6 +34,7 @@ import UserAvatarImage4 from "../../assets/avatar/Phillip.png";
 import UserAvatarImage5 from "../../assets/avatar/Dianne.png";
 import PrimaryButton from "components/Button/PrimaryButton";
 import { changePartyAmount, getPublicParty } from "utils/api";
+import { setNotificationData } from "store/actions/App";
 
 const participants = [
   {
@@ -187,40 +188,54 @@ const PublicParty = (props) => {
     changePartyAmount(wallet, price, data.partyId)
       .then((res) => {
         console.log(res);
-        if (joinModalOpen) {
-          setJoinModalOpen(false);
-          // let _data = JSON.parse(JSON.stringify(data))
-          // _data.state = 'joined'
-          // dispatch(editParty(_data))
-          dispatch(setBalance(balance - price));
-          let _joinedParam = {
-            price: price,
-            party_name: data.name,
-            party_id: data.partyId,
-            back_url: location.pathname,
-            state: "joined",
-          };
-          dispatch(setJoinedParam(_joinedParam));
-          console.log(_joinedParam);
-          history.push("/joined-success");
-        } else {
-          setLeaveModalOpen(false);
-          // let _data = JSON.parse(JSON.stringify(data))
-          // _data.state = 'open'
-          // dispatch(editParty(_data))
-          dispatch(
-            setJoinedParam({
-              price: joinedParam.price,
+        if (res.success) {
+          if (joinModalOpen) {
+            setJoinModalOpen(false);
+            // let _data = JSON.parse(JSON.stringify(data))
+            // _data.state = 'joined'
+            // dispatch(editParty(_data))
+            dispatch(setBalance(balance - price));
+            let _joinedParam = {
+              price: price,
               party_name: data.name,
               party_id: data.partyId,
               back_url: location.pathname,
-              state: "open",
-            })
-          );
+              state: "joined",
+            };
+            dispatch(setJoinedParam(_joinedParam));
+            console.log(_joinedParam);
+            history.push("/joined-success");
+          } else {
+            setLeaveModalOpen(false);
+            // let _data = JSON.parse(JSON.stringify(data))
+            // _data.state = 'open'
+            // dispatch(editParty(_data))
+            dispatch(
+              setJoinedParam({
+                price: joinedParam.price,
+                party_name: data.name,
+                party_id: data.partyId,
+                back_url: location.pathname,
+                state: "open",
+              })
+            );
+          }
+        } else {
+          dispatch(setNotificationData({
+            message: res.message? res.message : 'error',
+            variant: 'error',
+            open: true
+          }));
         }
+        
       })
       .catch((error) => {
         console.log(error);
+        dispatch(setNotificationData({
+          message: error.message,
+          variant: 'error',
+          open: true
+        }));
       });
   };
 

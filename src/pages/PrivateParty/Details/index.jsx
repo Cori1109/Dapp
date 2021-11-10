@@ -26,6 +26,7 @@ import UserAvatarImage5 from "../../../assets/avatar/Dianne.png";
 import PrimaryButton from "components/Button/PrimaryButton";
 import ShareFriendsModal from "components/Modal/ShareFriendsModal";
 import { changePartyAmount, getPrivatePartyDetails } from "utils/api";
+import { setNotificationData } from "store/actions/App";
 
 const Content = styled(Box)(({ theme }) => ({
   padding: `${theme.spacing(3)} ${theme.spacing(3)}`
@@ -148,35 +149,44 @@ const PrivateParty = (props) => {
     changePartyAmount(wallet, price, partyId)
     .then((res) => {
       console.log(res)
-      if (joinModalOpen) {
-        setJoinModalOpen(false)
-    
-        // let _party = JSON.parse(JSON.stringify(party))
-        // _party.state = 'Joined'
-        // dispatch(editParty(_party))
-        dispatch(setBalance(balance - price))
-        dispatch(setJoinedParam({
-          price: price,
-          party_name: party.name,
-          back_url: location.pathname,
-          state: 'joined'
-        }))
-        history.push('/joined-success')
+      if (res.success) {
+        if (joinModalOpen) {
+          setJoinModalOpen(false)
+      
+          // let _party = JSON.parse(JSON.stringify(party))
+          // _party.state = 'Joined'
+          // dispatch(editParty(_party))
+          dispatch(setBalance(balance - price))
+          dispatch(setJoinedParam({
+            price: price,
+            party_name: party.name,
+            back_url: location.pathname,
+            state: 'joined'
+          }))
+          history.push('/joined-success')
+        } else {
+          setLeaveModalOpen(false)
+      
+          // let _data = JSON.parse(JSON.stringify(party))
+          // _data.state = 'open'
+          // dispatch(editParty(_data))
+          // setParty(_data)
+          dispatch(setJoinedParam({
+            price: joinedParam.price,
+            party_name: party.name,
+            party_id: party.partyId,
+            back_url: location.pathname,
+            state: "open"
+          }))
+        }
       } else {
-        setLeaveModalOpen(false)
-    
-        // let _data = JSON.parse(JSON.stringify(party))
-        // _data.state = 'open'
-        // dispatch(editParty(_data))
-        // setParty(_data)
-        dispatch(setJoinedParam({
-          price: joinedParam.price,
-          party_name: party.name,
-          party_id: party.partyId,
-          back_url: location.pathname,
-          state: "open"
-        }))
+        dispatch(setNotificationData({
+          message: res.message? res.message : 'error',
+          variant: 'error',
+          open: true
+        }));
       }
+      
     })
     .catch((error) => {
       console.log(error)

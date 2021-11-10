@@ -86,22 +86,30 @@ const PrivatePartyCreator = (props) => {
   const createPrivateParty = async (party) => {
     createParty(party.name, wallet, party.maxDepositAmount, party.participantCount, party.duration)
     .then((res) => {
-      dispatch(setNotificationData({
-        message: `Successfully Party created.`,
-        variant: 'success',
-        open: true
-      }))
-      const partyId = res.id
-      // dispatch(createParty({
-      //   ...party, 
-      //   partyId: partyId,
-      //   endDate: moment(new Date()).add(party.duration * 1000 * 3600 * 24)
-      // }))
-      history.push({
-        pathname: `/private-party/${partyId}`,
-        // search: '?join'
-      })
       console.log(res)
+      if (res.success) {
+        dispatch(setNotificationData({
+          message: `Successfully Party created.`,
+          variant: 'success',
+          open: true
+        }))
+        const partyId = res.id
+        // dispatch(createParty({
+        //   ...party, 
+        //   partyId: partyId,
+        //   endDate: moment(new Date()).add(party.duration * 1000 * 3600 * 24)
+        // }))
+        history.push({
+          pathname: `/private-party/${partyId}`,
+          // search: '?join'
+        })
+      } else {
+        dispatch(setNotificationData({
+          message: res.message? res.message : 'error',
+          variant: 'error',
+          open: true
+        }));
+      }      
     })
     .catch((error) => {
       console.log(error)
