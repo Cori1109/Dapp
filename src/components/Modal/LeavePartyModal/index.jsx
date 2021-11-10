@@ -1,6 +1,8 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions, Typography, Box, Divider, Button } from '@mui/material'
 import { Close as CloseIcon } from '@mui/icons-material';
 import { styled } from '@mui/system';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { useState } from 'react';
 
 const PrizeDialog = styled(Dialog)(({theme}) => ({
   '& .MuiPaper-root': {
@@ -17,7 +19,7 @@ const DialogHeader = styled(DialogTitle)(({ theme }) => ({
   padding: theme.spacing(4)
 }))
 
-const LeaveButton = styled(Button)(({ theme }) => ({
+const WrapButton = styled(LoadingButton)(({ theme }) => ({
   color: theme.palette.button.fourth.foreground,
   backgroundColor: theme.palette.button.fourth.background,
   fontWeight: 500,
@@ -28,11 +30,11 @@ const LeaveButton = styled(Button)(({ theme }) => ({
   textTransform: 'none',
   borderRadius: '12px',
   padding: '16px',
-  "&:hover": {
-    color: theme.palette.button.fourth.foreground,
-    backgroundColor: theme.palette.button.fourth.background,
-    boxShadow: "none"
-  },
+  // "&:hover": {
+  //   color: theme.palette.button.fourth.foreground,
+  //   backgroundColor: theme.palette.button.fourth.background,
+  //   boxShadow: "none"
+  // },
 }))
 
 const StayButton = styled(Button)(({ theme }) => ({
@@ -58,6 +60,8 @@ const LeavePartyModal = ({
   handleClose,
   handleSuccess,
 }) => {
+  const [loading, setLoading] = useState(false);
+
   return (
     <PrizeDialog
       open={open}
@@ -78,7 +82,14 @@ const LeavePartyModal = ({
       </DialogContent>
       <DialogActions>
         <Box padding="24px" display="flex" justifyContent="space-around" width="100%">
-          <LeaveButton variant="contained" onClick={() => {handleSuccess();}}>Leave</LeaveButton>
+          <WrapButton
+            onClick={() => {handleSuccess(); setLoading(true)}}
+            loading={loading}
+            loadingPosition="end"
+            variant="contained"
+          >
+            Leave
+          </WrapButton>
           <StayButton variant="contained" onClick={handleClose}>Stay</StayButton>
         </Box>
       </DialogActions>

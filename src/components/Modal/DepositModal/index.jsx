@@ -4,6 +4,7 @@ import { styled } from '@mui/system';
 import SwipeButton from 'components/Button/SwipeButton';
 import { useState } from 'react';
 import BalanceSelector from 'components/BalanceSelector';
+import LoadingWrapper from "components/LoadingWrapper";
 
 const DepositDialog = styled(Dialog)(({theme}) => ({
   '& .MuiPaper-root': {
@@ -29,6 +30,7 @@ const DepositModal = ({
 }) => {
 
   const [selectedAmount, setSelectedAmount] = useState(0)
+  const [loading, setLoading] = useState(false)
 
   return (
     <DepositDialog
@@ -54,6 +56,8 @@ const DepositModal = ({
       </DialogContent>
         <DialogActions>
           <Box padding="24px" width="100%">
+          <LoadingWrapper loading={loading}></LoadingWrapper>
+
             {
               selectedAmount != 0 &&
               <SwipeButton 
@@ -62,6 +66,7 @@ const DepositModal = ({
                 onSwipeDone={() => {
                   handleSuccess(selectedAmount)
                   setSelectedAmount(0)
+                  setLoading(true)
                 }} 
                 reset={0}
               />

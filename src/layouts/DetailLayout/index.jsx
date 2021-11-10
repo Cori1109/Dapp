@@ -41,7 +41,7 @@ const DetailLayout = ({ children }) => {
     <RootBox>
       <Container maxWidth="sm">
         <HeaderBox>
-          <WrapBackIcon onClick={() => {history.goBack()}}/>
+          <WrapBackIcon onClick={() => {history.push('/dashboard')}}/>
           <HeaderTitle variant="md_title">
             {headerTitle}
           </HeaderTitle>

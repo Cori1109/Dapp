@@ -148,6 +148,35 @@ const PrivateParty = (props) => {
     changePartyAmount(wallet, price, partyId)
     .then((res) => {
       console.log(res)
+      if (joinModalOpen) {
+        setJoinModalOpen(false)
+    
+        // let _party = JSON.parse(JSON.stringify(party))
+        // _party.state = 'Joined'
+        // dispatch(editParty(_party))
+        dispatch(setBalance(balance - price))
+        dispatch(setJoinedParam({
+          price: price,
+          party_name: party.name,
+          back_url: location.pathname,
+          state: 'joined'
+        }))
+        history.push('/joined-success')
+      } else {
+        setLeaveModalOpen(false)
+    
+        // let _data = JSON.parse(JSON.stringify(party))
+        // _data.state = 'open'
+        // dispatch(editParty(_data))
+        // setParty(_data)
+        dispatch(setJoinedParam({
+          price: joinedParam.price,
+          party_name: party.name,
+          party_id: party.partyId,
+          back_url: location.pathname,
+          state: "open"
+        }))
+      }
     })
     .catch((error) => {
       console.log(error)
@@ -163,37 +192,11 @@ const PrivateParty = (props) => {
     }
   }
 
-  const handleJoinParty = (price) => {
-    setJoinModalOpen(false)
-    
-    // let _party = JSON.parse(JSON.stringify(party))
-    // _party.state = 'Joined'
-    // dispatch(editParty(_party))
-    dispatch(setBalance(balance - price))
-    dispatch(setJoinedParam({
-      price: price,
-      party_name: party.name,
-      back_url: location.pathname,
-      state: 'joined'
-    }))
+  const handleJoinParty = (price) => {    
     handlePartyAmount(price)
-    history.push('/joined-success')
   }
 
   const handleLeaveParty = () => {
-    setLeaveModalOpen(false)
-    
-    // let _data = JSON.parse(JSON.stringify(party))
-    // _data.state = 'open'
-    // dispatch(editParty(_data))
-    // setParty(_data)
-    dispatch(setJoinedParam({
-      price: joinedParam.price,
-      party_name: party.name,
-      party_id: party.partyId,
-      back_url: location.pathname,
-      state: "open"
-    }))
     handlePartyAmount(-(joinedParam.price))
     // history.goBack()
   }
