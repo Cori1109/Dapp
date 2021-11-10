@@ -15,6 +15,11 @@ export const setTransferParam = (payload) => ({
   transferParam: payload
 });
 
+export const setPartyList = (payload) => ({
+  type: actionTypes.SET_PARTY_LIST,
+  partyList: payload
+});
+
 export const editParty = (payload) => ({
   type: actionTypes.EDIT_PARTY,
   party: payload

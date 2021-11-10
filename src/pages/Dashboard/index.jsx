@@ -19,6 +19,7 @@ import { getUserDetails } from "utils/api";
 import { useWeb3React } from "@web3-react/core";
 import { setBalance } from "store/actions/App";
 import { setLockBalance } from "store/actions/App";
+import { setPartyList } from "store/actions/App";
 
 const RootBox = styled(Box)`
   padding: "10px";
@@ -57,23 +58,24 @@ const ContentHeader = styled(Box)(({ theme }) => ({
 
 const Dashboard = (props) => {
   const history = useHistory();
-  // const partyList = useSelector((state) => state.app.partyList);
+  const partyList = useSelector((state) => state.app.partyList);
   // const [loading, setLoading] = useState(false);
   // const timer = React.useRef();
-  const [parties, setParties] = useState(null);
+  // const [parties, setParties] = useState(null);
   const { account } = useWeb3React();
   const dispatch = useDispatch()
   const havePrize = false;
 
   const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B"
   useEffect(() => {
-    account && getUserDetailsInfo()
+    (partyList == null) && account && getUserDetailsInfo()
   }, [account])
 
   const getUserDetailsInfo = async () => {
     getUserDetails(wallet)
     .then((res) => {
-      setParties(res.privateParties)
+      // setParties(res.privateParties)
+      dispatch(setPartyList(res.privateParties))
       dispatch(setBalance(res.userDetails.balance))
       dispatch(setLockBalance(res.userDetails.staked))
     })
@@ -116,7 +118,7 @@ const Dashboard = (props) => {
                 See all
               </Typography>
             </ContentHeader>
-            <PartiesList list={parties} />
+            <PartiesList list={partyList} />
           </ContentPaper>
           
           {havePrize && <ContentPaper>

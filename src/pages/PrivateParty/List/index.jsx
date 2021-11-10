@@ -5,10 +5,11 @@ import { motion } from "framer-motion";
 import { pageVariants, pageTransition } from "../../../utils/pageTransitions"
 import privatePartyImage from '../../../assets/landing/private-party.png'
 import PartiesList from '../../../components/PartiesList'
-import { useSelector} from 'react-redux'
+import { useDispatch, useSelector} from 'react-redux'
 import { useHistory } from "react-router";
 import { useWeb3React } from "@web3-react/core";
 import { getUserDetails } from "utils/api";
+import { setPartyList } from "store/actions/App";
 
 const WrapContainer = styled(Container)(({ theme }) => ({
   padding: theme.spacing(0),
@@ -46,22 +47,24 @@ const ContentImage = styled(`img`)(({ theme }) => ({
 const PrivatePartyList = (props) => {
 
   const history = useHistory();
-  // const partyList = useSelector(state => state.app.partyList)
+  const partyList = useSelector(state => state.app.partyList)
   // const [loading, setLoading] = useState(false);
   // const timer = React.useRef();
-  
-  const [parties, setParties] = useState(null);
+  const dispatch = useDispatch()
+
+  // const [parties, setParties] = useState(null);
   const { account } = useWeb3React();
 
   const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B"
   useEffect(() => {
-    account && getUserDetailsInfo()
+    !partyList && account && getUserDetailsInfo()
   }, [account])
 
   const getUserDetailsInfo = async () => {
     getUserDetails(wallet)
     .then((res) => {
-      setParties(res.privateParties)
+      // setParties(res.privateParties)
+      dispatch(setPartyList(res.privateParties))
     })
     .catch((error) => {
       console.log(error);
@@ -101,10 +104,10 @@ const PrivatePartyList = (props) => {
             <WrapTypography variant="md_content">
               Your private parties
             </WrapTypography>
-            {parties? <Typography variant="sm_content" style={{cursor:"pointer"}} onClick={handleCreate}>Create</Typography> : null}
+            {partyList? <Typography variant="sm_content" style={{cursor:"pointer"}} onClick={handleCreate}>Create</Typography> : null}
           </ContentHeader>
-          <ContentImage src={parties? privatePartyImage : null} />
-          <PartiesList list={parties? parties.filter((item) => {return !item.isPublic}) : null} isPrivate={true}/>
+          <ContentImage src={partyList? privatePartyImage : null} />
+          <PartiesList list={partyList? partyList.filter((item) => {return !item.isPublic}) : null} isPrivate={true}/>
         </ContentPaper>
       </WrapContainer>
     </motion.div>
