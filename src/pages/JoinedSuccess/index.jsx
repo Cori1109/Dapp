@@ -88,7 +88,7 @@ const JoinedSuccess = (props) => {
         <Typography variant="sm_content_gray" textAlign="center">
           You have joined the {joinedParam?.party_name}.
         </Typography>
-        <AddButton variant="contained" onClick={() => {history.push(joinedParam?.back_url); dispatch(setJoinedParam(null));}}>Done</AddButton>
+        <AddButton variant="contained" onClick={() => {history.push(joinedParam?.back_url)}}>Done</AddButton>
       </Container>
     </motion.div>
   );

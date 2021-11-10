@@ -133,14 +133,14 @@ const PublicParty = (props) => {
   const [emptyAccountModalOpen, setEmptyAccountModalOpen] = useState(false)
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    getPublicPartyInfo()
+  useEffect(() => {    
+    getPublicPartyInfo()    
   }, [])
 
   const getPublicPartyInfo = async () => {
     getPublicParty()
     .then((res) => {
-      let _data = {...res, state: "open"}
+      let _data = {...res}
       setData(_data)
       let _prizeDistribution = [
         _data.prizeDistribution.tier1, _data.prizeDistribution.tier2, _data.prizeDistribution.tier3
@@ -169,13 +169,15 @@ const PublicParty = (props) => {
     // _data.state = 'joined'
     // dispatch(editParty(_data))
     dispatch(setBalance(balance - price))
-    dispatch(setJoinedParam({
+    let _joinedParam = {
       price: price,
       party_name: data.name,
       party_id: data.partyId,
       back_url: location.pathname,
       state: "joined"
-    }))
+    }
+    dispatch(setJoinedParam(_joinedParam))
+    console.log(_joinedParam)
     handlePartyAmount(price)
     history.push('/joined-success')
   }
@@ -191,7 +193,7 @@ const PublicParty = (props) => {
     // _data.state = 'open'
     // dispatch(editParty(_data))
     dispatch(setJoinedParam({
-      price: -(joinedParam.price),
+      price: joinedParam.price,
       party_name: data.name,
       party_id: data.partyId,
       back_url: location.pathname,
@@ -201,6 +203,7 @@ const PublicParty = (props) => {
   }
 
   const handleClickPartyStatus = (item) => {
+    console.log(item)
     if (item && item.state == "open") {
       if (balance !== 0)
         setJoinModalOpen(true)
@@ -255,11 +258,13 @@ const PublicParty = (props) => {
               ))
             }
           </Stack>
-          <StatusButton status={data ? data.state : 'open'} handleClick={() => handleClickPartyStatus(data)}/>
+          {/* <StatusButton status={data ? data.state : 'open'} handleClick={() => handleClickPartyStatus(data)}/> */}
+          <StatusButton status={joinedParam ? joinedParam.state : 'open'} handleClick={() => handleClickPartyStatus(joinedParam)}/>
           <PrimaryButton variant="contained" style={{justifyContent: "space-between", marginTop: "23px"}} endIcon={<AddIcon />} onClick={() => handleOpenShareModal()} text="Share" />
           
         </ContentPaper>
-        {data && data.state == 'joined' && (<TextButton variant="text" onClick={() => handleOpenLeaveModal()}>Leave Party</TextButton>)}
+        {/* {data && data.state == 'joined' && (<TextButton variant="text" onClick={() => handleOpenLeaveModal()}>Leave Party</TextButton>)} */}
+        {joinedParam && joinedParam.state == 'joined' && (<TextButton variant="text" onClick={() => handleOpenLeaveModal()}>Leave Party</TextButton>)}
         
       </WrapContainer>
       <PrizeModal

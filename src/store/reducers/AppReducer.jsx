@@ -38,7 +38,9 @@ const mockup_data = [{
 const initialState = {
   headerTitle: '',
   isBlack: false,
-  joinedParam: null,
+  joinedParam: {
+    state: 'open'
+  },
   transferParam: null,
   partyList: mockup_data,
   balance: 0,

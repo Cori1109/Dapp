@@ -41,7 +41,6 @@ const TextButtonContainer = styled(Button)(({ theme }) => ({
 }));
 
 const PrimaryButton = (props) => {
-    console.log(props.text)
     return (
         props.variant == "contained" ?
             <FillButtonContainer variant={props.variant} onClick={props.onClick} endIcon={props.endIcon} startIcon={props.startIcon} style={props.style}>
