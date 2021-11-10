@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box, Container, Button, Avatar, Stack } from "@mui/material";
+import LoadingButton from '@mui/lab/LoadingButton';
 import { styled } from '@mui/system';
 import { motion } from "framer-motion";
 import { pageVariants, pageTransition } from "../../../utils/pageTransitions"
@@ -31,7 +32,7 @@ const PartyAvatar = styled(Avatar)(({ theme }) => ({
   height: '100px',
 }))
 
-const AddButton = styled(Button)(({ theme }) => ({
+const WrapButton = styled(LoadingButton)(({ theme }) => ({
   color: theme.palette.button.primary.foreground,
   backgroundColor: theme.palette.button.primary.background,
   boxShadow: "none",
@@ -45,16 +46,18 @@ const AddButton = styled(Button)(({ theme }) => ({
   padding: '16px 24px',
   display: 'flex',
   justifyContent: 'center',
-  "&:hover": {
-    color: theme.palette.button.primary.foreground,
-    backgroundColor: theme.palette.button.primary.background,
-    boxShadow: "none"
-  },
+  // "&:hover": {
+  //   color: theme.palette.button.primary.foreground,
+  //   backgroundColor: theme.palette.button.primary.background,
+  //   boxShadow: "none"
+  // },
 }))
 
 const PrivatePartyCreator = (props) => {
   const history = useHistory()
   const dispatch = useDispatch()
+  const [loading, setLoading] = useState(false);
+
 
   const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B"
 
@@ -96,7 +99,7 @@ const PrivatePartyCreator = (props) => {
       // }))
       history.push({
         pathname: `/private-party/${partyId}`,
-        search: '?join'
+        // search: '?join'
       })
       console.log(res)
     })
@@ -117,6 +120,7 @@ const PrivatePartyCreator = (props) => {
   }
 
   const handleCreate = () => {
+    setLoading(true)
     setAbleValidate(true)
     const _partyValidate = {
       name: party.name.length != 0,
@@ -132,6 +136,7 @@ const PrivatePartyCreator = (props) => {
     if (_partyValidate.name && _partyValidate.participantCount && _partyValidate.maxDepositAmount && _partyValidate.duration) {
       createPrivateParty(party)      
     } else {
+      setLoading(false)
       dispatch(setNotificationData({
         message: `Please input all fields`,
         variant: 'error',
@@ -159,7 +164,14 @@ const PrivatePartyCreator = (props) => {
             <InputBox id='maxDepositAmount' type={'number'} startIcon={<DepositIcon/>} value={party.maxDepositAmount} placeholder='Max deposit per participant' onChange={onInputChange} validated={validated.maxDepositAmount}/>
             <InputBox id='duration' type={'number'} startIcon={<TimerIcon/>} endText='days' value={party.duration} placeholder='Duration' onChange={onInputChange} validated={validated.duration}/>
           </Stack>
-          <AddButton variant="contained" onClick={handleCreate}>Create</AddButton>
+          <WrapButton
+            onClick={handleCreate}
+            loading={loading}
+            loadingPosition="end"
+            variant="contained"
+          >
+            Create
+          </WrapButton>
         </Content>
       </Container>
     </motion.div>
