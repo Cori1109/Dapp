@@ -37,10 +37,10 @@ const ContentBox = styled(Box)(({ theme }) => ({
 }));
 
 const NavbarBox = styled(Box)(({ theme }) => ({
-  width: '50%',
+  width: '225px',
   position: 'absolute',
   left: 0,
-  bottom: '25px',
+  bottom: '34px',
   right: 0,
   margin: 'auto'
 }));
