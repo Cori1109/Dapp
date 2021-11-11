@@ -10,12 +10,10 @@ import { useHistory } from "react-router";
 import PrimaryButton from "components/Button/PrimaryButton";
 import Logo from "assets/logo/logo.png";
 
-import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
 import ConnectWalletModal from "components/Modal/ConnectWalletModal";
+import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
 import { setNotificationData } from "store/actions/App";
 import { switchNetwork } from "utils/web3utils";
-import { WALLETS } from 'utils/constants';
-
 
 const mockup_profile = {
   name: "James Lee",
@@ -120,10 +118,6 @@ const HeaderBar = (props) => {
   const { activate, deactivate, account, library, chainId } = useWeb3React();
   const [openWallet, setOpenWallet] = useState(false);
 
-  useEffect(() => {
-    handleConnectWallet(WALLETS[0])
-  }, [])
-  
   const handleConnectWallet = (walletInfo) => {
     const { connector, type } = walletInfo;
     // setSelectedWalletInfo(walletInfo)
