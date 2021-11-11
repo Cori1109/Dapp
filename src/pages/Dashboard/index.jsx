@@ -66,7 +66,8 @@ const Dashboard = (props) => {
   const dispatch = useDispatch()
   const havePrize = false;
 
-  const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B"
+  //const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B"
+  const wallet = account;
   useEffect(() => {
     (partyList == null) && account && getUserDetailsInfo()
   }, [account])
