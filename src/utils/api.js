@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const getPublicParty = async () => {
   return axios
-    .get(`${process.env.REACT_APP_API_ENDPOINT_URL}/mvp/parties/public`)
+    .get(`https://rand-backend.azurewebsites.net/mvp/parties/public`)
     .then((response) => {
       //   const publicPartyRes = [
       //     {
@@ -35,7 +35,7 @@ export const createParty = async (
   _duration
 ) => {
   return axios
-    .post(`${process.env.REACT_APP_API_ENDPOINT_URL}/mvp/parties/`, {
+    .post(`https://rand-backend.azurewebsites.net/mvp/parties/`, {
       name: _name,
       partyCreator: _wallet,
       maxDeposit: _maxDeposit,
@@ -54,7 +54,7 @@ export const createParty = async (
 export const getUserDetails = (_wallet) => {
   return axios
     .get(
-      `${process.env.REACT_APP_API_ENDPOINT_URL}/mvp/users/details/${_wallet}`
+      `https://rand-backend.azurewebsites.net/mvp/users/details/${_wallet}`
     )
     .then((response) => {
       //   const userDetailsRes = {
@@ -74,7 +74,7 @@ export const getUserDetails = (_wallet) => {
 export const getPrivatePartyDetails = (_partyId) => {
   return axios
     .get(
-      `${process.env.REACT_APP_API_ENDPOINT_URL}/mvp/parties/details/${_partyId}`
+      `https://rand-backend.azurewebsites.net/mvp/parties/details/${_partyId}`
     )
     .then((response) => {
       return response.data;
@@ -87,7 +87,7 @@ export const getPrivatePartyDetails = (_partyId) => {
 
 export const changePartyAmount = async (_wallet, _amount, _partyId) => {
   return axios
-    .post(`${process.env.REACT_APP_API_ENDPOINT_URL}/mvp/parties/transaction`, {
+    .post(`https://rand-backend.azurewebsites.net/mvp/parties/transaction`, {
       user: _wallet,
       amount: _amount,
       partyId: _partyId,
