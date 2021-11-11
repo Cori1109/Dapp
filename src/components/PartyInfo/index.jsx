@@ -78,7 +78,7 @@ const PartyInfo = ({ party }) => {
                 <WrapTypography variant="sm_content">
                   {getFormatDate(party.endDate) != 0
                     ? party.isPublic
-                      ? "Party closes in"
+                      ? "Next prize distribution in"
                       : "Party starts when"
                     : "Winner"}
                 </WrapTypography>
