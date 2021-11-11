@@ -20,6 +20,7 @@ import { useWeb3React } from "@web3-react/core";
 import { setBalance } from "store/actions/App";
 import { setLockBalance } from "store/actions/App";
 import { setPartyList } from "store/actions/App";
+import bannerImage from '../../assets/img/banner3.png'
 
 const RootBox = styled(Box)`
   padding: "10px";
@@ -34,6 +35,9 @@ const WrapBox = styled(Box)(({ theme }) => ({
   fontWeight: "800",
   lineHeight: "40px",
   fontSize: "25px",
+}));
+
+const WrapBoxBanner = styled(Box)(({ theme }) => ({
 }));
 
 const ContentPaper = styled(Paper)(({ theme }) => ({
@@ -56,34 +60,19 @@ const ContentHeader = styled(Box)(({ theme }) => ({
   paddingBottom: "16px",
 }));
 
+const ContentImage = styled(`img`)(({ theme }) => ({
+  borderRadius: '12px',
+  width: '100%'
+}))
+
 const Dashboard = (props) => {
   const history = useHistory();
   const partyList = useSelector((state) => state.app.partyList);
   // const [loading, setLoading] = useState(false);
   // const timer = React.useRef();
   // const [parties, setParties] = useState(null);
-  const { account } = useWeb3React();
   const dispatch = useDispatch()
   const havePrize = false;
-
-  //const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B"
-  const wallet = account;
-  useEffect(() => {
-    (partyList == null) && account && getUserDetailsInfo()
-  }, [account])
-
-  const getUserDetailsInfo = async () => {
-    getUserDetails(wallet)
-    .then((res) => {
-      // setParties(res.privateParties)
-      dispatch(setPartyList(res.privateParties))
-      dispatch(setBalance(res.userDetails.balance))
-      dispatch(setLockBalance(res.userDetails.staked))
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  }
 
   // useEffect(() => {
   //   if (!loading) {
@@ -107,7 +96,10 @@ const Dashboard = (props) => {
         <Stack spacing={2}>
           <HeaderBar />
           <BalanceCard />
-          <WrapBox>THIS WEEK WIN BIG</WrapBox>
+          {/*<WrapBox>THIS WEEK WIN BIG</WrapBox>*/}
+          <WrapBoxBanner>
+            <ContentImage src={bannerImage} />
+          </WrapBoxBanner>
           <ContentPaper>
             <ContentHeader>
               <WrapTypography variant="sm_title">Your parties</WrapTypography>

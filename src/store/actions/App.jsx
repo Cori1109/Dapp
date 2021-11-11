@@ -45,6 +45,11 @@ export const setLockBalance = (payload) => ({
   lockBalance: payload
 });
 
+export const setLoading = (payload) => ({
+  type: actionTypes.SET_LOADING,
+  loading: payload
+});
+
 export const setNotificationData = (payload) => ({
   type: actionTypes.SET_NOTIFICATION_DATA,
   notificationData: payload

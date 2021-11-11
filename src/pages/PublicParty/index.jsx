@@ -36,6 +36,7 @@ import PrimaryButton from "components/Button/PrimaryButton";
 import { changePartyAmount, getPublicParty } from "utils/api";
 import { setNotificationData } from "store/actions/App";
 import { useWeb3React } from "@web3-react/core";
+import { setLoading } from "store/actions/App";
 
 
 const participants = [
@@ -165,12 +166,14 @@ const PublicParty = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(setLoading(true));
     getPublicPartyInfo();
   }, []);
 
   const getPublicPartyInfo = async () => {
     getPublicParty()
       .then((res) => {
+        dispatch(setLoading(false));
         let _data = { ...res };
         setData(_data);
         let _prizeDistribution = [
@@ -181,6 +184,7 @@ const PublicParty = (props) => {
         setPrizeDistribution(_prizeDistribution);
       })
       .catch((error) => {
+        dispatch(setLoading(false));
         console.log(error);
       });
   };
