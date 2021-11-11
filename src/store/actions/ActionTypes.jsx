@@ -2,6 +2,7 @@
 export const SET_HEADER_TITLE = "SET_HEADER_TITLE";
 export const SET_JOINED_PARAM = "SET_JOINED_PARAM";
 export const SET_TRANSFER_PARAM = "SET_TRANSFER_PARAM";
+export const SET_PARTY_LIST = "SET_PARTY_LIST";
 export const EDIT_PARTY = "EDIT_PARTY";
 export const CREATE_PARTY = "CREATE_PARTY";
 export const SET_BLACK_THEME = "SET_BLACK_THEME";

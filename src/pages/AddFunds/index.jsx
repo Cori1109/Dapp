@@ -223,7 +223,7 @@ const AddFunds = (props) => {
               max={maxBalance}
               balance={selectedAmount}
               setBalance={setSelectedAmount}
-              overflowMessage={'Please input the available amount.'}
+              overflowMessage={selectedAmount < maxBalance ? 'Please input the available amount.' : 'Funds request reached the limit for today.'}
               currency={selectedCryptoInfo?.title}
             />
           </>

@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { pageVariants, pageTransition } from "../../../utils/pageTransitions"
 import { useParams, useHistory, useLocation } from "react-router";
 import { useDispatch, useSelector } from 'react-redux';
+import { useWeb3React } from "@web3-react/core";
 
 import { 
   Add as AddIcon, 
@@ -26,6 +27,7 @@ import UserAvatarImage5 from "../../../assets/avatar/Dianne.png";
 import PrimaryButton from "components/Button/PrimaryButton";
 import ShareFriendsModal from "components/Modal/ShareFriendsModal";
 import { changePartyAmount, getPrivatePartyDetails } from "utils/api";
+import { setNotificationData } from "store/actions/App";
 
 const Content = styled(Box)(({ theme }) => ({
   padding: `${theme.spacing(3)} ${theme.spacing(3)}`
@@ -143,11 +145,53 @@ const PrivateParty = (props) => {
     }
   }, [party])
 
-  const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B"
+  //const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B"
+
+  const { account } = useWeb3React();
+  const wallet = account;
+
   const handlePartyAmount = async (price) => {
     changePartyAmount(wallet, price, partyId)
     .then((res) => {
       console.log(res)
+      if (res.success) {
+        if (joinModalOpen) {
+          setJoinModalOpen(false)
+      
+          // let _party = JSON.parse(JSON.stringify(party))
+          // _party.state = 'Joined'
+          // dispatch(editParty(_party))
+          dispatch(setBalance(balance - price))
+          dispatch(setJoinedParam({
+            price: price,
+            party_name: party.name,
+            back_url: location.pathname,
+            state: 'joined'
+          }))
+          history.push('/joined-success')
+        } else {
+          setLeaveModalOpen(false)
+      
+          // let _data = JSON.parse(JSON.stringify(party))
+          // _data.state = 'open'
+          // dispatch(editParty(_data))
+          // setParty(_data)
+          dispatch(setJoinedParam({
+            price: joinedParam.price,
+            party_name: party.name,
+            party_id: party.partyId,
+            back_url: location.pathname,
+            state: "open"
+          }))
+        }
+      } else {
+        dispatch(setNotificationData({
+          message: res.message? res.message : 'error',
+          variant: 'error',
+          open: true
+        }));
+      }
+      
     })
     .catch((error) => {
       console.log(error)
@@ -163,37 +207,11 @@ const PrivateParty = (props) => {
     }
   }
 
-  const handleJoinParty = (price) => {
-    setJoinModalOpen(false)
-    
-    // let _party = JSON.parse(JSON.stringify(party))
-    // _party.state = 'Joined'
-    // dispatch(editParty(_party))
-    dispatch(setBalance(balance - price))
-    dispatch(setJoinedParam({
-      price: price,
-      party_name: party.name,
-      back_url: location.pathname,
-      state: 'joined'
-    }))
+  const handleJoinParty = (price) => {    
     handlePartyAmount(price)
-    history.push('/joined-success')
   }
 
   const handleLeaveParty = () => {
-    setLeaveModalOpen(false)
-    
-    // let _data = JSON.parse(JSON.stringify(party))
-    // _data.state = 'open'
-    // dispatch(editParty(_data))
-    // setParty(_data)
-    dispatch(setJoinedParam({
-      price: joinedParam.price,
-      party_name: party.name,
-      party_id: party.partyId,
-      back_url: location.pathname,
-      state: "open"
-    }))
     handlePartyAmount(-(joinedParam.price))
     // history.goBack()
   }
@@ -255,7 +273,8 @@ const PrivateParty = (props) => {
       </Container>
       <DepositModal 
         open={joinModalOpen}
-        balance={party && party.maxDeposit}
+        balance={balance}
+        maxDeposit={party && party.maxDeposit}
         handleClose={() => setJoinModalOpen(false)}
         handleSuccess={(price) => handleJoinParty(price)}
         isPrivate={true}

@@ -4,6 +4,7 @@ import { styled } from '@mui/system';
 import SwipeButton from 'components/Button/SwipeButton';
 import { useState } from 'react';
 import BalanceSelector from 'components/BalanceSelector';
+import LoadingWrapper from "components/LoadingWrapper";
 
 const DepositDialog = styled(Dialog)(({theme}) => ({
   '& .MuiPaper-root': {
@@ -25,10 +26,12 @@ const DepositModal = ({
   handleClose,
   handleSuccess,
   balance,
-  isPrivate
+  isPrivate,
+  maxDeposit,
 }) => {
 
   const [selectedAmount, setSelectedAmount] = useState(0)
+  const [loading, setLoading] = useState(false)
 
   return (
     <DepositDialog
@@ -42,11 +45,12 @@ const DepositModal = ({
         <Box></Box>
       </DialogHeader>
       <DialogContent>
-        <Box marginBottom="20px">
-          <Typography variant="sm_content_gray">{!isPrivate? `Available:` : `Party max. amount: `} {balance}</Typography>
+        <Box marginBottom="20px" display="flex" justifyContent="space-between">
+          <Typography variant="sm_content_gray"> Available: ${balance}</Typography>
+          {isPrivate && <Typography variant="sm_content_gray"> Party max: ${maxDeposit}</Typography>}
         </Box>
         <BalanceSelector 
-          max={balance} 
+          max={maxDeposit ? (balance < maxDeposit ? balance : maxDeposit) : balance} 
           balance={selectedAmount} 
           setBalance={setSelectedAmount}
           overflowMessage={'Please input the available amount.'}
@@ -54,6 +58,8 @@ const DepositModal = ({
       </DialogContent>
         <DialogActions>
           <Box padding="24px" width="100%">
+          <LoadingWrapper loading={loading}></LoadingWrapper>
+
             {
               selectedAmount != 0 &&
               <SwipeButton 
@@ -62,6 +68,7 @@ const DepositModal = ({
                 onSwipeDone={() => {
                   handleSuccess(selectedAmount)
                   setSelectedAmount(0)
+                  setLoading(true)
                 }} 
                 reset={0}
               />

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Box, Container, Button, Avatar, Stack } from "@mui/material";
+import LoadingButton from '@mui/lab/LoadingButton';
 import { styled } from '@mui/system';
 import { motion } from "framer-motion";
 import { pageVariants, pageTransition } from "../../../utils/pageTransitions"
 import { useHistory } from "react-router";
 import { useDispatch } from 'react-redux';
+import { useWeb3React } from "@web3-react/core";
 
 import { 
   AccountBalanceOutlined as PartyIcon,
@@ -31,7 +33,7 @@ const PartyAvatar = styled(Avatar)(({ theme }) => ({
   height: '100px',
 }))
 
-const AddButton = styled(Button)(({ theme }) => ({
+const WrapButton = styled(LoadingButton)(({ theme }) => ({
   color: theme.palette.button.primary.foreground,
   backgroundColor: theme.palette.button.primary.background,
   boxShadow: "none",
@@ -45,18 +47,22 @@ const AddButton = styled(Button)(({ theme }) => ({
   padding: '16px 24px',
   display: 'flex',
   justifyContent: 'center',
-  "&:hover": {
-    color: theme.palette.button.primary.foreground,
-    backgroundColor: theme.palette.button.primary.background,
-    boxShadow: "none"
-  },
+  // "&:hover": {
+  //   color: theme.palette.button.primary.foreground,
+  //   backgroundColor: theme.palette.button.primary.background,
+  //   boxShadow: "none"
+  // },
 }))
 
 const PrivatePartyCreator = (props) => {
   const history = useHistory()
   const dispatch = useDispatch()
+  const [loading, setLoading] = useState(false);
 
-  const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B"
+
+  //const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B"
+  const { account } = useWeb3React();
+  const wallet = account;
 
   const [party, setParty] = useState({
     name: '',
@@ -83,22 +89,34 @@ const PrivatePartyCreator = (props) => {
   const createPrivateParty = async (party) => {
     createParty(party.name, wallet, party.maxDepositAmount, party.participantCount, party.duration)
     .then((res) => {
-      dispatch(setNotificationData({
-        message: `Successfully Party created.`,
-        variant: 'success',
-        open: true
-      }))
-      const partyId = res.id
-      // dispatch(createParty({
-      //   ...party, 
-      //   partyId: partyId,
-      //   endDate: moment(new Date()).add(party.duration * 1000 * 3600 * 24)
-      // }))
-      history.push({
-        pathname: `/private-party/${partyId}`,
-        search: '?join'
-      })
       console.log(res)
+      if (res.success) {
+        setLoading(false)
+
+        dispatch(setNotificationData({
+          message: `Successfully Party created.`,
+          variant: 'success',
+          open: true
+        }))
+        const partyId = res.id
+        // dispatch(createParty({
+        //   ...party, 
+        //   partyId: partyId,
+        //   endDate: moment(new Date()).add(party.duration * 1000 * 3600 * 24)
+        // }))
+        history.push({
+          pathname: `/private-party/${partyId}`,
+          search: '?join'
+        })
+      } else {
+        setLoading(false)
+
+        dispatch(setNotificationData({
+          message: res.message? res.message : 'error',
+          variant: 'error',
+          open: true
+        }));
+      }      
     })
     .catch((error) => {
       console.log(error)
@@ -117,6 +135,7 @@ const PrivatePartyCreator = (props) => {
   }
 
   const handleCreate = () => {
+    setLoading(true)
     setAbleValidate(true)
     const _partyValidate = {
       name: party.name.length != 0,
@@ -130,13 +149,14 @@ const PrivatePartyCreator = (props) => {
     })
 
     if (_partyValidate.name && _partyValidate.participantCount && _partyValidate.maxDepositAmount && _partyValidate.duration) {
-      createPrivateParty(party)      
+      createPrivateParty(party)
     } else {
       dispatch(setNotificationData({
         message: `Please input all fields`,
         variant: 'error',
         open: true
       }))
+      setLoading(false)
     }
   }
 
@@ -159,7 +179,14 @@ const PrivatePartyCreator = (props) => {
             <InputBox id='maxDepositAmount' type={'number'} startIcon={<DepositIcon/>} value={party.maxDepositAmount} placeholder='Max deposit per participant' onChange={onInputChange} validated={validated.maxDepositAmount}/>
             <InputBox id='duration' type={'number'} startIcon={<TimerIcon/>} endText='days' value={party.duration} placeholder='Duration' onChange={onInputChange} validated={validated.duration}/>
           </Stack>
-          <AddButton variant="contained" onClick={handleCreate}>Create</AddButton>
+          <WrapButton
+            onClick={handleCreate}
+            loading={loading}
+            loadingPosition="end"
+            variant="contained"
+          >
+            Create
+          </WrapButton>
         </Content>
       </Container>
     </motion.div>

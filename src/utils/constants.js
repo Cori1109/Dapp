@@ -24,10 +24,10 @@ export const CRYPTOS = [
   {
     title: 'DAI',
     logo: DaiLogo,
-    address: '0xad6d458402f60fd3bd25163575031acdce07538d'
+    address: '0x501dAE52A71A75e640a487FcFC718A8aC6E433e1'
   }, {
     title: 'USDC',
     logo: UsdcLogo,
-    address: '0x85f1dAd6f812F2D7757eD54d749dc0c1C5De3B59'
+    address: '0x501dAE52A71A75e640a487FcFC718A8aC6E433e1'
   }
 ]

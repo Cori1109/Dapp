@@ -42,12 +42,22 @@ const initialState = {
     state: 'open'
   },
   transferParam: null,
-  partyList: mockup_data,
+  // partyList: mockup_data,
+  partyList: null,
   balance: 0,
   lockBalance: 0,
   notificationData: null
 };
 
+
+const setPartyList = (state, {partyList, ...rest}) => {
+  return {
+    ...state,
+    ...{
+      partyList: partyList,
+    },
+  };
+};
 
 const setHeaderTitle = (state, {headerTitle, ...rest}) => {
   return {
@@ -146,6 +156,8 @@ const reducer = (state = initialState, action) => {
       return setJoinedParam(state, action);
     case actionTypes.SET_TRANSFER_PARAM:
       return setTransferParam(state, action);
+    case actionTypes.SET_PARTY_LIST:
+      return setPartyList(state, action);
     case actionTypes.EDIT_PARTY:
       return editParty(state, action);
     case actionTypes.CREATE_PARTY:
