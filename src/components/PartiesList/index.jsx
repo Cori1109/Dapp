@@ -10,7 +10,7 @@ const PartiesList = ({ list, isPrivate }) => {
 
   return (
     <Box>
-      {list && !_.isEmpty ? (
+      {list && !_.isEmpty(list) ? (
         list.map((item, index) => (
           <Party data={item} index={index} key={`party-${index}`} />
         ))
