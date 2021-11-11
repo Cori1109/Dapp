@@ -260,7 +260,7 @@ const Profile = (props) => {
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <WrapBox>
-                  <Typography variant="xs_content_gray" >Total Balance</Typography>
+                  <Typography variant="xs_content_gray" >Balance</Typography>
                   <Box display='flex' marginTop="10px">
                     <WrapImage src={IncomeIcon} alt='' />
                     <Typography variant="sl_title" >${getFormatNumber(balance)}</Typography>

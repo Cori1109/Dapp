@@ -20,6 +20,7 @@ import { useWeb3React } from "@web3-react/core";
 import { setBalance } from "store/actions/App";
 import { setLockBalance } from "store/actions/App";
 import { setPartyList } from "store/actions/App";
+import bannerImage from '../../assets/img/banner3.png'
 
 const RootBox = styled(Box)`
   padding: "10px";
@@ -34,6 +35,9 @@ const WrapBox = styled(Box)(({ theme }) => ({
   fontWeight: "800",
   lineHeight: "40px",
   fontSize: "25px",
+}));
+
+const WrapBoxBanner = styled(Box)(({ theme }) => ({
 }));
 
 const ContentPaper = styled(Paper)(({ theme }) => ({
@@ -55,6 +59,11 @@ const ContentHeader = styled(Box)(({ theme }) => ({
   alignItems: "center",
   paddingBottom: "16px",
 }));
+
+const ContentImage = styled(`img`)(({ theme }) => ({
+  borderRadius: '12px',
+  width: '100%'
+}))
 
 const Dashboard = (props) => {
   const history = useHistory();
@@ -87,7 +96,10 @@ const Dashboard = (props) => {
         <Stack spacing={2}>
           <HeaderBar />
           <BalanceCard />
-          <WrapBox>THIS WEEK WIN BIG</WrapBox>
+          {/*<WrapBox>THIS WEEK WIN BIG</WrapBox>*/}
+          <WrapBoxBanner>
+            <ContentImage src={bannerImage} />
+          </WrapBoxBanner>
           <ContentPaper>
             <ContentHeader>
               <WrapTypography variant="sm_title">Your parties</WrapTypography>

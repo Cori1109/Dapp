@@ -312,9 +312,9 @@ const PrivateParty = (props) => {
               backgroundColor: "#3F51B5",
               marginBottom: "26px",
             }}
-            endIcon={<CheckCircleOutlineIcon />}
+            endIcon={joinedParam && joinedParam.state == "joined" ? <CheckCircleOutlineIcon /> : <AddIcon />}
             onClick={() => handleClickPartyStatus(joinedParam)}
-            text={joinedParam ? joinedParam.state : "open"}
+            text={joinedParam && joinedParam.state == "joined" ? "Joined" : "Join the party"}
           />
           <PrimaryButton
             variant="contained"

@@ -34,8 +34,9 @@ const RenderRoutes = (props) => {
     getUserDetailsInfo();
   }, [account]);
 
-  const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B"
-  // const wallet = account;
+  //const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B"
+  const wallet = account;
+  
   const getUserDetailsInfo = async () => {
     getUserDetails(wallet)
     .then((res) => {
