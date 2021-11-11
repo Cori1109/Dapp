@@ -54,8 +54,9 @@ const PrivatePartyList = (props) => {
 
   // const [parties, setParties] = useState(null);
   const { account } = useWeb3React();
+  const wallet = account;
 
-  const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B"
+  //const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B"
   useEffect(() => {
     !partyList && account && getUserDetailsInfo()
   }, [account])
