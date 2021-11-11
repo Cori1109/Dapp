@@ -69,9 +69,14 @@ const PartyInfo = ({ party }) => {
                     ? "Party closes in"
                     : "Winner"}
                 </WrapTypography>
-                <Typography variant="md_title">
-                  {getFormatDate(party.endDate) != 0 ? closeTime : "Distributed with all participants"}
-                </Typography>
+
+                {getFormatDate(party.endDate) != 0 ? (
+                  <Typography variant="md_title">{closeTime}</Typography>
+                ) : (
+                  <Typography variant="md_title" fontSize="18px">
+                    Distributed with all participants
+                  </Typography>
+                )}
               </Grid>
             ) : (
               <Grid item xs={12}>
@@ -85,7 +90,9 @@ const PartyInfo = ({ party }) => {
                 <Typography variant="md_title">
                   {!party.isPublic
                     ? `${party.currentParticipants}/${party.participants} participants joined`
-                    : getFormatDate(party.endDate) != 0 ? closeTime : "Distributed with all participants"}
+                    : getFormatDate(party.endDate) != 0
+                    ? closeTime
+                    : "Distributed with all participants"}
                 </Typography>
               </Grid>
             )}

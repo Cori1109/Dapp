@@ -42,6 +42,7 @@ import ShareFriendsModal from "components/Modal/ShareFriendsModal";
 import { changePartyAmount, getPrivatePartyDetails } from "utils/api";
 import { setNotificationData } from "store/actions/App";
 import { setLoading } from "store/actions/App";
+import { getFormatDate } from "utils/functions";
 
 const Content = styled(Box)(({ theme }) => ({
   padding: `${theme.spacing(3)} ${theme.spacing(3)}`,
@@ -151,6 +152,8 @@ const PrivateParty = (props) => {
       .then((res) => {
         dispatch(setLoading(false));
         let _party = { ...res, expectedPrize: res.amount };
+        // _party.endDate = 0;
+        // _party.currentParticipants = 2;
         console.log(_party);
         setParty(_party);
       })
@@ -166,7 +169,7 @@ const PrivateParty = (props) => {
     }
   }, [party]);
 
-  const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B"
+  const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B";
 
   const { account } = useWeb3React();
   // const wallet = account;
@@ -308,30 +311,47 @@ const PrivateParty = (props) => {
               </Typography>
             </Stack>
           )}
-          {/* <PrimaryButton variant="contained" style={{justifyContent: "space-between", backgroundColor: "#3F51B5", marginBottom: "26px"}} endIcon={<CheckCircleOutlineIcon />} onClick={() => handleClickPartyStatus(party)} text={party ? party.state : 'Opened'} /> */}
-          <PrimaryButton
-            variant="contained"
-            style={{
-              justifyContent: "space-between",
-              backgroundColor: "#3F51B5",
-              marginBottom: "26px",
-            }}
-            endIcon={<CheckCircleOutlineIcon />}
-            onClick={() => handleClickPartyStatus(joinedParam)}
-            text={joinedParam ? joinedParam.state : "open"}
-          />
-          <PrimaryButton
-            variant="contained"
-            style={{ justifyContent: "space-between" }}
-            endIcon={<AddIcon />}
-            onClick={() => handleOpenShareModal()}
-            text="Add participants"
-          />
-          {/* {party && party.state == 'Joined' && (<TextButton variant="text" onClick={() => handleOpenLeaveModal()}>Leave Party</TextButton>)} */}
-          {joinedParam && joinedParam.state == "joined" && (
-            <TextButton variant="text" onClick={() => handleOpenLeaveModal()}>
-              Leave Party
-            </TextButton>
+          {party && getFormatDate(party.endDate) == 0 ? (
+            <Stack
+              direction="row"
+              spacing={2}
+              justifyContent="center"
+              marginTop="24px"
+              marginBottom="45px"
+            >
+              <Typography variant="ss_content" textAlign="center">
+                Party ended on {party.endDate}
+              </Typography>
+            </Stack>
+          ) : (
+            <>
+              <PrimaryButton
+                variant="contained"
+                style={{
+                  justifyContent: "space-between",
+                  backgroundColor: "#3F51B5",
+                  marginBottom: "26px",
+                }}
+                endIcon={<CheckCircleOutlineIcon />}
+                onClick={() => handleClickPartyStatus(joinedParam)}
+                text={joinedParam ? joinedParam.state : "open"}
+              />
+              <PrimaryButton
+                variant="contained"
+                style={{ justifyContent: "space-between" }}
+                endIcon={<AddIcon />}
+                onClick={() => handleOpenShareModal()}
+                text="Add participants"
+              />
+              {joinedParam && joinedParam.state == "joined" && (
+                <TextButton
+                  variant="text"
+                  onClick={() => handleOpenLeaveModal()}
+                >
+                  Leave Party
+                </TextButton>
+              )}
+            </>
           )}
         </Content>
       </Container>
