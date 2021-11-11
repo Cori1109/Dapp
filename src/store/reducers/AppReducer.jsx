@@ -46,7 +46,8 @@ const initialState = {
   partyList: null,
   balance: 0,
   lockBalance: 0,
-  notificationData: null
+  notificationData: null,
+  loading: false,
 };
 
 
@@ -147,6 +148,15 @@ const setNotificationData = (state, {notificationData, ...rest}) => {
   };
 }
 
+const setLoading = (state, {loading, ...rest}) => {
+  return {
+    ...state,
+    ...{
+      loading: loading,
+    },
+  };
+}
+
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -170,6 +180,8 @@ const reducer = (state = initialState, action) => {
       return setLockBalance(state, action);
     case actionTypes.SET_NOTIFICATION_DATA:
       return setNotificationData(state, action);
+    case actionTypes.SET_LOADING:
+      return setLoading(state, action);
     default:
       return state;
   }

@@ -41,6 +41,7 @@ import PrimaryButton from "components/Button/PrimaryButton";
 import ShareFriendsModal from "components/Modal/ShareFriendsModal";
 import { changePartyAmount, getPrivatePartyDetails } from "utils/api";
 import { setNotificationData } from "store/actions/App";
+import { setLoading } from "store/actions/App";
 
 const Content = styled(Box)(({ theme }) => ({
   padding: `${theme.spacing(3)} ${theme.spacing(3)}`,
@@ -141,17 +142,20 @@ const PrivateParty = (props) => {
   const [shareModalOpen, setShareModalOpen] = useState(false);
 
   useEffect(() => {
+    dispatch(setLoading(true));
     getPrivatePartyDetailsInfo();
   }, [partyId]);
 
   const getPrivatePartyDetailsInfo = async () => {
     getPrivatePartyDetails(partyId)
       .then((res) => {
+        dispatch(setLoading(false));
         let _party = { ...res, expectedPrize: res.amount };
         console.log(_party);
         setParty(_party);
       })
       .catch((error) => {
+        dispatch(setLoading(false));
         console.log(error);
       });
   };
