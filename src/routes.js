@@ -28,20 +28,66 @@ import { useDispatch, useSelector } from "react-redux";
 import SimpleBackdrop from "components/Backdrop";
 import { setLoading } from "store/actions/App";
 
+import { UnsupportedChainIdError } from "@web3-react/core";
+import { setNotificationData } from "store/actions/App";
+import { switchNetwork } from "utils/web3utils";
+import { WALLETS } from 'utils/constants';
+
 const RenderRoutes = (props) => {
   const loading = useSelector((state) => state.app.loading);
   // const [loading, setLoading] = useState(false);
-
-  const { account } = useWeb3React();
   const dispatch = useDispatch()
+  const timer = React.useRef();
+
+  const { activate, deactivate, account, library, chainId } = useWeb3React();
 
   useEffect(() => {
     dispatch(setLoading(true));
     getUserDetailsInfo();
   }, [account]);
 
-  const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B"
-  // const wallet = account;
+
+  useEffect(() => {
+    handleConnectWallet(WALLETS[0])
+  }, [])
+  
+  const handleConnectWallet = (walletInfo) => {
+    const { connector, type } = walletInfo;
+    // setSelectedWalletInfo(walletInfo)
+    if (connector) {
+      activate(connector, undefined, true)
+        .then(async res => {
+          await switchNetwork('0x4')
+          // setStep(1)
+        })
+        .catch(error => {
+          if (error instanceof UnsupportedChainIdError) {
+            activate(connector);
+          } else {
+            if (error.code == 4001) {
+              dispatch(setNotificationData({
+                message: `You should switch Ethereum network to Rinkeby`,
+                variant: 'error',
+                open: true
+              }))
+            } else if (type === 'metamask') {
+              // setNoMetamask(true);
+            }
+            console.info("Connection Error - ", error);
+          }
+        })
+        .finally(() => {
+        });
+    }
+  }
+
+  timer.current = window.setTimeout(() => {
+    setLoading(true);
+    getUserDetailsInfo();
+  }, 60000);
+
+  // const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B"
+  const wallet = account;
   const getUserDetailsInfo = async () => {
     getUserDetails(wallet)
     .then((res) => {
