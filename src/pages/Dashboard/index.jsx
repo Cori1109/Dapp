@@ -62,28 +62,8 @@ const Dashboard = (props) => {
   // const [loading, setLoading] = useState(false);
   // const timer = React.useRef();
   // const [parties, setParties] = useState(null);
-  const { account } = useWeb3React();
   const dispatch = useDispatch()
   const havePrize = false;
-
-  //const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B"
-  const wallet = account;
-  useEffect(() => {
-    (partyList == null) && account && getUserDetailsInfo()
-  }, [account])
-
-  const getUserDetailsInfo = async () => {
-    getUserDetails(wallet)
-    .then((res) => {
-      // setParties(res.privateParties)
-      dispatch(setPartyList(res.privateParties))
-      dispatch(setBalance(res.userDetails.balance))
-      dispatch(setLockBalance(res.userDetails.staked))
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  }
 
   // useEffect(() => {
   //   if (!loading) {
