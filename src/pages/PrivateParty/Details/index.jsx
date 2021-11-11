@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { pageVariants, pageTransition } from "../../../utils/pageTransitions"
 import { useParams, useHistory, useLocation } from "react-router";
 import { useDispatch, useSelector } from 'react-redux';
+import { useWeb3React } from "@web3-react/core";
 
 import { 
   Add as AddIcon, 
@@ -144,7 +145,11 @@ const PrivateParty = (props) => {
     }
   }, [party])
 
-  const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B"
+  //const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B"
+
+  const { account } = useWeb3React();
+  const wallet = account;
+
   const handlePartyAmount = async (price) => {
     changePartyAmount(wallet, price, partyId)
     .then((res) => {

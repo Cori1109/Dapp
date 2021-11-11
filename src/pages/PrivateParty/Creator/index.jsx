@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { pageVariants, pageTransition } from "../../../utils/pageTransitions"
 import { useHistory } from "react-router";
 import { useDispatch } from 'react-redux';
+import { useWeb3React } from "@web3-react/core";
 
 import { 
   AccountBalanceOutlined as PartyIcon,
@@ -59,7 +60,9 @@ const PrivatePartyCreator = (props) => {
   const [loading, setLoading] = useState(false);
 
 
-  const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B"
+  //const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B"
+  const { account } = useWeb3React();
+  const wallet = account;
 
   const [party, setParty] = useState({
     name: '',

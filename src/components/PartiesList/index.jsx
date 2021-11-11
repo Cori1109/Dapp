@@ -3,13 +3,14 @@ import { Box, Typography } from "@mui/material";
 import Party from "../Party";
 import PrimaryButton from "components/Button/PrimaryButton";
 import { useHistory } from "react-router";
+import _ from 'lodash';
 
 const PartiesList = ({ list, isPrivate }) => {
   const history = useHistory();
 
   return (
     <Box>
-      {list ? (
+      {list && !_.isEmpty ? (
         list.map((item, index) => (
           <Party data={item} index={index} key={`party-${index}`} />
         ))

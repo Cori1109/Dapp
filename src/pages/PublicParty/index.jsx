@@ -35,6 +35,8 @@ import UserAvatarImage5 from "../../assets/avatar/Dianne.png";
 import PrimaryButton from "components/Button/PrimaryButton";
 import { changePartyAmount, getPublicParty } from "utils/api";
 import { setNotificationData } from "store/actions/App";
+import { useWeb3React } from "@web3-react/core";
+
 
 const participants = [
   {
@@ -183,7 +185,10 @@ const PublicParty = (props) => {
       });
   };
 
-  const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B";
+  //const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B";
+  const { account } = useWeb3React();
+  const wallet = account;
+  
   const handlePartyAmount = async (price) => {
     changePartyAmount(wallet, price, data.partyId)
       .then((res) => {
