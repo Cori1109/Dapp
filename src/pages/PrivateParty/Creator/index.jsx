@@ -88,6 +88,8 @@ const PrivatePartyCreator = (props) => {
     .then((res) => {
       console.log(res)
       if (res.success) {
+        setLoading(false)
+
         dispatch(setNotificationData({
           message: `Successfully Party created.`,
           variant: 'success',
@@ -104,6 +106,8 @@ const PrivatePartyCreator = (props) => {
           search: '?join'
         })
       } else {
+        setLoading(false)
+
         dispatch(setNotificationData({
           message: res.message? res.message : 'error',
           variant: 'error',
@@ -142,15 +146,15 @@ const PrivatePartyCreator = (props) => {
     })
 
     if (_partyValidate.name && _partyValidate.participantCount && _partyValidate.maxDepositAmount && _partyValidate.duration) {
-      createPrivateParty(party)      
+      createPrivateParty(party)
     } else {
       dispatch(setNotificationData({
         message: `Please input all fields`,
         variant: 'error',
         open: true
       }))
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   return (
