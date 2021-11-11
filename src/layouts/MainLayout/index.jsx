@@ -15,7 +15,7 @@ const WrapContainer = styled(Container)(({ theme }) => ({
 }))
 
 const WrapContent = styled(Box)(({ theme }) => ({
-  marginBottom: '40px'
+  marginBottom: '60px'
 }))
 
 const NavbarBox = styled(Box)(({ theme }) => ({

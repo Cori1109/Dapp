@@ -24,13 +24,19 @@ import { getUserDetails } from "utils/api";
 import { setPartyList } from "store/actions/App";
 import { setBalance } from "store/actions/App";
 import { setLockBalance } from "store/actions/App";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import SimpleBackdrop from "components/Backdrop";
+import { setLoading } from "store/actions/App";
 
 const RenderRoutes = (props) => {
+  const loading = useSelector((state) => state.app.loading);
+  // const [loading, setLoading] = useState(false);
+
   const { account } = useWeb3React();
   const dispatch = useDispatch()
 
   useEffect(() => {
+    dispatch(setLoading(true));
     getUserDetailsInfo();
   }, [account]);
 
@@ -43,12 +49,14 @@ const RenderRoutes = (props) => {
       dispatch(setPartyList(res.privateParties))
       dispatch(setBalance(res.userDetails.balance))
       dispatch(setLockBalance(res.userDetails.staked))
+      dispatch(setLoading(false))
     })
     .catch((error) => {
       console.log(error);
       dispatch(setPartyList(null))
       dispatch(setBalance(0))
       dispatch(setLockBalance(0))
+      dispatch(setLoading(false))
     });
   }
   return (
@@ -119,6 +127,7 @@ const RenderRoutes = (props) => {
         </Route>
         {/* <Redirect from="/" to="/welcome"/> */}
       </Switch>
+      <SimpleBackdrop open={loading}></SimpleBackdrop>
     </AnimatePresence>
   );
 };
