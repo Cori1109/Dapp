@@ -130,14 +130,14 @@ const PrivateParty = (props) => {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const isJoin = location.search ? true : false;
+  
 
   const balance = useSelector((state) => state.app.balance);
   const joinedParam = useSelector((state) => state.app.joinedParam);
 
   const [party, setParty] = useState(null);
   const [participants, setParticipants] = useState(mockup_participants);
-  const [joinModalOpen, setJoinModalOpen] = useState(isJoin);
+  const [joinModalOpen, setJoinModalOpen] = useState(false);
   const [emptyAccountModalOpen, setEmptyAccountModalOpen] = useState(false);
   const [leaveModalOpen, setLeaveModalOpen] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
@@ -156,6 +156,7 @@ const PrivateParty = (props) => {
         // _party.currentParticipants = 2;
         console.log(_party);
         setParty(_party);
+        location.search && setJoinModalOpen(true);
       })
       .catch((error) => {
         dispatch(setLoading(false));
