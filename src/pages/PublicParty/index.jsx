@@ -37,6 +37,8 @@ import { changePartyAmount, getPublicParty } from "utils/api";
 import { setNotificationData } from "store/actions/App";
 import { useWeb3React } from "@web3-react/core";
 import { setLoading } from "store/actions/App";
+import { setPublicParty } from "store/actions/App";
+import { setLoadingDeposit } from "store/actions/App";
 
 
 const participants = [
@@ -151,8 +153,8 @@ const TextButton = styled(Button)(({ theme }) => ({
 }));
 
 const PublicParty = (props) => {
-  // const data = useSelector(state => state.app.partyList[2])
-  const [data, setData] = useState(null);
+  const data = useSelector(state => state.app.publicParty)
+  // const [data, setData] = useState(null);
   const [prizeDistribution, setPrizeDistribution] = useState([]);
   const balance = useSelector((state) => state.app.balance);
   const joinedParam = useSelector((state) => state.app.joinedParam);
@@ -166,30 +168,17 @@ const PublicParty = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(setLoading(true));
-    getPublicPartyInfo();
-  }, []);
-
-  const getPublicPartyInfo = async () => {
-    getPublicParty()
-      .then((res) => {
-        dispatch(setLoading(false));
-        let _data = { ...res };
-        setData(_data);
-        let _prizeDistribution = [
-          _data.prizeDistribution.tier1,
-          _data.prizeDistribution.tier2,
-          _data.prizeDistribution.tier3,
-        ];
-        setPrizeDistribution(_prizeDistribution);
-      })
-      .catch((error) => {
-        dispatch(setLoading(false));
-        console.log(error);
-      });
-  };
-
-  //const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B";
+    if (data) {
+      let _prizeDistribution = [
+        data.prizeDistribution.tier1,
+        data.prizeDistribution.tier2,
+        data.prizeDistribution.tier3,
+      ];
+      setPrizeDistribution(_prizeDistribution);
+    }
+  }, [data]);
+  
+  // const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B";
   const { account } = useWeb3React();
   const wallet = account;
   
@@ -248,7 +237,20 @@ const PublicParty = (props) => {
       });
   };
 
+  const getPublicPartyInfo = async () => {
+    getPublicParty()
+      .then((res) => {
+        dispatch(setLoading(false));
+        dispatch(setPublicParty(res));
+      })
+      .catch((error) => {
+        dispatch(setLoading(false));
+        console.log(error);
+      });
+  };
+
   const handleJoinParty = (price) => {
+    dispatch(setLoadingDeposit(false));
     handlePartyAmount(price);
   };
 
@@ -262,6 +264,7 @@ const PublicParty = (props) => {
   };
 
   const handleClickPartyStatus = (item) => {
+    getPublicPartyInfo();
     console.log(item);
     if (item && item.state == "open") {
       if (balance !== 0) setJoinModalOpen(true);
@@ -274,6 +277,7 @@ const PublicParty = (props) => {
   };
 
   const handleOpenLeaveModal = () => {
+    getPublicPartyInfo();
     setLeaveModalOpen(true);
   };
 

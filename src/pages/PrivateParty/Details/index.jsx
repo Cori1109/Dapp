@@ -43,6 +43,7 @@ import { changePartyAmount, getPrivatePartyDetails } from "utils/api";
 import { setNotificationData } from "store/actions/App";
 import { setLoading } from "store/actions/App";
 import { getFormatDate } from "utils/functions";
+import { setLoadingDeposit } from "store/actions/App";
 
 const Content = styled(Box)(({ theme }) => ({
   padding: `${theme.spacing(3)} ${theme.spacing(3)}`,
@@ -213,7 +214,10 @@ const PrivateParty = (props) => {
               })
             );
           }
+          dispatch(setLoadingDeposit(false));
         } else {
+          setJoinModalOpen(false);
+          setLeaveModalOpen(false);
           dispatch(
             setNotificationData({
               message: res.message ? res.message : "error",
@@ -221,14 +225,20 @@ const PrivateParty = (props) => {
               open: true,
             })
           );
+          dispatch(setLoadingDeposit(false));
         }
       })
       .catch((error) => {
+        dispatch(setLoadingDeposit(false));
         console.log(error);
       });
   };
 
   const handleClickPartyStatus = (item) => {
+    dispatch(setLoading(true));
+    dispatch(setLoadingDeposit(false));
+    getPrivatePartyDetailsInfo();
+
     if (item && item.state == "open") {
       if (balance !== 0) setJoinModalOpen(true);
       else setEmptyAccountModalOpen(true);
@@ -250,6 +260,8 @@ const PrivateParty = (props) => {
   };
 
   const handleOpenLeaveModal = () => {
+    dispatch(setLoading(true));
+    getPrivatePartyDetailsInfo();
     setLeaveModalOpen(true);
   };
 

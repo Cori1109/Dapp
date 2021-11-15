@@ -20,6 +20,11 @@ export const setPartyList = (payload) => ({
   partyList: payload
 });
 
+export const setPublicParty = (payload) => ({
+  type: actionTypes.SET_PUBLIC_PARTY,
+  publicParty: payload
+});
+
 export const editParty = (payload) => ({
   type: actionTypes.EDIT_PARTY,
   party: payload
@@ -48,6 +53,11 @@ export const setLockBalance = (payload) => ({
 export const setLoading = (payload) => ({
   type: actionTypes.SET_LOADING,
   loading: payload
+});
+
+export const setLoadingDeposit = (payload) => ({
+  type: actionTypes.SET_LOADING_DEPOSIT,
+  loadingDeposit: payload
 });
 
 export const setNotificationData = (payload) => ({

@@ -44,10 +44,12 @@ const initialState = {
   transferParam: null,
   // partyList: mockup_data,
   partyList: null,
+  publicParty: null,
   balance: 0,
   lockBalance: 0,
   notificationData: null,
   loading: false,
+  loadingDeposit: false,
 };
 
 
@@ -56,6 +58,15 @@ const setPartyList = (state, {partyList, ...rest}) => {
     ...state,
     ...{
       partyList: partyList,
+    },
+  };
+};
+
+const setPublicParty = (state, {publicParty, ...rest}) => {
+  return {
+    ...state,
+    ...{
+      publicParty: publicParty,
     },
   };
 };
@@ -157,6 +168,15 @@ const setLoading = (state, {loading, ...rest}) => {
   };
 }
 
+const setLoadingDeposit = (state, {loadingDeposit, ...rest}) => {
+  return {
+    ...state,
+    ...{
+      loadingDeposit: loadingDeposit,
+    },
+  };
+}
+
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -168,6 +188,8 @@ const reducer = (state = initialState, action) => {
       return setTransferParam(state, action);
     case actionTypes.SET_PARTY_LIST:
       return setPartyList(state, action);
+    case actionTypes.SET_PUBLIC_PARTY:
+      return setPublicParty(state, action);
     case actionTypes.EDIT_PARTY:
       return editParty(state, action);
     case actionTypes.CREATE_PARTY:
@@ -182,6 +204,8 @@ const reducer = (state = initialState, action) => {
       return setNotificationData(state, action);
     case actionTypes.SET_LOADING:
       return setLoading(state, action);
+    case actionTypes.SET_LOADING_DEPOSIT:
+    return setLoadingDeposit(state, action);
     default:
       return state;
   }

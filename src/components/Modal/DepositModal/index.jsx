@@ -5,6 +5,8 @@ import SwipeButton from 'components/Button/SwipeButton';
 import { useState } from 'react';
 import BalanceSelector from 'components/BalanceSelector';
 import LoadingWrapper from "components/LoadingWrapper";
+import { setLoadingDeposit } from 'store/actions/App';
+import { useDispatch, useSelector } from 'react-redux';
 
 const DepositDialog = styled(Dialog)(({theme}) => ({
   '& .MuiPaper-root': {
@@ -29,9 +31,10 @@ const DepositModal = ({
   isPrivate,
   maxDeposit,
 }) => {
+  const dispatch = useDispatch();
 
   const [selectedAmount, setSelectedAmount] = useState(0)
-  const [loading, setLoading] = useState(false)
+  const loadingDeposit = useSelector(state => state.app.loadingDeposit)
 
   return (
     <DepositDialog
@@ -58,7 +61,7 @@ const DepositModal = ({
       </DialogContent>
         <DialogActions>
           <Box padding="24px" width="100%">
-          <LoadingWrapper loading={loading}></LoadingWrapper>
+          <LoadingWrapper loading={loadingDeposit}></LoadingWrapper>
 
             {
               selectedAmount != 0 &&
@@ -68,7 +71,7 @@ const DepositModal = ({
                 onSwipeDone={() => {
                   handleSuccess(selectedAmount)
                   setSelectedAmount(0)
-                  setLoading(true)
+                  dispatch(setLoadingDeposit(true));
                 }} 
                 reset={0}
               />
