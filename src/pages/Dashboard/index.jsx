@@ -72,6 +72,16 @@ const Dashboard = (props) => {
   // const [parties, setParties] = useState(null);
   const havePrize = false;
 
+  const isDemo = useSelector((state) => state.app.isDemo);
+  const partyListDemo = useSelector((state) => state.app.partyListDemo);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (isDemo) {
+      dispatch(setPartyList(partyListDemo));
+      dispatch(setBalance(1000));
+    }
+  }, [])
+
 
   return (
     <motion.div

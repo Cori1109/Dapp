@@ -143,26 +143,40 @@ const PrivateParty = (props) => {
   const [leaveModalOpen, setLeaveModalOpen] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
 
+  const isDemo = useSelector((state) => state.app.isDemo);  
+  const partyListDemo = useSelector((state) => state.app.partyListDemo);
+
   useEffect(() => {
-    dispatch(setLoading(true));
-    getPrivatePartyDetailsInfo();
+    if (!isDemo) {
+      dispatch(setLoading(true));
+      getPrivatePartyDetailsInfo();
+    } else {
+      let _party = { ...partyListDemo[0], expectedPrize: partyListDemo[0].amount };
+      setParty(_party);
+      dispatch(setBalance(1000));
+    }
   }, [partyId]);
 
   const getPrivatePartyDetailsInfo = async () => {
-    getPrivatePartyDetails(partyId)
+    if (!isDemo) {
+      getPrivatePartyDetails(partyId)
       .then((res) => {
-        dispatch(setLoading(false));
         let _party = { ...res, expectedPrize: res.amount };
         // _party.endDate = 0;
         // _party.currentParticipants = 2;
-        console.log(_party);
         setParty(_party);
         location.search && setJoinModalOpen(true);
       })
       .catch((error) => {
-        dispatch(setLoading(false));
         console.log(error);
+      })
+      .finally(() => {
+        dispatch(setLoading(false));
       });
+    } else {
+      location.search && setJoinModalOpen(true);
+      dispatch(setLoading(false));
+    }
   };
 
   useEffect(() => {
@@ -177,47 +191,13 @@ const PrivateParty = (props) => {
   // const wallet = account;
 
   const handlePartyAmount = async (price) => {
-    changePartyAmount(wallet, price, partyId)
+    if (!isDemo) {
+      changePartyAmount(wallet, price, partyId)
       .then((res) => {
         console.log(res);
         if (res.success) {
-          if (joinModalOpen) {
-            setJoinModalOpen(false);
-
-            // let _party = JSON.parse(JSON.stringify(party))
-            // _party.state = 'Joined'
-            // dispatch(editParty(_party))
-            dispatch(setBalance(balance - price));
-            dispatch(
-              setJoinedParam({
-                price: price,
-                party_name: party.name,
-                back_url: location.pathname,
-                state: "joined",
-              })
-            );
-            history.push("/joined-success");
-          } else {
-            setLeaveModalOpen(false);
-
-            // let _data = JSON.parse(JSON.stringify(party))
-            // _data.state = 'open'
-            // dispatch(editParty(_data))
-            // setParty(_data)
-            dispatch(
-              setJoinedParam({
-                price: joinedParam.price,
-                party_name: party.name,
-                party_id: party.partyId,
-                back_url: location.pathname,
-                state: "open",
-              })
-            );
-          }
-          dispatch(setLoadingDeposit(false));
-        } else {
-          setJoinModalOpen(false);
-          setLeaveModalOpen(false);
+          handlePartyAmountResponse(price);
+        } else {          
           dispatch(
             setNotificationData({
               message: res.message ? res.message : "error",
@@ -225,14 +205,48 @@ const PrivateParty = (props) => {
               open: true,
             })
           );
-          dispatch(setLoadingDeposit(false));
         }
       })
       .catch((error) => {
-        dispatch(setLoadingDeposit(false));
         console.log(error);
+      })
+      .finally(() => {
+        setJoinModalOpen(false);
+        setLeaveModalOpen(false);
+        dispatch(setLoadingDeposit(false));
       });
+    } else {
+      handlePartyAmountResponse(price);
+      setJoinModalOpen(false);
+      setLeaveModalOpen(false);
+      dispatch(setLoadingDeposit(false));
+    }    
   };
+
+  const handlePartyAmountResponse = (price) => {
+    if (joinModalOpen) {
+      dispatch(setBalance(balance - price));
+      dispatch(
+        setJoinedParam({
+          price: price,
+          party_name: party.name,
+          back_url: location.pathname,
+          state: "joined",
+        })
+      );
+      history.push("/joined-success");
+    } else {
+      dispatch(
+        setJoinedParam({
+          price: joinedParam.price,
+          party_name: party.name,
+          party_id: party.partyId,
+          back_url: location.pathname,
+          state: "open",
+        })
+      );
+    }
+  }
 
   const handleClickPartyStatus = (item) => {
     dispatch(setLoading(true));

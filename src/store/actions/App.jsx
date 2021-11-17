@@ -60,6 +60,11 @@ export const setLoadingDeposit = (payload) => ({
   loadingDeposit: payload
 });
 
+export const setIsDemo = (payload) => ({
+  type: actionTypes.SET_IS_DEMO,
+  isDemo: payload
+});
+
 export const setNotificationData = (payload) => ({
   type: actionTypes.SET_NOTIFICATION_DATA,
   notificationData: payload

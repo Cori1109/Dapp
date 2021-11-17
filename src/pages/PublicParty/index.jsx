@@ -177,6 +177,15 @@ const PublicParty = (props) => {
       setPrizeDistribution(_prizeDistribution);
     }
   }, [data]);
+
+  const isDemo = useSelector((state) => state.app.isDemo);
+  const partyListDemo = useSelector((state) => state.app.partyListDemo);
+  useEffect(() => {
+    if (isDemo) {
+      dispatch(setPublicParty(partyListDemo[2]));
+      dispatch(setBalance(1000));
+    }
+  }, [])
   
   // const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B";
   const { account } = useWeb3React();

@@ -79,7 +79,7 @@ const Party = ({ data, index }) => {
             <Grid item xs={5} textAlign="right">
                 <Box>
                     <TitleTypography variant="xs_content">
-                        ${getFormatNumber(data.amount)}
+                        ${getFormatNumber(data?.amount || 0)}
                     </TitleTypography>
                 </Box>
                 <Box>
