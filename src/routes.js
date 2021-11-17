@@ -44,6 +44,8 @@ const RenderRoutes = (props) => {
 
   useEffect(() => {
     if (!isDemo) {
+      dispatch(setBalance(0));
+      dispatch(setPartyList(null));
       if (account) {
         dispatch(setLoading(true));
         getUserDetailsInfo();
@@ -60,7 +62,8 @@ const RenderRoutes = (props) => {
   useEffect(() => {
     if (!isDemo) {
       getPublicPartyInfo();
-      handleConnectWallet(WALLETS[0]);    }
+      handleConnectWallet(WALLETS[0]);    
+    }
   }, [isDemo])
   
   const handleConnectWallet = (walletInfo) => {
