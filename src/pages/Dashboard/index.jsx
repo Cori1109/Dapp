@@ -69,20 +69,9 @@ const Dashboard = (props) => {
   const history = useHistory();
   const partyList = useSelector((state) => state.app.partyList);
   // const [loading, setLoading] = useState(false);
-  // const timer = React.useRef();
   // const [parties, setParties] = useState(null);
-  const dispatch = useDispatch()
   const havePrize = false;
 
-  // useEffect(() => {
-  //   if (!loading) {
-  //     setLoading(true);
-  //     timer.current = window.setTimeout(() => {
-  //       setLoading(false);
-  //       setParties(partyList);
-  //     }, 3000);
-  //   }
-  // }, []);
 
   return (
     <motion.div

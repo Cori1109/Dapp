@@ -98,6 +98,7 @@ const PrivatePartyCreator = (props) => {
           variant: 'success',
           open: true
         }))
+        // const partyId = "618d08412dbbd0e6ebef4b8d"
         const partyId = res.id
         // dispatch(createParty({
         //   ...party, 
@@ -119,6 +120,7 @@ const PrivatePartyCreator = (props) => {
       }      
     })
     .catch((error) => {
+      setLoading(false)
       console.log(error)
     });
   }

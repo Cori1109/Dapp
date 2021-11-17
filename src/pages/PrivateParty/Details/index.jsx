@@ -42,6 +42,8 @@ import ShareFriendsModal from "components/Modal/ShareFriendsModal";
 import { changePartyAmount, getPrivatePartyDetails } from "utils/api";
 import { setNotificationData } from "store/actions/App";
 import { setLoading } from "store/actions/App";
+import { getFormatDate } from "utils/functions";
+import { setLoadingDeposit } from "store/actions/App";
 
 const Content = styled(Box)(({ theme }) => ({
   padding: `${theme.spacing(3)} ${theme.spacing(3)}`,
@@ -129,14 +131,14 @@ const PrivateParty = (props) => {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const isJoin = location.search ? true : false;
+  
 
   const balance = useSelector((state) => state.app.balance);
   const joinedParam = useSelector((state) => state.app.joinedParam);
 
   const [party, setParty] = useState(null);
   const [participants, setParticipants] = useState(mockup_participants);
-  const [joinModalOpen, setJoinModalOpen] = useState(isJoin);
+  const [joinModalOpen, setJoinModalOpen] = useState(false);
   const [emptyAccountModalOpen, setEmptyAccountModalOpen] = useState(false);
   const [leaveModalOpen, setLeaveModalOpen] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
@@ -151,8 +153,11 @@ const PrivateParty = (props) => {
       .then((res) => {
         dispatch(setLoading(false));
         let _party = { ...res, expectedPrize: res.amount };
+        // _party.endDate = 0;
+        // _party.currentParticipants = 2;
         console.log(_party);
         setParty(_party);
+        location.search && setJoinModalOpen(true);
       })
       .catch((error) => {
         dispatch(setLoading(false));
@@ -166,7 +171,7 @@ const PrivateParty = (props) => {
     }
   }, [party]);
 
-  const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B"
+  const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B";
 
   const { account } = useWeb3React();
   // const wallet = account;
@@ -209,7 +214,10 @@ const PrivateParty = (props) => {
               })
             );
           }
+          dispatch(setLoadingDeposit(false));
         } else {
+          setJoinModalOpen(false);
+          setLeaveModalOpen(false);
           dispatch(
             setNotificationData({
               message: res.message ? res.message : "error",
@@ -217,14 +225,20 @@ const PrivateParty = (props) => {
               open: true,
             })
           );
+          dispatch(setLoadingDeposit(false));
         }
       })
       .catch((error) => {
+        dispatch(setLoadingDeposit(false));
         console.log(error);
       });
   };
 
   const handleClickPartyStatus = (item) => {
+    dispatch(setLoading(true));
+    dispatch(setLoadingDeposit(false));
+    getPrivatePartyDetailsInfo();
+
     if (item && item.state == "open") {
       if (balance !== 0) setJoinModalOpen(true);
       else setEmptyAccountModalOpen(true);
@@ -246,6 +260,8 @@ const PrivateParty = (props) => {
   };
 
   const handleOpenLeaveModal = () => {
+    dispatch(setLoading(true));
+    getPrivatePartyDetailsInfo();
     setLeaveModalOpen(true);
   };
 
@@ -308,30 +324,47 @@ const PrivateParty = (props) => {
               </Typography>
             </Stack>
           )}
-          {/* <PrimaryButton variant="contained" style={{justifyContent: "space-between", backgroundColor: "#3F51B5", marginBottom: "26px"}} endIcon={<CheckCircleOutlineIcon />} onClick={() => handleClickPartyStatus(party)} text={party ? party.state : 'Opened'} /> */}
-          <PrimaryButton
-            variant="contained"
-            style={{
-              justifyContent: "space-between",
-              backgroundColor: "#3F51B5",
-              marginBottom: "26px",
-            }}
-            endIcon={joinedParam && joinedParam.state == "joined" ? <CheckCircleOutlineIcon /> : <AddIcon />}
-            onClick={() => handleClickPartyStatus(joinedParam)}
-            text={joinedParam && joinedParam.state == "joined" ? "Joined" : "Join the party"}
-          />
-          <PrimaryButton
-            variant="contained"
-            style={{ justifyContent: "space-between" }}
-            endIcon={<AddIcon />}
-            onClick={() => handleOpenShareModal()}
-            text="Add participants"
-          />
-          {/* {party && party.state == 'Joined' && (<TextButton variant="text" onClick={() => handleOpenLeaveModal()}>Leave Party</TextButton>)} */}
-          {joinedParam && joinedParam.state == "joined" && (
-            <TextButton variant="text" onClick={() => handleOpenLeaveModal()}>
-              Leave Party
-            </TextButton>
+          {party && getFormatDate(party.endDate) == 0 ? (
+            <Stack
+              direction="row"
+              spacing={2}
+              justifyContent="center"
+              marginTop="24px"
+              marginBottom="45px"
+            >
+              <Typography variant="ss_content" textAlign="center">
+                Party ended on {party.endDate}
+              </Typography>
+            </Stack>
+          ) : (
+            <>
+              <PrimaryButton
+                variant="contained"
+                style={{
+                  justifyContent: "space-between",
+                  backgroundColor: "#3F51B5",
+                  marginBottom: "26px",
+                }}
+                endIcon={<CheckCircleOutlineIcon />}
+                onClick={() => handleClickPartyStatus(joinedParam)}
+                text={joinedParam ? joinedParam.state : "open"}
+              />
+              <PrimaryButton
+                variant="contained"
+                style={{ justifyContent: "space-between" }}
+                endIcon={<AddIcon />}
+                onClick={() => handleOpenShareModal()}
+                text="Add participants"
+              />
+              {joinedParam && joinedParam.state == "joined" && (
+                <TextButton
+                  variant="text"
+                  onClick={() => handleOpenLeaveModal()}
+                >
+                  Leave Party
+                </TextButton>
+              )}
+            </>
           )}
         </Content>
       </Container>

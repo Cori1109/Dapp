@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import React, { Suspense, Fragment, lazy, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Switch, Redirect, Route } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
 import DetailLayout from "./layouts/DetailLayout";
@@ -20,7 +20,7 @@ import ProfileLayout from "layouts/ProfileLayout";
 import SignUp from "pages/Auth/SignUp";
 import Splash from "pages/Splash";
 import { useWeb3React } from "@web3-react/core";
-import { getUserDetails } from "utils/api";
+import { getPublicParty, getUserDetails } from "utils/api";
 import { setPartyList } from "store/actions/App";
 import { setBalance } from "store/actions/App";
 import { setLockBalance } from "store/actions/App";
@@ -28,19 +28,66 @@ import { useDispatch, useSelector } from "react-redux";
 import SimpleBackdrop from "components/Backdrop";
 import { setLoading } from "store/actions/App";
 
+import { UnsupportedChainIdError } from "@web3-react/core";
+import { setNotificationData } from "store/actions/App";
+import { switchNetwork } from "utils/web3utils";
+import { WALLETS } from 'utils/constants';
+import { setPublicParty } from "store/actions/App";
+
 const RenderRoutes = (props) => {
   const loading = useSelector((state) => state.app.loading);
-  // const [loading, setLoading] = useState(false);
-
-  const { account } = useWeb3React();
+  const publicPartyInfo = useSelector((state) => state.app.publicParty);
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    dispatch(setLoading(true));
-    getUserDetailsInfo();
-  }, [account]);
+  const { activate, deactivate, account, library, chainId } = useWeb3React();
 
-  //const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B"
+  useEffect(() => {
+    if (account) {
+      dispatch(setLoading(true));
+      getUserDetailsInfo();
+    }
+    const interval = setInterval(() => {
+      setLoading(true);
+      account && getUserDetailsInfo();
+      getPublicPartyInfo();
+    }, 60000);
+    return () => clearInterval(interval);
+  }, [account]);
+  
+  useEffect(() => {
+    !publicPartyInfo && getPublicPartyInfo();
+    handleConnectWallet(WALLETS[0])    
+  }, [])
+  
+  const handleConnectWallet = (walletInfo) => {
+    const { connector, type } = walletInfo;
+    if (connector) {
+      activate(connector, undefined, true)
+        .then(async res => {
+          await switchNetwork('0x4')
+        })
+        .catch(error => {
+          if (error instanceof UnsupportedChainIdError) {
+            activate(connector);
+          } else {
+            if (error.code == 4001) {
+              dispatch(setNotificationData({
+                message: `You should switch Ethereum network to Rinkeby`,
+                variant: 'error',
+                open: true
+              }))
+            } else if (type === 'metamask') {
+              // setNoMetamask(true);
+            }
+            console.info("Connection Error - ", error);
+          }
+        })
+        .finally(() => {
+        });
+    }
+  }  
+
+  // const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B"
   const wallet = account;
   
   const getUserDetailsInfo = async () => {
@@ -60,6 +107,19 @@ const RenderRoutes = (props) => {
       dispatch(setLoading(false))
     });
   }
+
+  const getPublicPartyInfo = async () => {
+    getPublicParty()
+      .then((res) => {
+        dispatch(setLoading(false));
+        dispatch(setPublicParty(res));
+      })
+      .catch((error) => {
+        dispatch(setLoading(false));
+        console.log(error);
+      });
+  };
+
   return (
     <AnimatePresence>
       <Switch>
