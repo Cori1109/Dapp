@@ -62,7 +62,7 @@ const PartyInfo = ({ party }) => {
         {party && (
           <Grid container spacing={2}>
             {!party.isPublic &&
-            party.currentParticipants == party.participants ? (
+            party.currentParticipants >= party.participants ? (
               <Grid item xs={12}>
                 <WrapTypography variant="sm_content">
                   {getFormatDate(party.endDate) != 0
@@ -89,7 +89,7 @@ const PartyInfo = ({ party }) => {
                 </WrapTypography>
                 <Typography variant="md_title">
                   {!party.isPublic
-                    ? `${party.currentParticipants}/${party.participants} participants joined`
+                    ? `${party?.currentParticipants}/${party.participants} participants joined`
                     : getFormatDate(party.endDate) != 0
                     ? closeTime
                     : "Distributed with all participants"}

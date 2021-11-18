@@ -131,8 +131,6 @@ const PrivateParty = (props) => {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  
-
   const balance = useSelector((state) => state.app.balance);
   const joinedParam = useSelector((state) => state.app.joinedParam);
 
@@ -145,17 +143,16 @@ const PrivateParty = (props) => {
 
   const isDemo = useSelector((state) => state.app.isDemo);  
   const partyListDemo = useSelector((state) => state.app.partyListDemo);
+  const partyList = useSelector((state) => state.app.partyList);
 
   useEffect(() => {
-    if (!isDemo) {
-      dispatch(setLoading(true));
-      getPrivatePartyDetailsInfo();
-    } else {
-      let _party = { ...partyListDemo[0], expectedPrize: partyListDemo[0].amount };
-      setParty(_party);
-      dispatch(setBalance(1000));
-    }
+    dispatch(setLoading(true));
+    getPrivatePartyDetailsInfo();
   }, [partyId]);
+
+  const getParty = (_party) => {
+    return _party._id == partyId;
+  }
 
   const getPrivatePartyDetailsInfo = async () => {
     if (!isDemo) {
@@ -174,6 +171,9 @@ const PrivateParty = (props) => {
         dispatch(setLoading(false));
       });
     } else {
+      let _party = { ...partyList?.find(getParty), expectedPrize: partyList?.find(getParty).amount };
+      setParty(_party)
+      dispatch(setBalance(1000));
       location.search && setJoinModalOpen(true);
       dispatch(setLoading(false));
     }
@@ -234,17 +234,23 @@ const PrivateParty = (props) => {
           state: "joined",
         })
       );
+      let _party = JSON.parse(JSON.stringify(party));
+      _party.currentParticipants += 1;
+      dispatch(editParty(_party));
       history.push("/joined-success");
     } else {
       dispatch(
         setJoinedParam({
           price: joinedParam.price,
           party_name: party.name,
-          party_id: party.partyId,
           back_url: location.pathname,
           state: "open",
         })
       );
+      let _party = JSON.parse(JSON.stringify(party));
+      _party.currentParticipants -= 1;
+      dispatch(editParty(_party));
+      setParty(_party)
     }
   }
 

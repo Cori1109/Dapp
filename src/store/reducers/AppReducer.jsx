@@ -10,14 +10,19 @@ const mockup_data = [{
   endDate: moment(new Date()).add(1000 * 60 * 60 * 24),
   state: 'open',
   isPublic: false,
+  participants: 5,
+  currentParticipants: 5,
 }, {
   _id: '1324-1142',
   name: 'Trip to Ibiza',
   avatar: null,
   amount: 650.90,
-  endDate: moment(new Date()).add(1000 * 60 * 3),
+  maxDeposit: 500,
+  endDate: moment(new Date()).add(1000 * 60 * 60 * 3),
   state: 'open',
   isPublic: false,
+  participants: 5,
+  currentParticipants: 3,
 }, {
   _id: '1234-5578',
   name: 'Weekly Rand Party',
@@ -37,9 +42,12 @@ const mockup_data = [{
   name: 'Family Party',
   avatar: null,
   amount: 780.90,
+  maxDeposit: 500,
   endDate: moment(new Date()).add(1000 * 60 * 60 * 300),
   state: 'open',
   isPublic: false,
+  participants: 5,
+  currentParticipants: 5,
 }];
 
 const initialState = {
@@ -107,11 +115,11 @@ const setTransferParam = (state, {transferParam, ...rest}) => {
 }
 
 const getParty = (_party, partyId) => {
-  return _party.partyId == partyId;
+  return _party._id == partyId;
 }
 
 const editParty = (state, {party, ...rest}) => {
-  let index = state.partyList.findIndex((item) => getParty(item, party.partyId))
+  let index = state.partyList.findIndex((item) => getParty(item, party._id))
   let _partyList = JSON.parse(JSON.stringify(state.partyList))
   _partyList[index] = party
   return {

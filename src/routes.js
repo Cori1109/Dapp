@@ -38,6 +38,8 @@ const RenderRoutes = (props) => {
   const isDemo = useSelector((state) => state.app.isDemo);
   const loading = useSelector((state) => state.app.loading);
   const publicPartyInfo = useSelector((state) => state.app.publicParty);
+  const partyListDemo = useSelector((state) => state.app.partyListDemo);
+
   const dispatch = useDispatch()
 
   const { activate, deactivate, account, library, chainId } = useWeb3React();
@@ -56,7 +58,10 @@ const RenderRoutes = (props) => {
         getPublicPartyInfo();
       }, 60000);
       return () => clearInterval(interval);
-    }    
+    } else {
+      dispatch(setBalance(1000));
+      dispatch(setPartyList(partyListDemo));
+    }
   }, [account, isDemo]);
   
   useEffect(() => {
