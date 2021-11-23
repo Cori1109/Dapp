@@ -35,29 +35,41 @@ import { WALLETS } from 'utils/constants';
 import { setPublicParty } from "store/actions/App";
 
 const RenderRoutes = (props) => {
+  const isDemo = useSelector((state) => state.app.isDemo);
   const loading = useSelector((state) => state.app.loading);
   const publicPartyInfo = useSelector((state) => state.app.publicParty);
+  const partyListDemo = useSelector((state) => state.app.partyListDemo);
+
   const dispatch = useDispatch()
 
   const { activate, deactivate, account, library, chainId } = useWeb3React();
 
   useEffect(() => {
-    if (account) {
-      dispatch(setLoading(true));
-      getUserDetailsInfo();
+    if (!isDemo) {
+      dispatch(setBalance(0));
+      dispatch(setPartyList(null));
+      if (account) {
+        dispatch(setLoading(true));
+        getUserDetailsInfo();
+      }
+      const interval = setInterval(() => {
+        setLoading(true);
+        account && getUserDetailsInfo();
+        getPublicPartyInfo();
+      }, 60000);
+      return () => clearInterval(interval);
+    } else {
+      dispatch(setBalance(1000));
+      dispatch(setPartyList(partyListDemo));
     }
-    const interval = setInterval(() => {
-      setLoading(true);
-      account && getUserDetailsInfo();
-      getPublicPartyInfo();
-    }, 60000);
-    return () => clearInterval(interval);
-  }, [account]);
+  }, [account, isDemo]);
   
   useEffect(() => {
-    !publicPartyInfo && getPublicPartyInfo();
-    handleConnectWallet(WALLETS[0])    
-  }, [])
+    if (!isDemo) {
+      getPublicPartyInfo();
+      handleConnectWallet(WALLETS[0]);    
+    }
+  }, [isDemo])
   
   const handleConnectWallet = (walletInfo) => {
     const { connector, type } = walletInfo;

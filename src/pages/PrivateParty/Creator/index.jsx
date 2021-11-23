@@ -5,7 +5,7 @@ import { styled } from '@mui/system';
 import { motion } from "framer-motion";
 import { pageVariants, pageTransition } from "../../../utils/pageTransitions"
 import { useHistory } from "react-router";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useWeb3React } from "@web3-react/core";
 
 import { 
@@ -20,7 +20,8 @@ import MyAvatar from "assets/avatar/me.png";
 import InputBox from "components/InputBox";
 import { setNotificationData } from "store/actions/App";
 import moment from "moment";
-import { createParty } from "utils/api";
+import { createPrivateParty } from "utils/api";
+import { createParty } from "store/actions/App";
 
 const Content = styled(Box)(({ theme }) => ({
   padding: `${theme.spacing(3)} ${theme.spacing(3)}`
@@ -58,6 +59,7 @@ const PrivatePartyCreator = (props) => {
   const history = useHistory()
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false);
+  const isDemo = useSelector((state) => state.app.isDemo);
 
 
   //const wallet = "0x9FB3ffD52d85656d33CF765Ce4CEEfde25b9B78B"
@@ -66,17 +68,17 @@ const PrivatePartyCreator = (props) => {
 
   const [party, setParty] = useState({
     name: '',
-    participantCount: '',
-    maxDepositAmount: '',
+    currentParticipants: 0,
+    maxDeposit: '',
     duration: '',
     balance: '0',
-    status: 'Opened'
+    state: 'open'
   })
 
   const [validated, setValidated] = useState({
     name: true,
-    participantCount: true,
-    maxDepositAmount: true,
+    participants: true,
+    maxDeposit: true,
     duration: true
   })
 
@@ -86,43 +88,62 @@ const PrivatePartyCreator = (props) => {
       dispatch(setHeaderTitle('Party creator'))
   }, [])
 
-  const createPrivateParty = async (party) => {
-    createParty(party.name, wallet, party.maxDepositAmount, party.participantCount, party.duration)
-    .then((res) => {
-      console.log(res)
-      if (res.success) {
+  const handlecreatePrivateParty = async (party) => {
+    if (!isDemo) {
+      createPrivateParty(party.name, wallet, party.maxDeposit, party.participants, party.duration)
+      .then((res) => {
+        console.log(res)
+        if (res.success) {
+          setLoading(false)
+  
+          dispatch(setNotificationData({
+            message: `Successfully Party created.`,
+            variant: 'success',
+            open: true
+          }))
+          // const partyId = Math.random().toString();
+          const partyId = res.id
+          // dispatch(createParty({
+          //   ...party, 
+          //   partyId: partyId,
+          //   endDate: moment(new Date()).add(party.duration * 1000 * 3600 * 24)
+          // }))
+          history.push({
+            pathname: `/private-party/${partyId}`,
+            search: '?join'
+          })
+        } else {
+          setLoading(false)
+  
+          dispatch(setNotificationData({
+            message: res.message? res.message : 'error',
+            variant: 'error',
+            open: true
+          }));
+        }      
+      })
+      .catch((error) => {
         setLoading(false)
-
-        dispatch(setNotificationData({
-          message: `Successfully Party created.`,
-          variant: 'success',
-          open: true
-        }))
-        // const partyId = "618d08412dbbd0e6ebef4b8d"
-        const partyId = res.id
-        // dispatch(createParty({
-        //   ...party, 
-        //   partyId: partyId,
-        //   endDate: moment(new Date()).add(party.duration * 1000 * 3600 * 24)
-        // }))
-        history.push({
-          pathname: `/private-party/${partyId}`,
-          search: '?join'
-        })
-      } else {
-        setLoading(false)
-
-        dispatch(setNotificationData({
-          message: res.message? res.message : 'error',
-          variant: 'error',
-          open: true
-        }));
-      }      
-    })
-    .catch((error) => {
-      setLoading(false)
-      console.log(error)
-    });
+        console.log(error)
+      });
+    } else {
+      setLoading(false)  
+      dispatch(setNotificationData({
+        message: `Successfully Party created.`,
+        variant: 'success',
+        open: true
+      }))
+      let partyId = `${parseInt(Math.random() * 10000).toString()}-${parseInt(Math.random() * 10000).toString()}`
+      dispatch(createParty({
+        ...party,
+        _id: partyId,
+        endDate: moment(new Date()).add(party.duration * 1000 * 3600 * 24)
+      }))
+      history.push({
+        pathname: `/private-party/${partyId}`,
+        search: '?join'
+      })
+    }
   }
 
   const onInputChange = (id, value) => {
@@ -141,8 +162,8 @@ const PrivatePartyCreator = (props) => {
     setAbleValidate(true)
     const _partyValidate = {
       name: party.name.length != 0,
-      participantCount: party.participantCount.length != 0, 
-      maxDepositAmount: party.maxDepositAmount.length != 0,
+      participants: party.participants.length != 0, 
+      maxDeposit: party.maxDeposit.length != 0,
       duration: party.duration.length != 0
     }
     setValidated({
@@ -150,8 +171,8 @@ const PrivatePartyCreator = (props) => {
       ..._partyValidate
     })
 
-    if (_partyValidate.name && _partyValidate.participantCount && _partyValidate.maxDepositAmount && _partyValidate.duration) {
-      createPrivateParty(party)
+    if (_partyValidate.name && _partyValidate.participants && _partyValidate.maxDeposit && _partyValidate.duration) {
+      handlecreatePrivateParty(party)
     } else {
       dispatch(setNotificationData({
         message: `Please input all fields`,
@@ -177,8 +198,8 @@ const PrivatePartyCreator = (props) => {
           </Box>
           <Stack direction="column" spacing={2}>
             <InputBox id='name' type={'text'} startIcon={<PartyIcon/>} value={party.name} placeholder='Title of your party' onChange={onInputChange} validated={validated.name}/>
-            <InputBox id='participantCount' type={'number'} startIcon={<CountIcon/>} value={party.participantCount} placeholder='Number of participants' onChange={onInputChange} validated={validated.participantCount}/>
-            <InputBox id='maxDepositAmount' type={'number'} startIcon={<DepositIcon/>} value={party.maxDepositAmount} placeholder='Max deposit per participant' onChange={onInputChange} validated={validated.maxDepositAmount}/>
+            <InputBox id='participants' type={'number'} startIcon={<CountIcon/>} value={party.participants} placeholder='Number of participants' onChange={onInputChange} validated={validated.participants}/>
+            <InputBox id='maxDeposit' type={'number'} startIcon={<DepositIcon/>} value={party.maxDeposit} placeholder='Max deposit per participant' onChange={onInputChange} validated={validated.maxDeposit}/>
             <InputBox id='duration' type={'number'} startIcon={<TimerIcon/>} endText='days' value={party.duration} placeholder='Duration' onChange={onInputChange} validated={validated.duration}/>
           </Stack>
           <WrapButton

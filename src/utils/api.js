@@ -27,7 +27,7 @@ export const getPublicParty = async () => {
     });
 };
 
-export const createParty = async (
+export const createPrivateParty = async (
   _name,
   _wallet,
   _maxDeposit,

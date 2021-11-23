@@ -2,37 +2,52 @@ import moment from "moment";
 import * as actionTypes from "../actions/ActionTypes";
 
 const mockup_data = [{
-  partyId: '1234-5678',
+  _id: '1234-5678',
   name: 'Monthly Beers',
   avatar: null,
-  balance: 450.90,
+  amount: 450.90,
+  maxDeposit: 500,
   endDate: moment(new Date()).add(1000 * 60 * 60 * 24),
-  status: 'Opened',
+  state: 'open',
   isPublic: false,
+  participants: 5,
+  currentParticipants: 5,
 }, {
-  partyId: '1324-1142',
+  _id: '1324-1142',
   name: 'Trip to Ibiza',
   avatar: null,
-  balance: 650.90,
-  endDate: moment(new Date()).add(1000 * 60 * 3),
-  status: 'Opened',
+  amount: 650.90,
+  maxDeposit: 500,
+  endDate: moment(new Date()).add(1000 * 60 * 60 * 3),
+  state: 'open',
   isPublic: false,
+  participants: 5,
+  currentParticipants: 3,
 }, {
-  partyId: '1234-5578',
+  _id: '1234-5578',
   name: 'Weekly Rand Party',
   avatar: null,
-  balance: 75691.54,
+  amount: 70000.54,
+  expectedPrize: 1500,
+  prizeDistribution: {
+    tier1: [500, 4],
+    tier2: [500, 16],
+    tier3: [500, 256],
+  },
   endDate: moment(new Date()).add(1000 * 60 * 3),
-  status: 'Opened',
+  state: 'open',
   isPublic: true,
 }, {
-  partyId: '5619-3131',
+  _id: '5619-3131',
   name: 'Family Party',
   avatar: null,
-  balance: 780.90,
+  amount: 780.90,
+  maxDeposit: 500,
   endDate: moment(new Date()).add(1000 * 60 * 60 * 300),
-  status: 'Opened',
+  state: 'open',
   isPublic: false,
+  participants: 5,
+  currentParticipants: 5,
 }];
 
 const initialState = {
@@ -42,14 +57,15 @@ const initialState = {
     state: 'open'
   },
   transferParam: null,
-  // partyList: mockup_data,
   partyList: null,
+  partyListDemo: mockup_data,
   publicParty: null,
   balance: 0,
   lockBalance: 0,
   notificationData: null,
   loading: false,
   loadingDeposit: false,
+  isDemo: true,
 };
 
 
@@ -99,11 +115,11 @@ const setTransferParam = (state, {transferParam, ...rest}) => {
 }
 
 const getParty = (_party, partyId) => {
-  return _party.partyId == partyId;
+  return _party._id == partyId;
 }
 
 const editParty = (state, {party, ...rest}) => {
-  let index = state.partyList.findIndex((item) => getParty(item, party.partyId))
+  let index = state.partyList.findIndex((item) => getParty(item, party._id))
   let _partyList = JSON.parse(JSON.stringify(state.partyList))
   _partyList[index] = party
   return {
@@ -177,6 +193,15 @@ const setLoadingDeposit = (state, {loadingDeposit, ...rest}) => {
   };
 }
 
+const setIsDemo = (state, {isDemo, ...rest}) => {
+  return {
+    ...state,
+    ...{
+      isDemo: isDemo,
+    },
+  };
+}
+
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -205,7 +230,9 @@ const reducer = (state = initialState, action) => {
     case actionTypes.SET_LOADING:
       return setLoading(state, action);
     case actionTypes.SET_LOADING_DEPOSIT:
-    return setLoadingDeposit(state, action);
+      return setLoadingDeposit(state, action);
+    case actionTypes.SET_IS_DEMO:
+      return setIsDemo(state, action);
     default:
       return state;
   }

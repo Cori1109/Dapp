@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import { Box, Avatar, Typography, Link, Button } from "@mui/material";
 import Switch, { SwitchProps } from "@mui/material/Switch";
 import { styled } from "@mui/system";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setBlackTheme } from "store/actions/App";
 import { RankingIcon } from "../../assets/logo/icon";
 import UserAvatarImage1 from "../../assets/avatar/me.png";
@@ -113,6 +113,8 @@ const UserAvatar = styled(Avatar)(({ theme }) => ({
 
 const HeaderBar = (props) => {
   const dispatch = useDispatch();
+  const isDemo = useSelector((state) => state.app.isDemo);
+
   const history = useHistory();
 
   const { activate, deactivate, account, library, chainId } = useWeb3React();
@@ -157,7 +159,7 @@ const HeaderBar = (props) => {
     <BoxContainer>
       <Box marginTop="20px" display="flex" justifyContent="space-between">
         <Box>
-          <ContentImage src={Logo} />
+          <ContentImage src={Logo} onClick={() => history.push('/welcome')}/>
           {/*<Typography variant="sm_title">Good morning,</Typography>
           <Box display="flex">
             <NameTypography variant="md_title">
@@ -165,7 +167,7 @@ const HeaderBar = (props) => {
             </NameTypography>
           </Box>*/}
         </Box>
-        <BoxAvatar>
+        {!isDemo && <BoxAvatar>
           {
             account ?
               <> 
@@ -177,7 +179,7 @@ const HeaderBar = (props) => {
                 onClick={() => setOpenWallet(true)} text="Connect Wallet" />      
           }          
           
-        </BoxAvatar>
+        </BoxAvatar>}
       </Box>
 
       <ConnectWalletModal
